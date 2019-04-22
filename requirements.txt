@@ -4,3 +4,6 @@ django-countries
 django-phonenumber-field
 phonenumbers
 django-money
+django-grappelli
+psycopg2
+Pillow
