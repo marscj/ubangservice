@@ -1,0 +1,13 @@
+
+class OrderStatus:
+    Open = 0
+    Padding = 1
+    Cancel = 2
+    Complete = 3
+
+    CHOICES = [
+        (Open, 'Open'),
+        (Padding, 'Padding'),
+        (Cancel, 'Cancel'),
+        (Complete, 'Complete')
+    ]
