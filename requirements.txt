@@ -1,0 +1,6 @@
+Django
+django-cors-headers
+django-countries
+django-phonenumber-field
+phonenumbers
+django-money
