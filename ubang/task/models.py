@@ -109,7 +109,7 @@ class Task(models.Model):
             pass
 
     def get_itinerary_price(self):
-        if self.vehicle.model
+        if self.vehicle.model:
             try:
                 return self.vehicle.model.it_price.all().get(itinerary = self.itinerary)
             except ItineraryPrice.DoesNotExist:
