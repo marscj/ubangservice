@@ -28,6 +28,9 @@ class TaskInlineFormSet(forms.BaseInlineFormSet):
 
     def clean_itinerary(self, itinerary, vehicle):
         if itinerary and vehicle and vehicle.model:
+            print(vehicle.model)
+            print(vehicle.model.it_price)
+            print(vehicle.model.it_price.all())
             qs = vehicle.model.it_price.all()
             
             if qs:
