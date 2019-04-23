@@ -3,6 +3,8 @@ from .settings import *
 # 生产环境关闭DEBUG模式
 DEBUG = False
 
+ALLOWED_HOSTS = ['ubangservice.com', '*']
+
 # 生产环境开启跨域
 CORS_ORIGIN_ALLOW_ALL = False
 
