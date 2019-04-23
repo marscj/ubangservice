@@ -48,19 +48,25 @@ class VehicleAdmin(admin.ModelAdmin):
     list_filter = ('is_active', 'model__brand', 'model__type', 'model__category')
 
     def brand(self, obj):
-        return obj.model.brand
+        if obj.model:
+            return obj.model.brand
     
     def type(self, obj):
-        return obj.model.type
+        if obj.model:
+            return obj.model.type
     
     def category(self, obj):
-        return obj.model.category
+        if obj.model:
+            return obj.model.category
 
     def passengers(self, obj):
-        return obj.model.passengers
+        if obj.model:
+            return obj.model.passengers
 
     def type(self, obj):
-        return VehicleType.CHOICES[obj.model.type][1]
+        if obj.model:
+            return VehicleType.CHOICES[obj.model.type][1]
 
     def category(self, obj):
-        return VehicleCategory.CHOICES[obj.model.category][1]
+        if obj.model:
+            return VehicleCategory.CHOICES[obj.model.category][1]

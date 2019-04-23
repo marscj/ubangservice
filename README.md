@@ -7,14 +7,13 @@ GIT 配置
 
 安装python3
 1. sudo apt-get update
-2. sudo apt-get install python3 python-dev python3-dev libpq-dev build-essential uwsgi-plugin-python uwsgi-plugin-python3 
+2. sudo apt-get install python3 python-dev python3-dev python3-venv libpq-dev build-essential uwsgi-plugin-python uwsgi-plugin-python3 
 
 
 安装虚拟环境
-1. sudo apt-get install python3-venv
-2. python3 -m venv env
-3. source bin/activate
-4. pip install --upgrade pip
+1. python3 -m venv env
+2. source bin/activate
+3. pip install --upgrade pip
 
 安装项目
 1. mkdir src
@@ -26,5 +25,16 @@ NGINX + UWSGI 部署
 2. sudo apt-get install uwsgi
 3. pip install uwsgi
 
-测试
-$ uwsgi --http 0:8000 --module ubangservice.wsgi
+MYSQL 配置
+
+
+命令
+$ uwsgi --ini uwsgi.ini
+$ sudo nginx -s stop
+$ sudo nginx -s reload
+$ sudo nginx 
+$ cat 
+$ tail -f log.log
+$ sudo ln -s /home/ubuntu/venv/src/ubangservice/ubangservice/nginx.conf /etc/nginx/sites-enabled/
+$ sudo ln -s /home/ubuntu/venv/src/ubangservice/ubangservice/uwsgi.ini /etc/uwsgi/apps-enabled/
+
