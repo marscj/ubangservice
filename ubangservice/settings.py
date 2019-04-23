@@ -78,7 +78,7 @@ AUTH_USER_MODEL = 'user.CustomUser'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # 'DIRS': [],
+        # 'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'static')],
         'DIRS': ['frontend/dist'],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -175,6 +175,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "frontend/dist/static/"),
+    # os.path.join(BASE_DIR, "frontend/dist/static/"),
 ]
 
 STATICFILES_FINDERS = (
