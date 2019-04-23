@@ -31,6 +31,14 @@ class ModelForm(forms.ModelForm):
                 raise ValidationError('Ensure category is a bus category')
 
         return category
+
+    def clean_brand(self):
+        data = self.cleaned_data.get('brand')
+
+        if data is None:
+            raise ValidationError('This field is required')
+         
+         return data
     
 class VehicleForm(forms.ModelForm):
     
@@ -43,7 +51,7 @@ class VehicleForm(forms.ModelForm):
         model = self.cleaned_data.get('model')
 
         if model and model.type == VehicleType.Bus and driver is None:
-            raise ValidationError('This field is required.') 
+            raise ValidationError('This field is required') 
 
         if driver and not driver.is_driver:
             raise ValidationError('Ensure user is a driver')
@@ -53,10 +61,20 @@ class VehicleForm(forms.ModelForm):
 
         return driver
 
+    def clean_model(self):
+        model = self.cleaned_data.get('model')
+
+        if model is None:
+            raise ValidationError('This field is required')
+
+        return model
+
     def clean_company(self):
         data = self.cleaned_data.get('company')
 
-        if data and data.type != CompanyType.Supplier:
+        if data is None:
+            raise ValidationError('This field is required')
+        else if data.type != CompanyType.Supplier:
             raise ValidationError('Ensure company type is supplier')
         
         return data
