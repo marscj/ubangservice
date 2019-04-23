@@ -24,7 +24,7 @@ GIT 配置
 NGINX + UWSGI 部署
 1. sudo apt-get install nginx
 2. sudo apt-get install uwsgi
-
+3. pip install uwsgi
 
 测试
 $ uwsgi --http 0:8000 --module ubangservice.wsgi
