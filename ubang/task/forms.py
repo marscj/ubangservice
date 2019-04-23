@@ -27,19 +27,13 @@ class TaskInlineFormSet(forms.BaseInlineFormSet):
                 raise ValidationError('Ensure end time is less than or equal to %s' % order.end_time)
 
     def clean_itinerary(self, itinerary, vehicle):
-        if itinerary and vehicle and vehicle.model:
-            print(vehicle.model)
-            print(vehicle.model.it_price)
-            print(vehicle.model.it_price.all())
-            qs = vehicle.model.it_price.all()
-            
-            if qs:
-                try:
-                    qs.get(itinerary=itinerary)
-                except ItineraryPrice.DoesNotExist:
-                    raise ValidationError('Ensure %s model has itinerary price' % vehicle.traffic_plate_no)
-            else:
+        if itinerary and vehicle and vehicle.model is not None:
+            try:
+                vehicle.model.it_price.all().get(itinerary=itinerary)
+            except ItineraryPrice.DoesNotExist:
                 raise ValidationError('Ensure %s model has itinerary price' % vehicle.traffic_plate_no)
+        else:
+            raise ValidationError('Ensure %s model has itinerary price' % vehicle.traffic_plate_no)
 
     def clean_is_guide(self, guide):
         if guide and not guide.is_tourguide:
