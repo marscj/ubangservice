@@ -7,7 +7,7 @@ GIT 配置
 
 安装python3
 1. sudo apt-get update
-2. sudo apt-get install python3 python-dev python3-dev libpq-dev
+2. sudo apt-get install python3 python-dev python3-dev libpq-dev build-essential uwsgi-plugin-python uwsgi-plugin-python3 
 
 
 安装虚拟环境
@@ -23,4 +23,8 @@ GIT 配置
 
 NGINX + UWSGI 部署
 1. sudo apt-get install nginx
+2. sudo apt-get install uwsgi
 
+
+测试
+$ uwsgi --http 0:8000 --module ubangservice.wsgi
