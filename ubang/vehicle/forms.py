@@ -38,7 +38,7 @@ class ModelForm(forms.ModelForm):
         if data is None:
             raise ValidationError('This field is required')
          
-         return data
+        return data
     
 class VehicleForm(forms.ModelForm):
     
@@ -74,7 +74,7 @@ class VehicleForm(forms.ModelForm):
 
         if data is None:
             raise ValidationError('This field is required')
-        else if data.type != CompanyType.Supplier:
+        elif data.type != CompanyType.Supplier:
             raise ValidationError('Ensure company type is supplier')
         
         return data
