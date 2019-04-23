@@ -109,9 +109,12 @@ class Task(models.Model):
             pass
 
     def get_itinerary_price(self):
-        try:
-            return self.vehicle.model.it_price.all().get(itinerary = self.itinerary)
-        except ItineraryPrice.DoesNotExist:
+        if self.vehicle.model
+            try:
+                return self.vehicle.model.it_price.all().get(itinerary = self.itinerary)
+            except ItineraryPrice.DoesNotExist:
+                raise ValidationError('Ensure This vehicle model has itinerary price')
+        else:
             raise ValidationError('Ensure This vehicle model has itinerary price')
             
     def total(self, discount, price):
