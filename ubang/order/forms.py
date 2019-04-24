@@ -39,17 +39,17 @@ class OrderForm(forms.ModelForm):
         fields = '__all__'
 
     def clean_end_time(self):
-        start_time = self.cleaned_data.get('start_time')
-        end_time = self.cleaned_data.get('end_time')
+        arrival_time = self.cleaned_data.get('arrival_time')
+        departure_time = self.cleaned_data.get('departure_time')
         
-        if start_time and end_time:
-            duration = end_time - start_time
+        if arrival_time and departure_time:
+            duration = departure_time - arrival_time
 
-            if start_time > end_time:
+            if arrival_time > departure_time:
                 raise ValidationError('Ensure start time is less than end time')
             
             if duration.total_seconds() < 3600:
                 raise ValidationError('Ensure duration is greater than 1 hour')
 
-        return end_time
+        return departure_time
     
