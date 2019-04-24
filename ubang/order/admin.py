@@ -19,7 +19,7 @@ class OrderAdmin(admin.ModelAdmin):
     fieldsets = ( 
         (None, {
             'classes': ('grp-collapse grp-open',),
-            'fields': ('orderId', 'status', 'contact_name', 'contact_phone', 'arrival_time', 'departure_time', 'pick_up_addr', 'drop_off_addr', 'link', 'remark')
+            'fields': ('orderId', 'status', 'contact_name', 'contact_phone', 'arrival_time', 'departure_time', 'guide', 'vehicle', 'pick_up_addr', 'drop_off_addr', 'link', 'remark')
         }),
         ('Price Info', {
             'classes': ('grp-collapse grp-closed',),
@@ -42,7 +42,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_display_links = list_display
 
     raw_id_fields = (
-        'customer',
+        'customer', 'guide', 'vehicle',
     )
 
     list_filter = (
