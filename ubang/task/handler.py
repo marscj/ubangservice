@@ -24,11 +24,11 @@ def task_model_post_save(sender, **kwargs):
 
     guide_total_gross, guide_total = get_guide_price(task.itinerary, task.guide)
     if guide_total_gross and guide_total:
-        get_or_create_taskprice(order=task.order, task=task, total=guide_total, total_gross=guide_total_gross, description='for the guide')
+        get_or_create_taskprice(order=task.order, task=task, type=TaskPriceType.Guide, total=guide_total, total_gross=guide_total_gross, description='for the guide')
 
     vehicle_total_gross, vehicle_total = get_vehicle_price(task.itinerary, task.vehicle, task.order.discount_value)
     if vehicle_total_gross and vehicle_total:
-        get_or_create_taskprice(order=task.order, task=task, total=vehicle_total, total_gross=vehicle_total_gross, discount_name=task.order.discount_name, description='for the vehicle')
+        get_or_create_taskprice(order=task.order, task=task, type=TaskPriceType.Vehicle, total=vehicle_total, total_gross=vehicle_total_gross, discount_name=task.order.discount_name, description='for the vehicle')
 
     if task.guide is None:
         delete_price(task, TaskPriceType.Guide)
