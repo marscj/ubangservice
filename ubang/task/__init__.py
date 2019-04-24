@@ -1,4 +1,4 @@
-
+default_app_config = 'ubang.task.apps.TaskConfig'
 
 class TaskPriceType:
     Vehicle = 0

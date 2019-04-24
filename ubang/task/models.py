@@ -1,10 +1,11 @@
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, UniqueConstraint
 from django.contrib.contenttypes.fields import GenericForeignKey 
 from django.contrib.contenttypes.models import ContentType
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
+
 from django.conf import settings
 
 from datetime import datetime, date
@@ -12,7 +13,7 @@ from decimal import Decimal
 
 from ubang.order.models import Order
 from ubang.user.models import CustomUser
-from ubang.vehicle.models import Vehicle
+from ubang.vehicle.models import Vehicle, ItineraryPrice
 from ubang.itinerary.models import Itinerary
 from .import TaskPriceType
 
@@ -47,20 +48,20 @@ class Task(models.Model):
     # 日期
     day = models.DateField()
 
-    # 开始时间
-    start_time = models.TimeField()
+    # # # 开始时间
+    # # start_time = models.TimeField()
 
-    # 结束时间
-    end_time = models.TimeField()
+    # # # 结束时间
+    # # end_time = models.TimeField()
 
-    # 开始时间
-    start_datetime = models.DateTimeField(blank=True, null=True)
+    # # 开始时间
+    # start_datetime = models.DateTimeField(blank=True, null=True)
 
-    # 结束时间
-    end_datetime = models.DateTimeField(blank=True, null=True)
+    # # 结束时间
+    # end_datetime = models.DateTimeField(blank=True, null=True)
 
     # 是否是全天
-    is_fullday = models.BooleanField(default=False, blank=True, null=True)
+    # is_fullday = models.BooleanField(default=False, blank=True, null=True)
     
     # 导游
     guide = models.ForeignKey(CustomUser, related_name='task', on_delete=models.SET_NULL, blank=True, null=True)
@@ -82,18 +83,17 @@ class Task(models.Model):
         verbose_name = _("Task")
         verbose_name_plural = _("Tasks")
 
+        unique_together = (('day', 'guide'), ('day', 'vehicle'))
+
+        # unique_togethers = (
+        #     ('day', 'guide'),
+        #     ('day', 'vehicle')
+        # )
+
     def __str__(self):
         return str(self.taskId)
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        
-        if self.taskId is None:
-                self.taskId  = datetime.now().strftime('%Y%m%d') + '-%d-%d' % (self.id, self.order.customer.id)
-
-        self.start_datetime = datetime.combine(self.day, self.start_time)
-        self.end_datetime = datetime.combine(self.day, self.end_time)
-        self.is_fullday = (datetime.combine(self.day, self.end_time) - datetime.combine(self.day, self.start_time)).total_seconds() >= 3600 * 6
 
         super().save(*args, **kwargs)
 
@@ -109,22 +109,20 @@ class Task(models.Model):
             pass
 
     def get_itinerary_price(self):
-        if self.vehicle.model:
-            try:
-                return self.vehicle.model.it_price.all().get(itinerary = self.itinerary)
+        if self.vehicle and self.vehicle.model:
+            try: 
+                return self.vehicle.model.it_price.all().get(itinerary=self.itinerary)
             except ItineraryPrice.DoesNotExist:
-                raise ValidationError('Ensure This vehicle model has itinerary price')
-        else:
-            raise ValidationError('Ensure This vehicle model has itinerary price')
+                print('Ensure This vehicle model has itinerary price')
             
     def total(self, discount, price):
         return price.gross_price - abs(price.gross_price - price.cost_price) * discount
 
     def configure_price(self):
-        if self.vehicle:
-            vehicle_price = self.get_or_create_price(TaskPriceType.Vehicle)[0]
-            itinerary_price = self.get_itinerary_price()
+        itinerary_price = self.get_itinerary_price()
 
+        if self.vehicle and self.itinerary and itinerary_price is not None:
+            vehicle_price = self.get_or_create_price(TaskPriceType.Vehicle)[0]
             if self.order.discount_name:
                 vehicle_price.discount_name = self.order.discount_name
             
@@ -135,10 +133,11 @@ class Task(models.Model):
         else:
             self.delete_price(TaskPriceType.Vehicle)
             
-        if self.guide:
+        if self.guide and self.itinerary:
             guide_price = self.get_or_create_price(TaskPriceType.Guide)[0]
             guide_price.discount = 0.0
-            if self.is_fullday:
+            
+            if self.itinerary.is_fullday:
                 guide_price.total_gross = settings.DEFAULT_GUIDE_PRICE
                 guide_price.total = settings.DEFAULT_GUIDE_PRICE
             else:

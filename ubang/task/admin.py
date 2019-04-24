@@ -8,11 +8,11 @@ class TaskInline(admin.TabularInline):
     extra = 0
     formset = TaskInlineFormSet
     
-    fields = ('taskId', 'day', 'start_time', 'end_time', 'itinerary', 'guide', 'vehicle', 'is_fullday', 'remark')
+    fields = ('taskId', 'day', 'itinerary', 'guide', 'vehicle', 'remark')
 
     raw_id_fields = ('itinerary', 'vehicle', 'guide', )
 
-    readonly_fields = ('taskId', 'is_fullday')
+    readonly_fields = ('taskId',)
 
 class TaskPriceInline(admin.TabularInline):
     model = TaskPrice

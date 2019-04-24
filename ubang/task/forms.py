@@ -59,29 +59,29 @@ class TaskInlineFormSet(forms.BaseInlineFormSet):
                 raise ValidationError('Ensure kindly enter correct timings')
 
     def clean(self):
-        for form in self.forms:
-            if form.cleaned_data and not form.cleaned_data.get('DELETE'):
-                taskId = form.cleaned_data.get('id')
-                order = form.cleaned_data.get('order')
-                vehicle = form.cleaned_data.get('vehicle')
-                guide = form.cleaned_data.get('guide')
-                itinerary = form.cleaned_data.get('itinerary')
-                day = form.cleaned_data.get('day')
-                start_time = form.cleaned_data.get('start_time')
-                end_time = form.cleaned_data.get('end_time')
+        # for form in self.forms:
+        #     if form.cleaned_data and not form.cleaned_data.get('DELETE'):
+        #         taskId = form.cleaned_data.get('id')
+        #         order = form.cleaned_data.get('order')
+        #         vehicle = form.cleaned_data.get('vehicle')
+        #         guide = form.cleaned_data.get('guide')
+        #         itinerary = form.cleaned_data.get('itinerary')
+        #         day = form.cleaned_data.get('day')
+        #         start_time = form.cleaned_data.get('start_time')
+        #         end_time = form.cleaned_data.get('end_time')
 
-                if day and start_time and end_time:
-                    start_datetime = datetime.combine(day, start_time)
-                    end_datetime = datetime.combine(day, end_time)
-                    self.clean_order_time(order, start_datetime, end_datetime)
-                    self.clean_vehicle(start_datetime, end_datetime, vehicle, taskId)
-                    self.clean_guide(start_datetime, end_datetime, guide, taskId)
+        #         if day and start_time and end_time:
+        #             start_datetime = datetime.combine(day, start_time)
+        #             end_datetime = datetime.combine(day, end_time)
+        #             self.clean_order_time(order, start_datetime, end_datetime)
+        #             self.clean_vehicle(start_datetime, end_datetime, vehicle, taskId)
+        #             self.clean_guide(start_datetime, end_datetime, guide, taskId)
 
-                    print((end_datetime - start_datetime).total_seconds(), 3600 * 6, start_datetime, end_datetime)
-                    self.clean_fullday((end_datetime - start_datetime).total_seconds() >= 3600 * 6, itinerary)
+        #             print((end_datetime - start_datetime).total_seconds(), 3600 * 6, start_datetime, end_datetime)
+        #             self.clean_fullday((end_datetime - start_datetime).total_seconds() >= 3600 * 6, itinerary)
 
-                self.clean_time(start_time, end_time)
-                self.clean_itinerary(itinerary, vehicle)
-                self.clean_is_guide(guide)
+        #         self.clean_time(start_time, end_time)
+        #         self.clean_itinerary(itinerary, vehicle)
+        #         self.clean_is_guide(guide)
                 
         return super().clean()

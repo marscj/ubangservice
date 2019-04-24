@@ -1,5 +1,8 @@
 from django.apps import AppConfig
 
-
 class TaskConfig(AppConfig):
-    name = 'task'
+    name = 'ubang.task'
+    
+    def ready(self):
+        import ubang.task.handler
+        

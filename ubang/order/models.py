@@ -2,6 +2,8 @@ from django.db import models
 from django.db.models import Q
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils.translation import ugettext_lazy as _
+from django.utils.crypto import get_random_string
 from django.conf import settings
 
 from phonenumber_field.modelfields import PhoneNumberField
@@ -10,6 +12,7 @@ from datetime import datetime
 
 from ubang.user.models import CustomUser
 from ubang.company.models import Discount
+from ubang.vehicle.models import Vehicle
 
 from .import OrderStatus
 from .validators import customer_validator
@@ -23,19 +26,19 @@ class Order(models.Model):
     orderId = models.CharField(max_length=64, default=None, null=True, editable=False)
 
     # 开始时间
-    start_time = models.DateTimeField()
+    arrival_time = models.DateTimeField()
 
     # 结束时间
-    end_time = models.DateTimeField()
+    departure_time = models.DateTimeField()
     
     # 订单状态
     status = models.IntegerField(default=OrderStatus.Open, choices=OrderStatus.CHOICES)
 
     # 送车地址
-    pick_up_addr = models.CharField(max_length=128)
+    pick_up_addr = models.CharField(max_length=128, blank=True, null=True)
 
     # 还车地址
-    drop_off_addr = models.CharField(max_length=128)
+    drop_off_addr = models.CharField(max_length=128, blank=True, null=True)
 
     # 联系人姓名
     contact_name = models.CharField(max_length=64)
@@ -81,9 +84,20 @@ class Order(models.Model):
 
     # 折扣
     discount_name = models.CharField(max_length=128, default=None, null=True)
+
     discount_value = models.DecimalField(default=None, max_digits=3, decimal_places=2, validators=[MinValueValidator(0.0), MaxValueValidator(1.0)], blank=True, null=True, editable=False)
 
+    # 导游
+    guide = models.ForeignKey(CustomUser, related_name='order', on_delete=models.SET_NULL, blank=True, null=True)
+    
+    # 车辆
+    vehicle = models.ForeignKey(Vehicle, related_name='order', on_delete=models.SET_NULL, blank=True, null=True)
+
     objects = OrderQueryset.as_manager()
+
+    class Meta:
+        verbose_name = _("Order")
+        verbose_name_plural = _("Orders")
 
     def __str__(self):
         return str(self.orderId)
@@ -97,8 +111,8 @@ class Order(models.Model):
         return total
 
     def save(self, *args, **kwargs):
-
-        super().save(*args, **kwargs)
+        if self.orderId is None:
+            self.orderId = datetime.now().strftime('%Y%m%d%H%M%S') + '-%s' % get_random_string(4, allowed_chars='0123456789')
 
         self.discount_name = 'no discount'
         self.discount_value = Decimal(0.0)
@@ -119,8 +133,5 @@ class Order(models.Model):
                     if self.discount_name is None or self.discount_value is None:
                         self.discount_name = self.customer.company.discount.name
                         self.discount_value = self.customer.company.discount.value
-
-        if self.orderId is None:
-            self.orderId = datetime.now().strftime('%Y%m%d') + '-%d-%d' % (self.id, self.customer.id)
 
         super().save(*args, **kwargs)
