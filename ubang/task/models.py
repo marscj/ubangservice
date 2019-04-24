@@ -15,6 +15,7 @@ from ubang.order.models import Order
 from ubang.user.models import CustomUser
 from ubang.vehicle.models import Vehicle, ItineraryPrice
 from ubang.itinerary.models import Itinerary
+from .import TaskPriceType
 
 class TaskQuerySet(models.QuerySet):
     
@@ -46,21 +47,6 @@ class Task(models.Model):
 
     # 日期
     day = models.DateField()
-
-    # # # 开始时间
-    # # start_time = models.TimeField()
-
-    # # # 结束时间
-    # # end_time = models.TimeField()
-
-    # # 开始时间
-    # start_datetime = models.DateTimeField(blank=True, null=True)
-
-    # # 结束时间
-    # end_datetime = models.DateTimeField(blank=True, null=True)
-
-    # 是否是全天
-    # is_fullday = models.BooleanField(default=False, blank=True, null=True)
     
     # 导游
     guide = models.ForeignKey(CustomUser, related_name='task', on_delete=models.SET_NULL, blank=True, null=True)
@@ -88,15 +74,12 @@ class Task(models.Model):
         return str(self.taskId)
 
 class TaskPrice(models.Model):
-
+    type = models.IntegerField(default=TaskPriceType.Vehicle, choices=TaskPriceType.CHOICES)
     discount_name = models.CharField(max_length=128)
-
     total = models.DecimalField(default=Decimal(0.0), max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
     total_gross = models.DecimalField(default=Decimal(0.0), max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
     extra = models.DecimalField(default=Decimal(0.0), max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
-    
     description = models.CharField(max_length=128, blank=True, null=True)
-
     order = models.ForeignKey(Order, related_name='price', on_delete=models.CASCADE)
     task = models.ForeignKey(Task, related_name='price', on_delete=models.CASCADE)
 
@@ -136,7 +119,7 @@ class TaskProgress(models.Model):
 
     class Meta:
         verbose_name = _("Task Progress")
-        verbose_name_plural = _("Task Progreses")
+        verbose_name_plural = _("Task Progress")
 
     def __str__(self):
         return str(self.id)

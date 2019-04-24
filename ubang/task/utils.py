@@ -2,6 +2,7 @@ from django.conf import settings
 from decimal import Decimal
 
 from .models import Task, TaskPrice, TaskProgress
+from .import TaskPriceType
 
 def total(cost_price, gross_price, discount):
     return gross_price - abs(gross_price - cost_price) * discount
@@ -25,11 +26,11 @@ def get_guide_price(itinerary, guide):
 
     return None, None
 
-def get_or_create_taskprice(order, task, discount_name='no discount', total=Decimal(0.0), total_gross=Decimal(0.0), extra=Decimal(0.0), description=None):
-    return TaskPrice.objects.get_or_create(order=order, task=task, discount_name=discount_name, total=total, total_gross=total_gross, extra=extra, description=description)
+def get_or_create_taskprice(order, task, type=TaskPriceType.Vehicle, discount_name='no discount', total=Decimal(0.0), total_gross=Decimal(0.0), extra=Decimal(0.0), description=None):
+    return TaskPrice.objects.get_or_create(order=order, task=task, type=type, discount_name=discount_name, total=total, total_gross=total_gross, extra=extra, description=description)
 
-def delete_price(task):
+def delete_price(task, type):
     try:
-        return TaskPrice.objects.get(task=task).delete()
+        return TaskPrice.objects.get(task=task, type=type).delete()
     except TaskPrice.DoesNotExist:
         pass
