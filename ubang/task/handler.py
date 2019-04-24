@@ -38,4 +38,4 @@ def task_model_post_save(sender, **kwargs):
 
 @receiver(pre_delete, sender=Task)
 def task_model_pre_delete(sender, **kwargs):
-    print(kwargs)
+    pass

@@ -19,17 +19,20 @@ class OrderAdmin(admin.ModelAdmin):
     fieldsets = ( 
         (None, {
             'classes': ('grp-collapse grp-open',),
-            'fields': ('orderId', 'status', 'contact_name', 'contact_phone', 'arrival_time', 'departure_time', 'pick_up_addr', 'drop_off_addr', 'discount_name', 'total', 'remark', 'link', 'hyper_link')}
-        ),
+            'fields': ('orderId', 'status', 'contact_name', 'contact_phone', 'arrival_time', 'departure_time', 'pick_up_addr', 'drop_off_addr', 'link', 'remark')
+        }),
+        ('Price Info', {
+            'classes': ('grp-collapse grp-closed',),
+            'fields': ('discount_name', 'total',)
+        }),
         ('Customer Info', {
             'classes': ('grp-collapse grp-closed',),
-            'fields': ('customer', 'customer_name', 'customer_phone', 'customer_company', 'customer_company_phone', 'customer_company_tel', 'customer_company_address', 'customer_company_discount')}
-        ),
-
+            'fields': ('customer', 'customer_name', 'customer_phone', 'customer_company', 'customer_company_phone', 'customer_company_tel', 'customer_company_address', 'customer_company_discount')
+        }),
         ('Create Info', {
             'classes': ('grp-collapse grp-closed',),
-            'fields': ('create_at', 'change_at')}
-        )
+            'fields': ('create_at', 'change_at')
+        })
     )
 
     list_display = (
