@@ -15,7 +15,6 @@ from ubang.order.models import Order
 from ubang.user.models import CustomUser
 from ubang.vehicle.models import Vehicle, ItineraryPrice
 from ubang.itinerary.models import Itinerary
-from .import TaskPriceType
 
 class TaskQuerySet(models.QuerySet):
     
@@ -85,70 +84,10 @@ class Task(models.Model):
 
         unique_together = (('day', 'guide'), ('day', 'vehicle'))
 
-        # unique_togethers = (
-        #     ('day', 'guide'),
-        #     ('day', 'vehicle')
-        # )
-
     def __str__(self):
         return str(self.taskId)
 
-    def save(self, *args, **kwargs):
-
-        super().save(*args, **kwargs)
-
-        self.configure_price()
-
-    def get_or_create_price(self, type):
-        return TaskPrice.objects.get_or_create(order=self.order, task=self, type=type)
-
-    def delete_price(self, type):
-        try:
-            return TaskPrice.objects.get(task=self, type=type).delete()
-        except TaskPrice.DoesNotExist:
-            pass
-
-    def get_itinerary_price(self):
-        if self.vehicle and self.vehicle.model:
-            try: 
-                return self.vehicle.model.it_price.all().get(itinerary=self.itinerary)
-            except ItineraryPrice.DoesNotExist:
-                print('Ensure This vehicle model has itinerary price')
-            
-    def total(self, discount, price):
-        return price.gross_price - abs(price.gross_price - price.cost_price) * discount
-
-    def configure_price(self):
-        itinerary_price = self.get_itinerary_price()
-
-        if self.vehicle and self.itinerary and itinerary_price is not None:
-            vehicle_price = self.get_or_create_price(TaskPriceType.Vehicle)[0]
-            if self.order.discount_name:
-                vehicle_price.discount_name = self.order.discount_name
-            
-            vehicle_price.total_gross = itinerary_price.gross_price
-            vehicle_price.total = self.total(self.order.discount_value, itinerary_price)
-                
-            vehicle_price.save()
-        else:
-            self.delete_price(TaskPriceType.Vehicle)
-            
-        if self.guide and self.itinerary:
-            guide_price = self.get_or_create_price(TaskPriceType.Guide)[0]
-            guide_price.discount = 0.0
-            
-            if self.itinerary.is_fullday:
-                guide_price.total_gross = settings.DEFAULT_GUIDE_PRICE
-                guide_price.total = settings.DEFAULT_GUIDE_PRICE
-            else:
-                guide_price.total_gross = settings.DEFAULT_GUIDE_PRICE / Decimal(2.0)
-                guide_price.total = settings.DEFAULT_GUIDE_PRICE / Decimal(2.0)
-            guide_price.save()
-        else:
-            self.delete_price(TaskPriceType.Guide)
-
 class TaskPrice(models.Model):
-    type = models.IntegerField(default=TaskPriceType.Vehicle, choices=TaskPriceType.CHOICES)
 
     discount_name = models.CharField(max_length=128)
 
@@ -197,7 +136,7 @@ class TaskProgress(models.Model):
 
     class Meta:
         verbose_name = _("Task Progress")
-        verbose_name_plural = _("Task Progress")
+        verbose_name_plural = _("Task Progreses")
 
     def __str__(self):
         return str(self.id)

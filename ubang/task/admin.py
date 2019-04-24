@@ -18,11 +18,11 @@ class TaskPriceInline(admin.TabularInline):
     model = TaskPrice
     extra = 0
 
-    fields = ('__str__', 'type', 'total_gross', 'discount_name', 'extra', 'total', 'description')
+    fields = ('__str__', 'total_gross', 'discount_name', 'extra', 'total', 'description')
 
     raw_id_fields = ('task', )
 
-    readonly_fields = ('__str__', 'total_gross', 'total', 'type', 'discount_name')
+    readonly_fields = ('__str__', 'total_gross', 'total', 'discount_name')
 
     def has_add_permission(self, request):
         return False
