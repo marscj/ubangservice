@@ -83,13 +83,3 @@ class VehicleAdmin(admin.ModelAdmin):
     def category(self, obj):
         if obj.model:
             return VehicleCategory.CHOICES[obj.model.category][1]
-
-    # def get_queryset(self, request):
-    #     if IS_POPUP_VAR in request.GET:
-    #         arrival_time = request.GET.get('order__arrival_time')
-    #         departure_time = request.GET.get('order__departure_time')
-
-    #         if arrival_time and departure_time:
-    #             return Vehicle.objects.filter_order(arrival_time, departure_time)
-
-    #     return Vehicle.objects.all()
