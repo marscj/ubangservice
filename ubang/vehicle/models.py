@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -80,8 +81,15 @@ class Model(models.Model):
 
     def __str__(self):
         return self.name
+
+class VehicleQuerySet(models.QuerySet):
     
-# 车辆
+    def filter_order(self, arrival_time, departure_time):
+        return self.exclude(
+            ( Q(order__arrival_time__range=(arrival_time, departure_time)) | Q(order__departure_time__range=(arrival_time, departure_time)))
+        )
+
+# 车辆 
 class Vehicle(models.Model):
     
     # 车牌号
@@ -101,6 +109,8 @@ class Vehicle(models.Model):
 
     # 司机
     driver = models.OneToOneField(CustomUser, related_name='car', on_delete=models.SET_NULL, blank=True, null=True)
+
+    objects = VehicleQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("Vehicle")

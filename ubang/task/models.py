@@ -18,28 +18,7 @@ from ubang.itinerary.models import Itinerary
 from .import TaskPriceType
 
 class TaskQuerySet(models.QuerySet):
-    
-    def check_vehicle(self, start_time, end_time, vehicle, taskId):
-        try :
-            qs = self.filter(
-                Q(vehicle=vehicle) & ~Q(taskId=taskId) &
-                (Q(start_datetime__range=(start_time, end_time)) | Q(end_datetime__range=(start_time, end_time)))
-            )
-        except Task.vehicle.RelatedObjectDoesNotExist:
-            raise ValidationError('Vehicle does not exist')
-
-        return qs.count() > 0
-
-    def check_guide(self, start_time, end_time, guide, taskId):
-        try :
-            qs = self.filter(
-                Q(guide=guide) & ~Q(taskId=taskId) &
-                (Q(start_datetime__range=(start_time, end_time)) | Q(end_datetime__range=(start_time, end_time)))
-            )
-        except Task.vehicle.RelatedObjectDoesNotExist:
-            raise ValidationError('Guide does not exist')
-
-        return qs.count() > 0
+    pass
 
 class Task(models.Model):
 

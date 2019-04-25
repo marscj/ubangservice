@@ -15,7 +15,7 @@ from .import TaskPriceType
 def task_model_pre_save(sender, **kwargs):
     task = kwargs['instance']
     
-    if task.taskId is None:
+    if task.taskId is None or task.taskId == '':
         task.taskId  = datetime.now().strftime('%Y%m%d%H%M%S') + '-%s' % get_random_string(4, allowed_chars='0123456789')
     
 @receiver(post_save, sender=Task)

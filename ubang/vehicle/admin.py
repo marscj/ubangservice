@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.admin.options import IS_POPUP_VAR
 
 from .models import ItineraryPrice, Brand, Model, Vehicle
 from .forms import ModelForm, VehicleForm
@@ -28,6 +29,17 @@ class ModelAdmin(admin.ModelAdmin):
 
     raw_id_fields = ('brand',)
 
+class OrderTimeListFilter(admin.DateFieldListFilter):
+    
+    def queryset(self, request, queryset):
+        try:
+            return queryset.exclude(**self.used_parameters)
+            # return queryset.filter(**self.used_parameters)
+        except (ValueError, ValidationError) as e:
+            # Fields may raise a ValueError or ValidationError when converting
+            # the parameters to the correct type.
+            raise IncorrectLookupParameters(e)
+
 @admin.register(Vehicle)
 class VehicleAdmin(admin.ModelAdmin):
 
@@ -45,7 +57,11 @@ class VehicleAdmin(admin.ModelAdmin):
 
     readonly_fields = ('brand', 'type', 'category', 'passengers')
 
-    list_filter = ('is_active', 'model__brand', 'model__type', 'model__category')
+    list_filter = (
+        'is_active', 'model__brand', 'model__type', 'model__category', 
+        ('order__arrival_time', OrderTimeListFilter),
+        ('order__departure_time', OrderTimeListFilter)
+    )
 
     def brand(self, obj):
         if obj.model:
@@ -70,3 +86,13 @@ class VehicleAdmin(admin.ModelAdmin):
     def category(self, obj):
         if obj.model:
             return VehicleCategory.CHOICES[obj.model.category][1]
+
+    # def get_queryset(self, request):
+    #     if IS_POPUP_VAR in request.GET:
+    #         arrival_time = request.GET.get('order__arrival_time')
+    #         departure_time = request.GET.get('order__departure_time')
+
+    #         if arrival_time and departure_time:
+    #             return Vehicle.objects.filter_order(arrival_time, departure_time)
+
+    #     return Vehicle.objects.all()

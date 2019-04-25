@@ -18,12 +18,23 @@ from .import OrderStatus
 from .validators import customer_validator
 
 class OrderQueryset(models.QuerySet):
-    pass
+    
+    def check_vehicle(self, orderId, arrival_time, departure_time, vehicle):
+        return self.filter(
+            Q(vehicle=vehicle) & ~Q(orderId=orderId) &
+            (Q(arrival_time__range=(arrival_time, departure_time)) | Q(departure_time__range=(arrival_time, departure_time)))
+        ).exists()
+
+    def check_guide(self, orderId, arrival_time, departure_time, guide):
+        return self.filter(
+            Q(guide=guide) & ~Q(orderId=orderId) &
+            (Q(arrival_time__range=(arrival_time, departure_time)) | Q(departure_time__range=(arrival_time, departure_time)))
+        ).exists()
 
 class Order(models.Model):
     
     # id
-    orderId = models.CharField(max_length=64, default=None, null=True, editable=False)
+    orderId = models.CharField(max_length=64, unique=True, editable=False)
 
     # 开始时间
     arrival_time = models.DateTimeField()
@@ -91,7 +102,7 @@ class Order(models.Model):
     guide = models.ForeignKey(CustomUser, related_name='order', on_delete=models.SET_NULL, blank=True, null=True)
     
     # 车辆
-    vehicle = models.ForeignKey(Vehicle, related_name='order', on_delete=models.SET_NULL, blank=True, null=True)
+    vehicle = models.ForeignKey(Vehicle, related_name='order', on_delete=models.SET_NULL, null=True)
 
     objects = OrderQueryset.as_manager()
 
@@ -111,7 +122,7 @@ class Order(models.Model):
         return total
 
     def save(self, *args, **kwargs):
-        if self.orderId is None:
+        if self.orderId is None or self.orderId == '':
             self.orderId = datetime.now().strftime('%Y%m%d%H%M%S') + '-%s' % get_random_string(4, allowed_chars='0123456789')
 
         self.discount_name = 'no discount'

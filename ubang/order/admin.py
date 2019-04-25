@@ -11,6 +11,11 @@ from ubang.payment.admin import PaymentInline
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
+
+    class Media:
+        js = [
+            'admin/js/order.js'
+        ]
     
     form = OrderForm
 
@@ -19,7 +24,7 @@ class OrderAdmin(admin.ModelAdmin):
     fieldsets = ( 
         (None, {
             'classes': ('grp-collapse grp-open',),
-            'fields': ('orderId', 'status', 'contact_name', 'contact_phone', 'arrival_time', 'departure_time', 'guide', 'vehicle', 'pick_up_addr', 'drop_off_addr', 'link', 'remark')
+            'fields': ('orderId', 'status', 'contact_name', 'contact_phone', 'arrival_time', 'departure_time', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 'link', 'remark')
         }),
         ('Price Info', {
             'classes': ('grp-collapse grp-closed',),
@@ -36,7 +41,7 @@ class OrderAdmin(admin.ModelAdmin):
     )
 
     list_display = (
-       'orderId', 'status', 'customer', 'contact_name', 'contact_phone', 'arrival_time', 'departure_time', 'pick_up_addr', 'drop_off_addr', 'discount_name', 'total', 'remark', 'hyper_link'
+       'orderId', 'status', 'customer', 'contact_name', 'contact_phone', 'arrival_time', 'departure_time', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 'discount_name', 'total', 'remark', 'hyper_link'
     )
 
     list_display_links = list_display
@@ -62,6 +67,11 @@ class OrderAdmin(admin.ModelAdmin):
 
     hyper_link.short_description = 'Hyperlink'
 
+    #  def project_contacts(self):
+    #        try:
+    #        return ",".join(map(lambda c: c.name ,  self.project.contact.all()))
+    #    except Exception, e : 
+    #        return "Error:%s" % str(e)
     
     def save_model(self, request, obj, form, change):
         
