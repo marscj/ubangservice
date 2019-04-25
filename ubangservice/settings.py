@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'django_countries',
     'phonenumber_field',
     'djmoney',
-    # 'daterange_filter',
 
     'ubang.order',
     'ubang.payment',

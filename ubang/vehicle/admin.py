@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.contrib.admin.options import IS_POPUP_VAR
 
 from .models import ItineraryPrice, Brand, Model, Vehicle
 from .forms import ModelForm, VehicleForm
@@ -36,8 +35,6 @@ class OrderTimeListFilter(admin.DateFieldListFilter):
             return queryset.exclude(**self.used_parameters)
             # return queryset.filter(**self.used_parameters)
         except (ValueError, ValidationError) as e:
-            # Fields may raise a ValueError or ValidationError when converting
-            # the parameters to the correct type.
             raise IncorrectLookupParameters(e)
 
 @admin.register(Vehicle)
