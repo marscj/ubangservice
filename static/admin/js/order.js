@@ -2,7 +2,68 @@
     'use strict';
 
     $(document).ready(function() {
-        console.log('hello world')
+        console.log('hello oder')
+
+        $("#lookup_id_vehicle" ).click(function(event) {
+            if ($("#id_arrival_time_0").val() == "") {
+                alert("Please enter the arrival date");
+            } else if ($("#id_arrival_time_1").val() == "") {
+                alert("Please enter the arrival time");
+            } else if ($("#id_departure_time_0").val() == "") {
+                alert("Please enter the departure date");
+            } else if ($("#id_departure_time_1").val() == "") {
+                alert("Please enter the departure time");
+            } else {
+                var arrival_time = $("#id_arrival_time_0").val() + " " + $("#id_arrival_time_1").val();
+                var departure_time = $("#id_departure_time_0").val() + " " + $("#id_departure_time_1").val();
+
+                var url1 = "&order__arrival_time__gte=" + arrival_time + "&order__arrival_time__lt=" + departure_time;
+                var url2 = "&order__departure_time__gte=" + arrival_time + "&order__departure_time__lt=" + departure_time;
+                var url = url1 + url2;
+           
+                set_lookup($("#lookup_id_vehicle"), url);
+            }
+        });
+
+        $("#lookup_id_guide" ).click(function(event) {
+            if ($("#id_arrival_time_0").val() == "") {
+                alert("Please enter the arrival date");
+            } else if ($("#id_arrival_time_1").val() == "") {
+                alert("Please enter the arrival time");
+            } else if ($("#id_departure_time_0").val() == "") {
+                alert("Please enter the departure date");
+            } else if ($("#id_departure_time_1").val() == "") {
+                alert("Please enter the departure time");
+            } else {
+                var arrival_time = $("#id_arrival_time_0").val() + " " + $("#id_arrival_time_1").val();
+                var departure_time = $("#id_departure_time_0").val() + " " + $("#id_departure_time_1").val();
+
+                var url1 = "&order__arrival_time__gte=" + arrival_time + "&order__arrival_time__lt=" + departure_time;
+                var url2 = "&order__departure_time__gte=" + arrival_time + "&order__departure_time__lt=" + departure_time;
+                var url = url1 + url2;
+           
+                set_lookup($("#lookup_id_guide"), url);
+            }
+        }); 
+
+        function get_lookup(id) {
+            return $(id).attr('href');
+        }
+
+        function set_lookup(id, url) {
+            if (set_lookup.url == null) {
+                set_lookup.url = get_lookup(id)
+            }
+
+            $(id).attr('href', set_lookup.url + url);
+        }
+
+        // order__arrival_time__lt=2019-04-25%2000:00&order__arrival_time__gt=2019-04-25%2000:00&_popup=1
+        // order__arrival_time__lt=2019-04-25%2000:00&order__arrival_time__gt=2019-04-25%2023:00&_popup=1
+        // order__arrival_time__gte=2019-04-25+00%3A00%3A00&order__arrival_time__lt=2019-04-26+00%3A00%3A00
+
+
+
         // delivery($("#id_service_type").val());
 
         // if (getAction(window.location.href) == "add") {
