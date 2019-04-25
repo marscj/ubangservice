@@ -183,6 +183,7 @@ STATICFILES_FINDERS = (
 )
 
 # Grappelli admin interface
+GRAPPELLI_ADMIN_TITLE = 'UBang'
 GRAPPELLI_INDEX_DASHBOARD = 'dashboard.CustomIndexDashboard'
 GRAPPELLI_SWITCH_USER = False
 GRAPPELLI_SWITCH_USER_TARGET = False

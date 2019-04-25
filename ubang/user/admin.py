@@ -9,8 +9,9 @@ from .models import CustomUser
 from .forms import CustomUserCreationForm
 from ubang.resource.models import Image
 
-admin.site.site_title = 'UBang Service'
+admin.site.site_title = 'UBang'
 admin.site.site_header = 'UBang Service'
+admin.site.index_title = 'UBang Service Administration'
 
 class ImageInline(GenericTabularInline):
     classes = ('grp-collapse grp-closed',)
