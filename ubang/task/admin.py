@@ -10,9 +10,18 @@ class TaskInline(admin.TabularInline):
     
     fields = ('taskId', 'day', 'itinerary', 'guide', 'vehicle', 'remark')
 
-    raw_id_fields = ('itinerary', 'vehicle', 'guide', )
+    raw_id_fields = ('vehicle', 'guide', )
 
     readonly_fields = ('taskId',)
+
+    def get_readonly_fields(self, request, obj=None):
+        if request.user.is_superuser:
+            return self.readonly_fields
+        else:
+            return ('taskId', 'guide', 'vehicle', 'day')
+
+    def has_delete_permission(self, request, obj):
+        return False
 
 class TaskPriceInline(admin.TabularInline):
     model = TaskPrice

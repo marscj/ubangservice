@@ -28,10 +28,4 @@ def task_model_post_save(sender, **kwargs):
     if kwargs['created']:
         save_by_customer(order)
     
-    print('#####111')
     save_by_task(order)
-    print('#####222')
-
-# @receiver(pre_delete, sender=Task)
-# def task_model_pre_delete(sender, **kwargs):
-#     pass

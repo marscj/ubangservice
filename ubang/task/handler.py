@@ -30,10 +30,10 @@ def task_model_post_save(sender, **kwargs):
     if vehicle_total_gross and vehicle_total:
         get_or_create_taskprice(order=task.order, task=task, type=TaskPriceType.Vehicle, total=vehicle_total, total_gross=vehicle_total_gross, discount_name=task.order.discount_name, description='for the vehicle')
 
-    if task.guide is None:
+    if task.guide is None or task.itinerary is None:
         delete_price(task, TaskPriceType.Guide)
 
-    if task.vehicle is None:
+    if task.vehicle is None or task.itinerary is None:
         delete_price(task, TaskPriceType.Vehicle)
 
 @receiver(pre_delete, sender=Task)

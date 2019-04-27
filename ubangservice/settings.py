@@ -135,7 +135,7 @@ TIME_ZONE = 'Asia/Dubai'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
 # USE_TZ = True
 USE_TZ = False
@@ -144,17 +144,17 @@ TIME_INPUT_FORMATS = [
     '%H:%M'
 ]
 
-TIME_FORMAT = [
-    '%H:%M'
-]
-
 DATETIME_INPUT_FORMATS = [
     '%Y-%m-%d %H:%M'
 ]
 
-DATETIME_FORMAT = [
-    '%Y-%m-%d %H:%M'
-]
+DATETIME_FORMAT = 'Y-m-d H:i:sO'
+
+DATE_FORMAT = 'Y-m-d'
+
+SHORT_DATE_FORMAT = 'Y-m-d'
+
+SHORT_DATETIME_FORMAT =  'Y-m-d H:i:sO'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

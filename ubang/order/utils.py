@@ -55,11 +55,7 @@ def save_by_customer(order):
 def save_by_task(order):
     days = get_days(order.arrival_time, order.departure_time)
 
-    print('#####333')
-    for day in days:
-        print(day)
-        create_task(order=order, day=day, guide=order.guide, vehicle=order.vehicle)
-    print('#####444')
+    return [create_task(order=order, day=day, guide=order.guide, vehicle=order.vehicle) for day in days]
         
 
  
