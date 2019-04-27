@@ -32,7 +32,7 @@ class OrderAdmin(admin.ModelAdmin):
         }),
         ('Customer Info', {
             'classes': ('grp-collapse grp-closed',),
-            'fields': ('customer', 'customer_name', 'customer_phone', 'customer_company', 'customer_company_phone', 'customer_company_tel', 'customer_company_address', 'customer_company_discount')
+            'fields': ('create_by', 'customer_name', 'customer_phone', 'customer_company', 'customer_company_phone', 'customer_company_tel', 'customer_company_address', 'customer_company_discount')
         }),
         ('Create Info', {
             'classes': ('grp-collapse grp-closed',),
@@ -40,14 +40,21 @@ class OrderAdmin(admin.ModelAdmin):
         })
     )
 
+    add_fieldsets = ( 
+        (None, {
+            'classes': ('grp-collapse grp-open',),
+            'fields': ('contact_name', 'contact_phone', 'arrival_time', 'departure_time', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 'link', 'remark')
+        }),
+    )
+
     list_display = (
-       'orderId', 'status', 'customer', 'contact_name', 'contact_phone', 'arrival_time', 'departure_time', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 'discount_name', 'total', 'remark', 'hyper_link'
+       'orderId', 'status', 'create_by', 'contact_name', 'contact_phone', 'arrival_time', 'departure_time', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 'discount_name', 'total', 'remark', 'hyper_link'
     )
 
     list_display_links = list_display
 
     raw_id_fields = (
-        'customer', 'guide', 'vehicle',
+        'create_by', 'guide', 'vehicle',
     )
 
     list_filter = (
@@ -59,7 +66,7 @@ class OrderAdmin(admin.ModelAdmin):
     )
 
     readonly_fields = (
-        'orderId', 'create_at', 'change_at', 'discount_name', 'total', 'hyper_link', 'customer', 'customer_name', 'customer_phone', 'customer_company', 'customer_company_phone', 'customer_company_tel', 'customer_company_address', 'customer_company_discount'
+        'orderId', 'create_at', 'change_at', 'discount_name', 'total', 'hyper_link', 'create_by', 'customer_name', 'customer_phone', 'customer_company', 'customer_company_phone', 'customer_company_tel', 'customer_company_address', 'customer_company_discount'
     )
 
     def hyper_link(self, obj):
@@ -72,10 +79,15 @@ class OrderAdmin(admin.ModelAdmin):
     #        return ",".join(map(lambda c: c.name ,  self.project.contact.all()))
     #    except Exception, e : 
     #        return "Error:%s" % str(e)
-    
-    def save_model(self, request, obj, form, change):
-        
-        if obj.customer is None:
-            obj.customer = request.user
 
-        super().save_model(request, obj, form, change)
+    def get_fieldsets(self, request, obj=None):
+        if obj == None:
+            return self.add_fieldsets
+        else:
+            return super().get_fieldsets(request, obj)
+
+    def get_inline_instances(self, request, obj=None):
+        if obj == None:
+            return ()
+        else:
+            return super().get_inline_instances(request, obj)

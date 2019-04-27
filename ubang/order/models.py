@@ -70,7 +70,9 @@ class Order(models.Model):
     link = models.URLField(default='', blank=True)
 
     # 客户
-    customer = models.ForeignKey(CustomUser, related_name='order_customer', on_delete=models.SET_NULL, null=True)
+    create_by = models.ForeignKey(CustomUser, related_name='%(class)s_create_by_user', on_delete=models.SET_NULL, null=True, verbose_name = 'Customer')    
+
+    update_by = models.ForeignKey(CustomUser, related_name='%(class)s_update_by_user', on_delete=models.SET_NULL, null=True)
 
     # 客户名称
     customer_name = models.CharField(max_length=128, blank=True, null=True, verbose_name='name')
@@ -120,29 +122,3 @@ class Order(models.Model):
             total += price.total
         
         return total
-
-    def save(self, *args, **kwargs):
-        if self.orderId is None or self.orderId == '':
-            self.orderId = datetime.now().strftime('%Y%m%d%H%M%S') + '-%s' % get_random_string(4, allowed_chars='0123456789')
-
-        self.discount_name = 'no discount'
-        self.discount_value = Decimal(0.0)
-
-        if self.customer:
-            self.customer_name = self.customer.full_name
-            self.customer_phone = self.customer.phone
-
-            if self.customer.company:
-                self.customer_company = self.customer.company.name
-                self.customer_company_phone = self.customer.company.phone
-                self.customer_company_tel = self.customer.company.tel
-                self.customer_company_address = self.customer.company.address
-
-                if self.customer.company.discount:
-                    self.customer_company_discount = self.customer.company.discount.name
-
-                    if self.discount_name is None or self.discount_value is None:
-                        self.discount_name = self.customer.company.discount.name
-                        self.discount_value = self.customer.company.discount.value
-
-        super().save(*args, **kwargs)

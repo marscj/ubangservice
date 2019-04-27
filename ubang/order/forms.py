@@ -31,9 +31,11 @@ class OrderForm(forms.ModelForm):
         
         if instance and instance.arrival_time:
             self.fields['arrival_time'].widget.attrs['readonly'] = True
+            self.fields['arrival_time'].disabled = True
         
         if instance and instance.departure_time:
             self.fields['departure_time'].widget.attrs['readonly'] = True
+            self.fields['departure_time'].disabled = True
 
         if instance and instance.vehicle:
             self.fields['vehicle'].widget.attrs['readonly'] = True

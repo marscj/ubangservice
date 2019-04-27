@@ -68,6 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'ubang.middleware.create_by.WhoDidMiddleware'
 ]
 
 ROOT_URLCONF = 'ubangservice.urls'
@@ -243,21 +244,7 @@ PAYMENT_GATEWAYS = {
 # 导游费用
 DEFAULT_GUIDE_PRICE = Decimal(400.0)
 
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'handlers': {
-#         'file': {
-#             'level': 'DEBUG',
-#             'class': 'logging.FileHandler',
-#             'filename':  os.path.join(BASE_DIR, 'debug.log'),
-#         },
-#     },
-#     'loggers': {
-#         'django': {
-#             'handlers': ['file'],
-#             'level': 'DEBUG',
-#             'propagate': True,
-#         },
-#     },
-# }
+# middleware create_by
+CREATE_BY_FIELD = 'create_by'
+UPDATE_BY_FIELD = 'update_by'
+

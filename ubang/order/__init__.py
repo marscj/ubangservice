@@ -1,4 +1,6 @@
 
+default_app_config = 'ubang.order.apps.OrderConfig'
+
 class OrderStatus:
     Open = 0
     Padding = 1
