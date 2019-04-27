@@ -47,10 +47,33 @@ class Task(models.Model):
         verbose_name = _("Task")
         verbose_name_plural = _("Tasks")
 
-        unique_together = (('day', 'guide'), ('day', 'vehicle'))
+        # unique_together = (('day', 'guide'), ('day', 'vehicle'))
+
+        constraints = (
+            models.UniqueConstraint(fields=['day', 'guide'], condition=Q(itinerary__isnull=False), name='unique_day_guide'),
+            models.UniqueConstraint(fields=['day', 'vehicle'], condition=Q(itinerary__isnull=False), name='unique_day_vehicle'),
+        )
 
     def __str__(self):
         return str(self.taskId)
+
+    # def clean(self):
+        
+    #     count = Task.objects.exclude(itinerary__isnull=True).filter(
+    #             Q(day=self.day) &
+    #             (Q(guide=self.guide) | Q(vehicle=self.vehicle))
+    #         ).count()
+
+    #     print(count)
+
+    #     if Task.objects.exclude(itinerary__isnull=True).filter(
+    #             ~Q(taskId=self.taskId) & Q(day=self.day) &
+    #             (Q(guide=self.guide) | Q(vehicle=self.vehicle))
+    #         ).count() > 1:
+            
+    #         raise ValidationError('Task with this time and Guide or Vehicle already exists.')
+
+    #     return super().clean()
 
 class TaskPrice(models.Model):
     type = models.IntegerField(default=TaskPriceType.Vehicle, choices=TaskPriceType.CHOICES)

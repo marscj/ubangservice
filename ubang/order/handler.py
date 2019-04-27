@@ -27,5 +27,4 @@ def task_model_post_save(sender, **kwargs):
 
     if kwargs['created']:
         save_by_customer(order)
-    
-    save_by_task(order)
+        save_by_task(order)

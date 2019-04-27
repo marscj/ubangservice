@@ -86,6 +86,9 @@ class OrderForm(forms.ModelForm):
         if guide and arrival_time and departure_time:
             if Order.objects.check_guide(orderId, arrival_time, departure_time, guide):
                 raise ValidationError('Order with this time and guide already exists.')
+
+        if guide and not guide.is_tourguide:
+            raise ValidationError('Ensure %s is tourguide user' % guide)
         
         return guide
     

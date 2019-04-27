@@ -15,7 +15,8 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterUniqueTogether(
             name='task',
-            unique_together={('day', 'guide'), ('day', 'vehicle')},
+            unique_together=set(),
+            # unique_together={('day', 'guide'), ('day', 'vehicle')},
         ),
         migrations.RemoveField(
             model_name='task',

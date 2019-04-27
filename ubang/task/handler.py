@@ -21,7 +21,7 @@ def task_model_pre_save(sender, **kwargs):
 @receiver(post_save, sender=Task)
 def task_model_post_save(sender, **kwargs):
     task = kwargs['instance']
-
+    
     guide_total_gross, guide_total = get_guide_price(task.itinerary, task.guide)
     if guide_total_gross and guide_total:
         get_or_create_taskprice(order=task.order, task=task, type=TaskPriceType.Guide, total=guide_total, total_gross=guide_total_gross, description='for the guide')
