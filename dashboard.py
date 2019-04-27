@@ -51,13 +51,6 @@ class CustomIndexDashboard(Dashboard):
         ))
 
         self.children.append(modules.ModelList(
-            _('Task'),
-            column=1,
-            collapsible=True,
-            models=('ubang.task.models.Task',)
-        ))
-
-        self.children.append(modules.ModelList(
             _('Itinerary'),
             column=1,
             collapsible=True,
