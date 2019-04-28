@@ -5,9 +5,6 @@ from django.contrib.contenttypes.admin import GenericTabularInline
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 
-from input_filter.intput_filter import InputFilter
-from input_filter.range_filter import DateRangeFilter, DateTimeRangeFilter
-
 from .models import CustomUser
 from .forms import CustomUserCreationForm
 from ubang.resource.models import Image
@@ -22,39 +19,14 @@ class ImageInline(GenericTabularInline):
     model = Image
     extra = 1
 
-# class OrderTimeListFilter(admin.DateFieldListFilter):
+class OrderTimeListFilter(admin.DateFieldListFilter):
 
-#     def queryset(self, request, queryset):
-#         try:
-#             return queryset.exclude(**self.used_parameters)
-#             # return queryset.filter(**self.used_parameters)
-#         except (ValueError, ValidationError) as e:
-#             raise IncorrectLookupParameters(e)
-
-# class ArrivalTimeFilter(InputFilter):
-#     # parameter_name = ('arrival_time', 'departure_time')
-#     parameter_name = 'arrival_time'
-#     title = _('Task Time')
-    
-#     def queryset(self, request, queryset):
-#         arrival_time = self.value()
-        
-#         print(self.value())
-#         return queryset
-#         # for bit in term.split():
-#         #     any_name &= (
-#         #         Q(user__first_name__icontains=bit) |
-#         #         Q(user__last_name__icontains=bit)
-#         #     )
-#         # return queryset.filter(any_name)
-
-class CustomFilter(DateTimeRangeFilter):
-    
-    def get_template(self):
-        return 'user/date_filter.html'
-
-    template = property(get_template)
-
+    def queryset(self, request, queryset):
+        try:
+            return queryset.exclude(**self.used_parameters)
+            # return queryset.filter(**self.used_parameters)
+        except (ValueError, ValidationError) as e:
+            raise IncorrectLookupParameters(e)
 
 @admin.register(CustomUser)
 class CustomerUserAdmin(UserAdmin):
@@ -95,15 +67,13 @@ class CustomerUserAdmin(UserAdmin):
 
     list_filter = (
         'company', 'gender', 'is_driver', 'is_tourguide', 'is_staff', 'is_active',
-        # (ArrivalTimeFilter),
-        # ('order__arrival_time', OrderTimeListFilter),
-        # ('order__departure_time', OrderTimeListFilter),
-        # ('task__day', admin.AllValuesFieldListFilter),
-        ('order__departure_time', CustomFilter)
+        ('order__arrival_time', OrderTimeListFilter),
+        ('order__departure_time', OrderTimeListFilter),
+        ('task__day', OrderTimeListFilter),
     )
 
     search_fields = (
-        'username', 'full_name', 'phone', 'email', 'wechart'
+        'username', 'phone', 'email', 'wechart', 'order__arrival_time'
     )
 
     filter_horizontal = ('user_permissions',)

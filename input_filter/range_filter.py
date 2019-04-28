@@ -20,15 +20,13 @@ from django.utils import timezone
 from django.template.defaultfilters import slugify
 from django.templatetags.static import StaticNode
 from django.utils.translation import ugettext as _
-from django.contrib.admin.widgets import AdminDateWidget, AdminSplitDateTime as BaseAdminSplitDateTime
+from django.contrib.admin.widgets import AdminTextInputWidget
 
-
-class AdminSplitDateTime(BaseAdminSplitDateTime):
+class CustomAdminTextInputWidget(AdminTextInputWidget):
     def format_output(self, rendered_widgets):
         return format_html('<p class="datetime">{}</p><p class="datetime rangetime">{}</p>',
                            rendered_widgets[0],
                            rendered_widgets[1])
-
 
 class DateRangeFilter(admin.filters.FieldListFilter):
     def __init__(self, field, request, params, model, model_admin, field_path):
@@ -54,9 +52,6 @@ class DateRangeFilter(admin.filters.FieldListFilter):
 
     def choices(self, cl):
         yield {
-            # slugify converts any non-unicode characters to empty characters
-            # but system_name is required, if title converts to empty string use id
-            # https://github.com/silentsokolov/django-admin-rangefilter/issues/18
             'system_name': slugify(self.title) if slugify(self.title) else id(self.title),
             'query_string': cl.get_query_string(
                 {}, remove=self._get_expected_fields()
@@ -69,6 +64,7 @@ class DateRangeFilter(admin.filters.FieldListFilter):
     def queryset(self, request, queryset):
         if self.form.is_valid():
             validated_data = dict(self.form.cleaned_data.items())
+            print(queryset, validated_data)
             if validated_data:
                 return queryset.filter(
                     **self._make_query_filter(request, validated_data)
@@ -97,10 +93,8 @@ class DateRangeFilter(admin.filters.FieldListFilter):
         return query_params
 
     def get_template(self):
-        if django.VERSION[:2] <= (1, 8):
-            return 'rangefilter/date_filter_1_8.html'
-        return 'rangefilter/date_filter.html'
-
+        return 'input_filter/range_filter.html'
+            
     template = property(get_template)
 
     def get_form(self, request):
@@ -128,15 +122,15 @@ class DateRangeFilter(admin.filters.FieldListFilter):
 
     def _get_form_fields(self):
         return OrderedDict((
-                (self.lookup_kwarg_gte, forms.DateField(
+                (self.lookup_kwarg_gte, forms.CharField(
                     label='',
-                    widget=AdminDateWidget(attrs={'placeholder': _('From date')}),
+                    widget=AdminTextInputWidget(attrs={'placeholder': _('From date')}),
                     localize=True,
                     required=False
                 )),
-                (self.lookup_kwarg_lte, forms.DateField(
+                (self.lookup_kwarg_lte, forms.CharField(
                     label='',
-                    widget=AdminDateWidget(attrs={'placeholder': _('To date')}),
+                    widget=AdminTextInputWidget(attrs={'placeholder': _('To date')}),
                     localize=True,
                     required=False
                 )),
@@ -175,15 +169,15 @@ class DateTimeRangeFilter(DateRangeFilter):
 
     def _get_form_fields(self):
         return OrderedDict((
-                (self.lookup_kwarg_gte, forms.SplitDateTimeField(
+                (self.lookup_kwarg_gte, forms.CharField(
                     label='',
-                    widget=AdminSplitDateTime(attrs={'placeholder': _('From date')}),
+                    widget=AdminTextInputWidget(attrs={'placeholder': _('From date')}),
                     localize=True,
                     required=False
                 )),
-                (self.lookup_kwarg_lte, forms.SplitDateTimeField(
+                (self.lookup_kwarg_lte, forms.CharField(
                     label='',
-                    widget=AdminSplitDateTime(attrs={'placeholder': _('To date')}),
+                    widget=AdminTextInputWidget(attrs={'placeholder': _('To date')}),
                     localize=True,
                     required=False
                 )),
