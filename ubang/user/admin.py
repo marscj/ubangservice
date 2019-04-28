@@ -5,10 +5,12 @@ from django.contrib.contenttypes.admin import GenericTabularInline
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 
+from input_filter.intput_filter import InputFilter
+from input_filter.range_filter import DateRangeFilter, DateTimeRangeFilter
+
 from .models import CustomUser
 from .forms import CustomUserCreationForm
 from ubang.resource.models import Image
-from input_filter.filter import InputFilter
 
 admin.site.site_title = 'UBang'
 admin.site.site_header = 'UBang Service'
@@ -20,29 +22,39 @@ class ImageInline(GenericTabularInline):
     model = Image
     extra = 1
 
-class OrderTimeListFilter(admin.DateFieldListFilter):
-    
-    def queryset(self, request, queryset):
-        try:
-            return queryset.exclude(**self.used_parameters)
-            # return queryset.filter(**self.used_parameters)
-        except (ValueError, ValidationError) as e:
-            raise IncorrectLookupParameters(e)
+# class OrderTimeListFilter(admin.DateFieldListFilter):
 
-class ArrivalTimeFilter(InputFilter):
-    # parameter_name = ('arrival_time', 'departure_time')
-    parameter_name = 'arrival_time'
-    title = _('Order Time')
+#     def queryset(self, request, queryset):
+#         try:
+#             return queryset.exclude(**self.used_parameters)
+#             # return queryset.filter(**self.used_parameters)
+#         except (ValueError, ValidationError) as e:
+#             raise IncorrectLookupParameters(e)
+
+# class ArrivalTimeFilter(InputFilter):
+#     # parameter_name = ('arrival_time', 'departure_time')
+#     parameter_name = 'arrival_time'
+#     title = _('Task Time')
     
-    def queryset(self, request, queryset):
-        arrival_time = self.value()
+#     def queryset(self, request, queryset):
+#         arrival_time = self.value()
         
-        # for bit in term.split():
-        #     any_name &= (
-        #         Q(user__first_name__icontains=bit) |
-        #         Q(user__last_name__icontains=bit)
-        #     )
-        # return queryset.filter(any_name)
+#         print(self.value())
+#         return queryset
+#         # for bit in term.split():
+#         #     any_name &= (
+#         #         Q(user__first_name__icontains=bit) |
+#         #         Q(user__last_name__icontains=bit)
+#         #     )
+#         # return queryset.filter(any_name)
+
+class CustomFilter(DateTimeRangeFilter):
+    
+    def get_template(self):
+        return 'user/date_filter.html'
+
+    template = property(get_template)
+
 
 @admin.register(CustomUser)
 class CustomerUserAdmin(UserAdmin):
@@ -83,10 +95,11 @@ class CustomerUserAdmin(UserAdmin):
 
     list_filter = (
         'company', 'gender', 'is_driver', 'is_tourguide', 'is_staff', 'is_active',
-        (ArrivalTimeFilter),
-        # ('order__arrival_time', admin.AllValuesFieldListFilter),
-        # ('order__departure_time', admin.AllValuesFieldListFilter),
+        # (ArrivalTimeFilter),
+        # ('order__arrival_time', OrderTimeListFilter),
+        # ('order__departure_time', OrderTimeListFilter),
         # ('task__day', admin.AllValuesFieldListFilter),
+        ('order__departure_time', CustomFilter)
     )
 
     search_fields = (
@@ -98,3 +111,6 @@ class CustomerUserAdmin(UserAdmin):
     raw_id_fields = ('company',)
 
     list_display_links = list_display
+
+    def lookup_allowed(self, lookup, value):
+        return True
