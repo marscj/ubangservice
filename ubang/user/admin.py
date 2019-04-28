@@ -67,8 +67,9 @@ class CustomerUserAdmin(UserAdmin):
 
     list_filter = (
         'company', 'gender', 'is_driver', 'is_tourguide', 'is_staff', 'is_active',
-        ('order__arrival_time', OrderTimeListFilter),
-        ('order__departure_time', OrderTimeListFilter)
+        ('order__arrival_time', admin.AllValuesFieldListFilter),
+        ('order__departure_time', admin.AllValuesFieldListFilter),
+        ('task__day', admin.AllValuesFieldListFilter),
     )
 
     search_fields = (

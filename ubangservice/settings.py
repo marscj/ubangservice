@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'djmoney',
 
+    'input_filter',
     'ubang.order',
     'ubang.payment',
     'ubang.company',
@@ -148,13 +149,13 @@ DATETIME_INPUT_FORMATS = [
     '%Y-%m-%d %H:%M'
 ]
 
-DATETIME_FORMAT = 'Y-m-d H:i:sO'
+DATETIME_FORMAT = 'Y-m-d H:i'
 
 DATE_FORMAT = 'Y-m-d'
 
 SHORT_DATE_FORMAT = 'Y-m-d'
 
-SHORT_DATETIME_FORMAT =  'Y-m-d H:i:sO'
+SHORT_DATETIME_FORMAT =  'Y-m-d H:i'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

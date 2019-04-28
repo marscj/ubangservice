@@ -57,7 +57,8 @@ class VehicleAdmin(admin.ModelAdmin):
     list_filter = (
         'is_active', 'model__brand', 'model__type', 'model__category', 
         ('order__arrival_time', OrderTimeListFilter),
-        ('order__departure_time', OrderTimeListFilter)
+        ('order__departure_time', OrderTimeListFilter),
+        ('task__day', OrderTimeListFilter),
     )
 
     def brand(self, obj):

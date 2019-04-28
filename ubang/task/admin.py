@@ -7,12 +7,17 @@ class TaskInline(admin.TabularInline):
     model = Task
     extra = 0
     formset = TaskInlineFormSet
+
+    class Media:
+        js = [
+            'admin/js/task.js'
+        ]
     
     fields = ('taskId', 'day', 'itinerary', 'guide', 'vehicle', 'remark')
 
     raw_id_fields = ('vehicle', 'guide', )
 
-    readonly_fields = ('taskId',)
+    readonly_fields = ('taskId', 'day')
 
     def get_readonly_fields(self, request, obj=None):
         if request.user.is_superuser:
@@ -21,15 +26,9 @@ class TaskInline(admin.TabularInline):
             return ('taskId', 'guide', 'vehicle', 'day')
 
     def has_delete_permission(self, request, obj):
-        if request.user.is_superuser:
-            return True
-            
         return False
 
     def has_add_permission(self, request):
-        if request.user.is_superuser:
-            return True
-
         return False
 
 class TaskPriceInline(admin.TabularInline):

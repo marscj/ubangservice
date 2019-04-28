@@ -4,22 +4,7 @@
     
 
     $(document).ready(function() {
-        console.log('hello oder')
-
-        // var orderId = $(".orderId .c-2 .grp-readonly").text()
-        
-        // if (orderId == '' || orderId == "undefined") {
-        //     $("#task-group").attr("style","display:none")
-        //     $("#price-group").attr("style","display:none")
-        //     $("#progress-group").attr("style","display:none")
-        //     $("#payments-group").attr("style","display:none")
-        // } else {
-        //     $("#task-group").attr("style","display:block")
-        //     $("#task-group").attr("style","display:block")
-        //     $("#price-group").attr("style","display:block")
-        //     $("#progress-group").attr("style","display:block")
-        //     $("#payments-group").attr("style","display:block")
-        // }
+        console.log('hello oder');
 
         $("#lookup_id_vehicle" ).click(function(event) {
             if ($("#id_arrival_time_0").val() == "") {
@@ -69,7 +54,7 @@
 
         function set_vehicle_lookup(id, url) {
             if (set_vehicle_lookup.url == null) {
-                set_vehicle_lookup.url = get_lookup(id)
+                set_vehicle_lookup.url = get_lookup(id);
             }
 
             $(id).attr('href', set_vehicle_lookup.url + url);
@@ -77,7 +62,7 @@
 
         function set_guide_lookup(id, url) {
             if (set_guide_lookup.url == null) {
-                set_guide_lookup.url = get_lookup(id)
+                set_guide_lookup.url = get_lookup(id);
             }
 
             $(id).attr('href', set_guide_lookup.url + url);
