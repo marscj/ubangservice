@@ -30,14 +30,13 @@ class OrderTimeListFilter(admin.DateFieldListFilter):
             raise IncorrectLookupParameters(e)
 
 class ArrivalTimeFilter(InputFilter):
+    # parameter_name = ('arrival_time', 'departure_time')
     parameter_name = 'arrival_time'
-    title = _('Arrival Time')
+    title = _('Order Time')
     
     def queryset(self, request, queryset):
-        term = self.value()
-        if term is None:
-            return
-        any_name = Q()
+        arrival_time = self.value()
+        
         # for bit in term.split():
         #     any_name &= (
         #         Q(user__first_name__icontains=bit) |

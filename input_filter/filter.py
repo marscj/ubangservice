@@ -11,8 +11,10 @@ class InputFilter(admin.SimpleListFilter):
         # Grab only the "all" option.
         all_choice = next(super().choices(changelist))
         all_choice['query_parts'] = (
-            (k, v)
-            for k, v in changelist.get_filters_params().items()
-            if k != self.parameter_name
+            (k, v) for k, v in changelist.get_filters_params().items() if k != self.parameter_name[0]
         )
+
+        for k, v in changelist.get_filters_params().items():
+            print(k,v)
+
         yield all_choice

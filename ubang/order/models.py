@@ -31,6 +31,9 @@ class OrderQueryset(models.QuerySet):
             (Q(arrival_time__range=(arrival_time, departure_time)) | Q(departure_time__range=(arrival_time, departure_time)))
         ).exists()
 
+    # def fillter_arrival_time_guide(arrival_time):
+    #     return self.exclude(Q(arrival_time__range=(arrival_time, departure_time))
+
 class Order(models.Model):
     
     # id
