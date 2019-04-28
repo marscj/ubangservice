@@ -9,7 +9,7 @@
               
                 var day = $(this).parent().parent().find(".day").find(".grp-readonly").text();
                 var tomorrow = GetDateStr(day, 1);
-                var url = "&task__day__gte=" + day + "&task__day__lt=" + tomorrow + "&is_tourguide=1";
+                var url = "&task__day__gte=" + day + "&task__day__lt=" + tomorrow + "&is_tourguide=1" + "&is_actived=1" + "&task__is_freedom_day=1";
 
                 if ($(this).parent().hasClass("guide")){
                     set_guide_lookup(this, url);

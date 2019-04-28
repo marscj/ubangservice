@@ -75,6 +75,9 @@ class OrderForm(forms.ModelForm):
             if Order.objects.check_vehicle(orderId, arrival_time, departure_time, vehicle):
                 raise ValidationError('Order with this time and vehicle already exists.')
          
+        if vehicle and not vehicle.is_actived:
+            raise ValidationError('Ensure %s is active' % vehicle.traffic_plate_no)
+
         return vehicle
 
     def clean_guide(self):
@@ -89,6 +92,9 @@ class OrderForm(forms.ModelForm):
 
         if guide and not guide.is_tourguide:
             raise ValidationError('Ensure %s is tourguide user' % guide)
+
+        if guide and not guide.is_actived:
+            raise ValidationError('Ensure %s is active' % guide)
         
         return guide
     

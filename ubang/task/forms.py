@@ -29,14 +29,16 @@ class TaskInlineFormSet(forms.BaseInlineFormSet):
             else:
                 raise ValidationError('Ensure %s has model' % vehicle.traffic_plate_no)
 
-    def clean_is_guide(self, guide):
+    def clean_guide(self, guide):
         if guide and not guide.is_tourguide:
             raise ValidationError('Ensure %s is tourguide user' % guide)
 
+        if guide and not guide.is_actived:
+            raise ValidationError('Ensure %s is active' % guide)
+
     def clean_vehicle(self, vehicle):
-        if vehicle:
-            if not vehicle.is_active:
-                raise ValidationError('Ensure %s is active' % vehicle.traffic_plate_no)
+        if vehicle and not vehicle.is_actived:
+            raise ValidationError('Ensure %s is active' % vehicle.traffic_plate_no)
 
     def clean(self):
         for form in self.forms:
@@ -49,7 +51,7 @@ class TaskInlineFormSet(forms.BaseInlineFormSet):
 
                 self.clean_order_time(order, day)
                 self.clean_itinerary(itinerary, vehicle)
-                self.clean_is_guide(guide)
+                self.clean_guide(guide)
                 self.clean_vehicle(vehicle)
                 
         return super().clean()

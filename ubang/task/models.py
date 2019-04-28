@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Q, UniqueConstraint
+from django.db.models import Q
 from django.contrib.contenttypes.fields import GenericForeignKey 
 from django.contrib.contenttypes.models import ContentType
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -26,6 +26,8 @@ class Task(models.Model):
 
     # 日期
     day = models.DateField()
+
+    is_freedom_day = models.BooleanField(default=False, verbose_name='Freedom Day?')
     
     # 导游
     guide = models.ForeignKey(CustomUser, related_name='task', on_delete=models.SET_NULL, blank=True, null=True)
@@ -48,8 +50,8 @@ class Task(models.Model):
         verbose_name_plural = _("Tasks")
 
         constraints = (
-            models.UniqueConstraint(fields=['day', 'guide'], name='unique_day_guide'),
-            models.UniqueConstraint(fields=['day', 'vehicle'], name='unique_day_vehicle'),
+            models.UniqueConstraint(fields=['day', 'guide', 'is_freedom_day'], name='unique_day_guide'),
+            models.UniqueConstraint(fields=['day', 'vehicle', 'is_freedom_day'], name='unique_day_vehicle'),
         )
 
     def __str__(self):

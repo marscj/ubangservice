@@ -23,6 +23,8 @@ class CustomUser(AbstractUser):
     
     is_tourguide = models.BooleanField(default=False)
 
+    is_actived = models.BooleanField(default=True, verbose_name='Active')
+
     country = CountryField(blank=True, null=True)
 
     gender = models.IntegerField(choices=Gender.CHOICES, blank=True, null=True)

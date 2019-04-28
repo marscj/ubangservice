@@ -99,7 +99,7 @@ class Vehicle(models.Model):
     exp_date = models.DateField()                    
     
     # 状态
-    is_active = models.BooleanField(default=False)
+    is_actived = models.BooleanField(default=True, verbose_name='Active')
     
     # 车型
     model = models.ForeignKey(Model, related_name='vehicle', on_delete=models.SET_NULL, null=True)

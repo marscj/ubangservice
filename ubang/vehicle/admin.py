@@ -42,23 +42,24 @@ class VehicleAdmin(admin.ModelAdmin):
 
     form = VehicleForm
     
-    fields = ('traffic_plate_no', 'model', 'company', 'driver', 'exp_date', 'is_active')
+    fields = ('traffic_plate_no', 'model', 'company', 'driver', 'exp_date', 'is_actived')
 
-    list_display = ('traffic_plate_no', 'brand', 'model', 'type', 'category', 'passengers', 'company', 'driver', 'exp_date', 'is_active')
+    list_display = ('traffic_plate_no', 'brand', 'model', 'type', 'category', 'passengers', 'company', 'driver', 'exp_date', 'is_actived')
 
     list_display_links = ('traffic_plate_no', 'brand', 'model', 'type', 'category', 'passengers', 'company', 'driver', 'exp_date')
 
     raw_id_fields = ('model', 'company', 'driver')
 
-    list_editable = ('is_active', )
+    list_editable = ('is_actived', )
 
     readonly_fields = ('brand', 'type', 'category', 'passengers')
 
     list_filter = (
-        'is_active', 'model__brand', 'model__type', 'model__category', 
+        'is_actived', 'model__brand', 'model__type', 'model__category', 
         ('order__arrival_time', OrderTimeListFilter),
         ('order__departure_time', OrderTimeListFilter),
-        ('task__day', OrderTimeListFilter),
+        'task__day',
+        'task__is_freedom_day'
     )
 
     def brand(self, obj):

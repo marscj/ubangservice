@@ -116,7 +116,7 @@ class CustomerUserAdmin(UserAdmin):
         ),
         (_('Personal info'), {
             'classes': ('grp-collapse grp-open',),
-            'fields': ('company', 'is_driver', 'is_tourguide', 'first_name', 'last_name', 'phone', 'email', 'wechart', 'gender', 'country', 'photo')
+            'fields': ('company', 'is_actived', 'is_driver', 'is_tourguide', 'first_name', 'last_name', 'phone', 'email', 'wechart', 'gender', 'country', 'photo')
         }),
         (_('Permissions'), {
             'classes': ('grp-collapse grp-open',),
@@ -129,25 +129,29 @@ class CustomerUserAdmin(UserAdmin):
     )
 
     list_display = (
-        'username', 'company', 'full_name', 'is_driver', 'is_tourguide', 'phone', 'email', 'wechart', 'gender', 'is_staff', 'is_superuser'
+        'username', 'company', 'full_name', 'is_driver', 'is_tourguide', 'phone', 'email', 'wechart', 'gender', 'is_staff', 'is_superuser', 'is_actived'
+    )
+
+    list_display_links = (
+        'username', 'company', 'full_name', 'phone', 'email', 'wechart', 'gender', 'is_staff', 'is_superuser',
     )
 
     list_filter = (
-        'company', 'gender', 'is_driver', 'is_tourguide', 'is_staff', 'is_active',
+        'company', 'gender', 'is_driver', 'is_tourguide', 'is_staff', 'is_actived',
         ('order__arrival_time', DateTimeListFilter),
         ('order__departure_time', DateTimeListFilter),
-        ('task__day', DateTimeListFilter)
+        'task__day',
+        'task__is_freedom_day'
     )
 
     search_fields = (
         'username', 'phone', 'email', 'wechart', 'order__arrival_time'
     )
 
+    list_editable = (
+        'is_actived', 'is_driver', 'is_tourguide'
+    )
+
     filter_horizontal = ('user_permissions',)
 
     raw_id_fields = ('company',)
-
-    list_display_links = list_display
-
-    def lookup_allowed(self, lookup, value):
-        return True

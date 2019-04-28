@@ -13,7 +13,7 @@ class TaskInline(admin.TabularInline):
             'admin/js/task.js'
         ]
     
-    fields = ('taskId', 'day', 'itinerary', 'guide', 'vehicle', 'remark')
+    fields = ('taskId', 'day', 'is_freedom_day', 'itinerary', 'guide', 'vehicle', 'remark')
 
     raw_id_fields = ('vehicle', 'guide', )
 
