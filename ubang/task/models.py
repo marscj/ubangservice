@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.contrib.contenttypes.fields import GenericForeignKey 
 from django.contrib.contenttypes.models import ContentType
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.utils.translation import ugettext_lazy as _
 
 from django.conf import settings
@@ -56,6 +56,14 @@ class Task(models.Model):
 
     def __str__(self):
         return str(self.taskId)
+
+    def validate_unique(self, exclude=None):
+        if Task.objects.exclude(pk=self.pk).filter(day=self.day, is_freedom_day=self.is_freedom_day).filter(
+            Q(guide=self.guide) | Q (vehicle=self.vehicle)
+        ).exists():
+            raise ValidationError("Task with this Day, Guide or Vehicle and Freedom Day? already exists.")
+        
+        return super().validate_unique(exclude)
 
 class TaskPrice(models.Model):
     type = models.IntegerField(default=TaskPriceType.Vehicle, choices=TaskPriceType.CHOICES)
