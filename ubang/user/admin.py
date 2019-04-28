@@ -8,7 +8,7 @@ from django.contrib.auth import get_user_model
 from .models import CustomUser
 from .forms import CustomUserCreationForm
 from ubang.resource.models import Image
-from input_filter.admin import InputFilter
+from input_filter.filter import InputFilter
 
 admin.site.site_title = 'UBang'
 admin.site.site_header = 'UBang Service'
