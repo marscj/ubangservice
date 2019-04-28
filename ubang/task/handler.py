@@ -23,17 +23,26 @@ def task_model_post_save(sender, **kwargs):
     task = kwargs['instance']
     
     guide_total_gross, guide_total = get_guide_price(task.itinerary, task.guide)
-    if guide_total_gross and guide_total:
-        get_or_create_taskprice(order=task.order, task=task, type=TaskPriceType.Guide, total=guide_total, total_gross=guide_total_gross, description='for the guide')
+    if guide_total_gross and guide_total and not task.is_freedom_day:
+        price = get_or_create_taskprice(order=task.order, task=task, type=TaskPriceType.Guide)
+        price.total=guide_total
+        price.total_gross=guide_total_gross
+        price.description='for the %s guide price' % task.day
+        price.save()
 
     vehicle_total_gross, vehicle_total = get_vehicle_price(task.itinerary, task.vehicle, task.order.discount_value)
-    if vehicle_total_gross and vehicle_total:
-        get_or_create_taskprice(order=task.order, task=task, type=TaskPriceType.Vehicle, total=vehicle_total, total_gross=vehicle_total_gross, discount_name=task.order.discount_name, description='for the vehicle')
+    if vehicle_total_gross and vehicle_total and not task.is_freedom_day:
+        price = get_or_create_taskprice(order=task.order, task=task, type=TaskPriceType.Vehicle)
+        price.total=vehicle_total
+        price.total_gross=vehicle_total_gross
+        price.discount_name=task.order.discount_name
+        price.description='for the %s vehicle price' % task.day
+        price.save()
 
-    if task.guide is None or task.itinerary is None:
+    if (task.guide is None or task.itinerary is None) or task.is_freedom_day:
         delete_price(task, TaskPriceType.Guide)
 
-    if task.vehicle is None or task.itinerary is None:
+    if (task.vehicle is None or task.itinerary is None) or task.is_freedom_day:
         delete_price(task, TaskPriceType.Vehicle)
 
 @receiver(pre_delete, sender=Task)

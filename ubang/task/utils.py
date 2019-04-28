@@ -26,11 +26,11 @@ def get_guide_price(itinerary, guide):
 
     return None, None
 
-def get_or_create_taskprice(order, task, type=TaskPriceType.Vehicle, discount_name='no discount', total=Decimal(0.0), total_gross=Decimal(0.0), extra=Decimal(0.0), description=None):
-    return TaskPrice.objects.get_or_create(order=order, task=task, type=type, discount_name=discount_name, total=total, total_gross=total_gross, extra=extra, description=description)
+def get_or_create_taskprice(order, task, type=TaskPriceType.Vehicle):
+    return TaskPrice.objects.get_or_create(order=order, task=task, type=type)[0]
 
 def delete_price(task, type):
     try:
-        return TaskPrice.objects.get(task=task, type=type).delete()
+        TaskPrice.objects.filter(task=task, type=type).delete()
     except TaskPrice.DoesNotExist:
         pass
