@@ -8,6 +8,7 @@ from django.contrib.auth import get_user_model
 from .models import CustomUser
 from .forms import CustomUserCreationForm
 from ubang.resource.models import Image
+from input_filter.admin import InputFilter
 
 admin.site.site_title = 'UBang'
 admin.site.site_header = 'UBang Service'
@@ -27,6 +28,22 @@ class OrderTimeListFilter(admin.DateFieldListFilter):
             # return queryset.filter(**self.used_parameters)
         except (ValueError, ValidationError) as e:
             raise IncorrectLookupParameters(e)
+
+class ArrivalTimeFilter(InputFilter):
+    parameter_name = 'arrival_time'
+    title = _('Arrival Time')
+    
+    def queryset(self, request, queryset):
+        term = self.value()
+        if term is None:
+            return
+        any_name = Q()
+        # for bit in term.split():
+        #     any_name &= (
+        #         Q(user__first_name__icontains=bit) |
+        #         Q(user__last_name__icontains=bit)
+        #     )
+        # return queryset.filter(any_name)
 
 @admin.register(CustomUser)
 class CustomerUserAdmin(UserAdmin):
@@ -67,9 +84,10 @@ class CustomerUserAdmin(UserAdmin):
 
     list_filter = (
         'company', 'gender', 'is_driver', 'is_tourguide', 'is_staff', 'is_active',
-        ('order__arrival_time', admin.AllValuesFieldListFilter),
-        ('order__departure_time', admin.AllValuesFieldListFilter),
-        ('task__day', admin.AllValuesFieldListFilter),
+        (ArrivalTimeFilter),
+        # ('order__arrival_time', admin.AllValuesFieldListFilter),
+        # ('order__departure_time', admin.AllValuesFieldListFilter),
+        # ('task__day', admin.AllValuesFieldListFilter),
     )
 
     search_fields = (
