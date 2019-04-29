@@ -83,13 +83,10 @@ class OrderAdmin(admin.ModelAdmin):
     def update_status(self, request, queryset):
         if 'apply' in request.POST:
             queryset.update(status=OrderStatus.Confirm)
-            self.message_user(request,
-                              "Changed status on {} orders".format(queryset.count()))
+            self.message_user(request, "Changed status on {} orders".format(queryset.count()))
             return HttpResponseRedirect(request.get_full_path())
-                        
-        return render(request,
-                      'admin/order_intermediate.html',
-                      context={'orders':queryset})
+
+        return render(request,'admin/order_intermediate.html',context={'orders':queryset})
 
     update_status.short_description = "Update status"
 
