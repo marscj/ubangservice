@@ -1,8 +1,6 @@
 (function($) {
     'use strict';
 
-    
-
     $(document).ready(function() {
         console.log('hello oder');
 
@@ -21,7 +19,7 @@
 
                 var url1 = "&order__arrival_time__gte=" + arrival_time + "&order__arrival_time__lt=" + departure_time;
                 var url2 = "&order__departure_time__gte=" + arrival_time + "&order__departure_time__lt=" + departure_time;
-                var url = url1 + url2;
+                var url = url1 + url2 + '&is_actived=1';
            
                 set_vehicle_lookup($("#lookup_id_vehicle"), url);
             }
@@ -42,7 +40,7 @@
 
                 var url1 = "&order__arrival_time__gte=" + arrival_time + "&order__arrival_time__lt=" + departure_time;
                 var url2 = "&order__departure_time__gte=" + arrival_time + "&order__departure_time__lt=" + departure_time;
-                var url = url1 + url2 + "&is_tourguide=1";
+                var url = url1 + url2 + "&is_tourguide=1" + "&is_actived=1";
            
                 set_guide_lookup($("#lookup_id_guide"), url);
             }

@@ -4,11 +4,12 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import ugettext_lazy as _
 from django.utils.crypto import get_random_string
+from django.utils.timezone import now
 from django.conf import settings
 
 from phonenumber_field.modelfields import PhoneNumberField
 from decimal import Decimal
-from datetime import datetime
+
 
 from ubang.user.models import CustomUser
 from ubang.company.models import Discount
@@ -31,9 +32,6 @@ class OrderQueryset(models.QuerySet):
             (Q(arrival_time__range=(arrival_time, departure_time)) | Q(departure_time__range=(arrival_time, departure_time)))
         ).exists()
 
-    # def fillter_arrival_time_guide(arrival_time):
-    #     return self.exclude(Q(arrival_time__range=(arrival_time, departure_time))
-
 class Order(models.Model):
     
     # id
@@ -46,7 +44,7 @@ class Order(models.Model):
     departure_time = models.DateTimeField()
     
     # 订单状态
-    status = models.IntegerField(default=OrderStatus.Open, choices=OrderStatus.CHOICES)
+    status = models.IntegerField(default=OrderStatus.Draft, choices=OrderStatus.CHOICES)
 
     # 送车地址
     pick_up_addr = models.CharField(max_length=128, blank=True, null=True)
@@ -65,6 +63,9 @@ class Order(models.Model):
 
     # 最后修改时间
     change_at = models.DateTimeField(auto_now=True)
+
+    # 过期
+    time_of_expiry = models.DateTimeField(default=now)
         
     # 备注
     remark = models.TextField(max_length=256, blank=True, null=True)

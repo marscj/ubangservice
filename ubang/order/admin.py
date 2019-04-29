@@ -1,16 +1,22 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from django.core.exceptions import ValidationError
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.contrib import messages
 
 from datetime import datetime
 
 from .models import Order
 from .forms import OrderForm
+from .import OrderStatus
 from ubang.task.admin import TaskInline, TaskPriceInline, TaskProgressInline
 from ubang.payment.admin import PaymentInline
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
+
+    actions = ['update_status']
 
     class Media:
         js = [
@@ -74,6 +80,19 @@ class OrderAdmin(admin.ModelAdmin):
 
     hyper_link.short_description = 'Hyperlink'
 
+    def update_status(self, request, queryset):
+        if 'apply' in request.POST:
+            queryset.update(status=OrderStatus.Confirm)
+            self.message_user(request,
+                              "Changed status on {} orders".format(queryset.count()))
+            return HttpResponseRedirect(request.get_full_path())
+                        
+        return render(request,
+                      'admin/order_intermediate.html',
+                      context={'orders':queryset})
+
+    update_status.short_description = "Update status"
+
     #  def project_contacts(self):
     #        try:
     #        return ",".join(map(lambda c: c.name ,  self.project.contact.all()))
@@ -91,3 +110,10 @@ class OrderAdmin(admin.ModelAdmin):
             return ()
         else:
             return super().get_inline_instances(request, obj)
+
+    def save_model(self, request, obj, form, change):
+
+        if obj.status == OrderStatus.Draft:
+            messages.warning(request, 'You only have 2 hours to confirm the order, otherwise it will expire')
+
+        return super().save_model(request, obj, form, change)

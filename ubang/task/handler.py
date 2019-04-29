@@ -17,6 +17,10 @@ def task_model_pre_save(sender, **kwargs):
     
     if task.taskId is None or task.taskId == '':
         task.taskId  = datetime.now().strftime('%Y%m%d%H%M%S') + '-%s' % get_random_string(4, allowed_chars='0123456789')
+
+    if task.is_freedom_day:
+        task.itinerary = None
+        task.remark = 'freedom day'
     
 @receiver(post_save, sender=Task)
 def task_model_post_save(sender, **kwargs):
