@@ -31,7 +31,7 @@ def task_model_post_save(sender, **kwargs):
         price = get_or_create_taskprice(order=task.order, task=task, type=TaskPriceType.Guide)
         price.total=guide_total
         price.total_gross=guide_total_gross
-        price.description='for the %s guide price' % task.day
+        price.description='for the %s guide charge' % task.day
         price.save()
 
     vehicle_total_gross, vehicle_total = get_vehicle_price(task.itinerary, task.vehicle, task.order.discount_value)
@@ -40,7 +40,7 @@ def task_model_post_save(sender, **kwargs):
         price.total=vehicle_total
         price.total_gross=vehicle_total_gross
         price.discount_name=task.order.discount_name
-        price.description='for the %s vehicle price' % task.day
+        price.description='for the %s vehicle charge' % task.day
         price.save()
 
     if (task.guide is None or task.itinerary is None) or task.is_freedom_day:

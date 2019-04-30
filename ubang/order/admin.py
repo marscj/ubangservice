@@ -1,12 +1,13 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from django.core.exceptions import ValidationError
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.contrib import messages
-from functools import update_wrapper
 from django.contrib.admin.templatetags.admin_urls import add_preserved_filters
+from functools import update_wrapper
+
 
 from datetime import datetime
 
@@ -21,7 +22,6 @@ class OrderAdmin(admin.ModelAdmin):
 
     form = OrderForm
 
-    # change_form_template = 'admin/order/change_form.html'
     confirm_template = 'admin/order/confirm.html'
 
     inlines = (TaskInline, TaskPriceInline, TaskProgressInline, PaymentInline, )
@@ -31,7 +31,7 @@ class OrderAdmin(admin.ModelAdmin):
             'classes': ('grp-collapse grp-open',),
             'fields': ('orderId', 'status', 'contact_name', 'contact_phone', 'arrival_time', 'departure_time', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 'link', 'remark')
         }),
-        ('Price Info', {
+        ('Charge Info', {
             'classes': ('grp-collapse grp-closed',),
             'fields': ('discount_name', 'total',)
         }),
@@ -53,7 +53,7 @@ class OrderAdmin(admin.ModelAdmin):
     )
 
     list_display = (
-       'orderId', 'status', 'create_by', 'contact_name', 'contact_phone', 'arrival_time', 'departure_time', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 'discount_name', 'total', 'remark', 'hyper_link'
+       'orderId', 'status', 'create_by', 'contact_name', 'contact_phone', 'arrival_time', 'departure_time', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 'discount_name', 'total', 'remark', 'hyper_link', 'tasks'
     )
 
     list_display_links = list_display
@@ -168,8 +168,5 @@ class OrderAdmin(admin.ModelAdmin):
         redirect_url = add_preserved_filters({'preserved_filters': preserved_filters, 'opts': opts}, redirect_url)
         return HttpResponseRedirect(redirect_url)
 
-    #  def project_contacts(self):
-    #        try:
-    #        return ",".join(map(lambda c: c.name ,  self.project.contact.all()))
-    #    except Exception, e : 
-    #        return "Error:%s" % str(e)
+    def tasks(self, obj):
+        return mark_safe("<br>".join(['%s %s %s %s'% (task.day, task.guide or '', task.vehicle or '', task.itinerary or '') for task in obj.task.all()]))

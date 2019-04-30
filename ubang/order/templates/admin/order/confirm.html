@@ -22,71 +22,114 @@
 
 {% block content %}
 <form action="" method="post" novalidate>{% csrf_token %}
-    {% if show_confirm %}
-        <h1>Confirm Order</h1>
-    {% endif %}
-    
-    {% if show_cancel %}
-        <h1>Cancel Order</h1>
-    {% endif %}
-    
-    <div class="g-d-c" >
-        <div class="g-d-24">
-            <div class="grp-doc-description">
-                <p>Please check the order.</p>
+{% if show_confirm %}
+    <h1>Confirm Order</h1>
+{% endif %}
+
+{% if show_cancel %}
+    <h1>Cancel Order</h1>
+{% endif %}
+
+<div class="g-d-c" >
+    <div class="g-d-24">
+        <div class="grp-doc-description">
+            <p>Please check the order.</p>
+        </div>
+    </div>
+    <section>
+        <div class="xg-d-24 g-d-c-fluid">
+            <div class="grp-doc-code-source">
+                <fieldset class="grp-module">
+                    <h2>Order Detail </h2>
+                    <div class="grp-row">
+                        <div class="l-2c-fluid l-d-4">
+                            <div class="c-1"><label>Order Id:</label></div>
+                            <div class="c-2">
+                                <div class="grp-readonly">{{ object.orderId }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grp-row">
+                        <div class="l-2c-fluid l-d-4">
+                            <div class="c-1"><label>Arrival Time:</label></div>
+                            <div class="c-2">
+                                <div class="grp-readonly">{{ object.arrival_time }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grp-row">
+                        <div class="l-2c-fluid l-d-4">
+                            <div class="c-1"><label>Departure Time:</label></div>
+                            <div class="c-2">
+                                <div class="grp-readonly">{{ object.departure_time }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grp-row">
+                        <div class="l-2c-fluid l-d-4">
+                            <div class="c-1"><label>Vehicle:</label></div>
+                            <div class="c-1">
+                                <div class="grp-readonly">{{ object.vehicle.model.name }}</div>
+                            </div>
+                            <div class="c-1">
+                                <div class="grp-readonly">{{ object.vehicle.traffic_plate_no }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grp-row">
+                        <div class="l-2c-fluid l-d-4">
+                            <div class="c-1"><label>Guide:</label></div>
+                            <div class="c-2">
+                                <div class="grp-readonly">{{ object.guide.username }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grp-row">
+                        <div class="l-2c-fluid l-d-4">
+                            <div class="c-1"><label>Pick up address:</label></div>
+                            <div class="c-2">
+                                <div class="grp-readonly">{{ object.pick_up_addr}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grp-row">
+                        <div class="l-2c-fluid l-d-4">
+                            <div class="c-1"><label>Drop off address:</label></div>
+                            <div class="c-2">
+                                <div class="grp-readonly">{{ object.drop_off_addr }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grp-row">
+                        <div class="l-2c-fluid l-d-4">
+                            <div class="c-1"><label>Total charges:</label></div>
+                            <div class="c-2">
+                                <div class="grp-readonly">{{ object.total }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
             </div>
         </div>
-        <section>
-            <div class="xg-d-24 g-d-c-fluid">
-                <div class="grp-doc-code-source">
-                    <fieldset class="grp-module">
-                        <h2>Order Detail </h2>
-                        <div class="grp-row">
-                            <div class="l-2c-fluid l-d-4">
-                                <div class="c-1"><label>Order Id:</label></div>
-                                <div class="c-2">
-                                    <div class="grp-readonly">{{ object.orderId }}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="grp-row">
-                            <div class="l-2c-fluid l-d-4">
-                                <div class="c-1"><label>Arrival Time:</label></div>
-                                <div class="c-2">
-                                    <div class="grp-readonly">{{ object.arrival_time }}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="grp-row">
-                            <div class="l-2c-fluid l-d-4">
-                                <div class="c-1"><label>Departure Time:</label></div>
-                                <div class="c-2">
-                                    <div class="grp-readonly">{{ object.departure_time }}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-            </div>
-        </section>
-    </div>
+    </section>
+</div>
 
-    <footer class="grp-module grp-submit-row grp-fixed-footer">
-        <ul>
-            {% url opts|admin_urlname:'change' object.pk|admin_urlquote as object_url %}
-            <li class="grp-float-left"><a href="{% add_preserved_filters object_url %}" class="grp-button grp-cancel-link">{% trans "Back" %}</a></li>
-            <li>
+<footer class="grp-module grp-submit-row grp-fixed-footer">
+    <ul>
+        {% url opts|admin_urlname:'change' object.pk|admin_urlquote as object_url %}
+        <li class="grp-float-left"><a href="{% add_preserved_filters object_url %}" class="grp-button grp-cancel-link">{% trans "Back" %}</a></li>
+        <li>
 
-                {% if show_confirm %}
-                    <input type="submit" name="confirm" value="{% trans "Confirm Order" %}" class="grp-button grp-default" />
-                {% endif %}
+            {% if show_confirm %}
+                <input type="submit" name="confirm" value="{% trans "Confirm Order" %}" class="grp-button grp-default" />
+            {% endif %}
 
-                {% if show_cancel %}
-                    <input type="submit" name="cancel" value="{% trans "Cancel Order" %}" class="grp-button grp-default" />
-                {% endif %}
-            </li>
-        </ul>
-    </footer>
+            {% if show_cancel %}
+                <input type="submit" name="cancel" value="{% trans "Cancel Order" %}" class="grp-button grp-default" />
+            {% endif %}
+        </li>
+    </ul>
+</footer>
 </form>
 
 {% endblock %}

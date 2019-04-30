@@ -47,10 +47,10 @@ class Order(models.Model):
     status = models.IntegerField(default=OrderStatus.Draft, choices=OrderStatus.CHOICES)
 
     # 送车地址
-    pick_up_addr = models.CharField(max_length=128, blank=True, null=True)
+    pick_up_addr = models.CharField(max_length=128, blank=True, null=True, verbose_name='Pick up address')
 
     # 还车地址
-    drop_off_addr = models.CharField(max_length=128, blank=True, null=True)
+    drop_off_addr = models.CharField(max_length=128, blank=True, null=True, verbose_name='Drop off address')
 
     # 联系人姓名
     contact_name = models.CharField(max_length=64)
