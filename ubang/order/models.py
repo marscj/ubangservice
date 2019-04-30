@@ -119,6 +119,22 @@ class Order(models.Model):
     def __str__(self):
         return str(self.orderId)
 
+    def can_confirm(self):
+        return self.status == OrderStatus.Draft
+
+    def can_cancel(self):
+        return self.status == OrderStatus.Confirm
+
+    def confirm(self):
+        if self.can_confirm():
+            self.status = OrderStatus.Confirm
+            self.save()
+
+    def cancel(self):
+        if self.can_cancel():
+            self.status = OrderStatus.Cancel
+            self.save()
+
     @property
     def total(self):
         total = Decimal(0.0)

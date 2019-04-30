@@ -1,0 +1,12 @@
+{% load i18n admin_urls %}
+{% block submit_buttons_bottom %}
+{{ block.super }}
+<footer class="grp-module grp-submit-row">
+    <h1 style="display:block;text-align:center;">Submit Options</h1>
+    <div align="center" >
+        {% url opts|admin_urlname:'manage' original.pk|admin_urlquote as manage_url %}
+        <a href="{% add_preserved_filters manage_url %}" class="grp-button grp-default" >{% trans "Confirm Order" %}</a>
+        {% comment %} <input class="grp-button grp-default"  type="submit" style="font-size:20px; height:45px;width:180px;display:inline-block;" value="Confirm Order" name="_confirm_order"/>  {% endcomment %}
+    </div>
+</footer>
+{% endblock %} 
