@@ -18,9 +18,6 @@ def booking_model_pre_save(sender, **kwargs):
     if booking.bookingId is None or booking.bookingId == '':
         booking.bookingId = datetime.now().strftime('%Y%m%d%H%M%S') + '-%s' % get_random_string(4, allowed_chars='0123456789')
 
-    booking.discount_name = 'no discount'
-    booking.discount_value = Decimal(0.0)
-
 @receiver(post_save, sender=Booking)
 def booking_model_post_save(sender, **kwargs):
     booking = kwargs['instance']

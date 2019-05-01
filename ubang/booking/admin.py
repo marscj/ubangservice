@@ -38,7 +38,7 @@ class ItineraryInline(admin.TabularInline):
     extra = 0
     formset = ItineraryInlineFormSet
 
-    fields = ('day', 'is_freedom_day', 'itinerary', 'remark')
+    fields = ('day', 'itinerary', 'remark')
 
     # readonly_fields = ('day', )
 

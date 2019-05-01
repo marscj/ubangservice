@@ -2,8 +2,6 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 
-from decimal import Decimal
-
 from phonenumber_field.modelfields import PhoneNumberField
 from mptt.models import MPTTModel
 
@@ -61,10 +59,6 @@ class Booking(MPTTModel):
     # 订单
     order = models.ForeignKey(Order, related_name='bookings', on_delete=models.CASCADE, blank=True, null=True)
 
-    # 折扣
-    discount_name = models.CharField(max_length=128, default='no discount', blank=True, null=True)
-    discount_value = models.DecimalField(default=Decimal(0.0), max_digits=3, decimal_places=2, blank=True, null=True)
-
     parent = models.ForeignKey('self', related_name='children', on_delete=models.CASCADE, null=True, blank=True)
 
     objects = BookingQuerySet.as_manager()
@@ -79,15 +73,13 @@ class Booking(MPTTModel):
     @property
     def apply(self):
         if self.order:
-            return self.order.apply == self.bookingId
+            return self.order.applyId == self.bookingId
         return False
 
 class Itinerary(models.Model):
     
     # 日期
     day = models.DateField()
-
-    is_freedom_day = models.BooleanField(default=False, verbose_name='Freedom Day?')
 
     # 内容
     itinerary = models.ForeignKey(_Itinerary, related_name='itinerary', on_delete=models.SET_NULL, blank=True, null=True)

@@ -67,7 +67,7 @@ class OrderAdmin(admin.ModelAdmin):
     fieldsets = ( 
         (None, {
             'classes': ('grp-collapse grp-open',),
-            'fields': ('orderId', 'status', 'start_time', 'end_time', 'vehicle', 'guide', 'remark', 'booking')
+            'fields': ('orderId', 'status', 'start_time', 'end_time', 'vehicle', 'guide', 'remark')
         }),
         ('Customer Info', {
             'classes': ('grp-collapse grp-closed',),
@@ -81,6 +81,10 @@ class OrderAdmin(admin.ModelAdmin):
             'classes': ('grp-collapse grp-closed',),
             'fields': ('total',)
         }),
+    )
+
+    readonly_fields = (
+        'orderId', 'customer', 'company', 'total'
     )
 
     list_display = (
@@ -109,3 +113,12 @@ class OrderAdmin(admin.ModelAdmin):
 
     def task(self, obj):
         return mark_safe("<br>".join(['%s %s %s %s'% (task.day, task.guide or '', task.vehicle or '', task.itinerary or '') for task in obj.task.all()]))
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
+
+        return False

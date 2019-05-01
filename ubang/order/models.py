@@ -44,7 +44,7 @@ class Order(models.Model):
     end_time = models.DateTimeField()
     
     # 订单状态
-    status = models.IntegerField(default=OrderStatus.Draft, choices=OrderStatus.CHOICES)
+    status = models.IntegerField(default=OrderStatus.Open, choices=OrderStatus.CHOICES)
 
     # 导游
     guide = models.ForeignKey(CustomUser, related_name='order_guide', on_delete=models.SET_NULL, blank=True, null=True)
@@ -53,10 +53,12 @@ class Order(models.Model):
     vehicle = models.ForeignKey(Vehicle, related_name='order', on_delete=models.SET_NULL, null=True)
 
     # 客户
-    customer = models.ForeignKey(CustomUser, related_name='order_customer', on_delete=models.SET_NULL, null=True)
+    customer = models.ForeignKey(CustomUser, related_name='order_customer', on_delete=models.SET_NULL, null=True, editable=False)
     
     # 公司
     company = models.ForeignKey(Company, related_name='order', on_delete=models.SET_NULL, null=True, editable=False)
+
+    applyId = models.CharField(max_length=64, editable=False, blank=True, null=True)
 
     # 创建时间
     create_at = models.DateTimeField(auto_now_add=True)
@@ -92,9 +94,6 @@ class Order(models.Model):
     @property
     def total(self):
         total = Decimal(0.0)
-        for price in self.price.all():
-            total += price.total
-        
         return total
 
 class TaskQuerySet(models.QuerySet):
