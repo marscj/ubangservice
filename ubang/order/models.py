@@ -20,16 +20,16 @@ from .validators import customer_validator
 
 class OrderQueryset(models.QuerySet):
     
-    def check_vehicle(self, orderId, arrival_time, departure_time, vehicle):
+    def check_vehicle(self, orderId, start_time, end_time, vehicle):
         return self.filter(
             Q(vehicle=vehicle) & ~Q(orderId=orderId) &
-            (Q(arrival_time__range=(arrival_time, departure_time)) | Q(departure_time__range=(arrival_time, departure_time)))
+            (Q(start_time__range=(start_time, end_time)) | Q(end_time__range=(start_time, end_time)))
         ).exists()
 
-    def check_guide(self, orderId, arrival_time, departure_time, guide):
+    def check_guide(self, orderId, start_time, end_time, guide):
         return self.filter(
             Q(guide=guide) & ~Q(orderId=orderId) &
-            (Q(arrival_time__range=(arrival_time, departure_time)) | Q(departure_time__range=(arrival_time, departure_time)))
+            (Q(start_time__range=(start_time, end_time)) | Q(end_time__range=(start_time, end_time)))
         ).exists()
 
 class Order(models.Model):
@@ -38,77 +38,31 @@ class Order(models.Model):
     orderId = models.CharField(max_length=64, unique=True, editable=False)
 
     # 开始时间
-    arrival_time = models.DateTimeField()
+    start_time = models.DateTimeField()
 
     # 结束时间
-    departure_time = models.DateTimeField()
+    end_time = models.DateTimeField()
     
     # 订单状态
     status = models.IntegerField(default=OrderStatus.Draft, choices=OrderStatus.CHOICES)
 
-    # 送车地址
-    pick_up_addr = models.CharField(max_length=128, blank=True, null=True, verbose_name='Pick up address')
-
-    # 还车地址
-    drop_off_addr = models.CharField(max_length=128, blank=True, null=True, verbose_name='Drop off address')
-
-    # 联系人姓名
-    contact_name = models.CharField(max_length=64)
-
-    # 联系人电话
-    contact_phone = PhoneNumberField()
-
-    # 创建时间
-    create_at = models.DateTimeField(auto_now_add=True)
-
-    # 最后修改时间
-    change_at = models.DateTimeField(auto_now=True)
-
-    # 过期
-    time_of_expiry = models.DateTimeField(default=now)
-        
-    # 备注
-    remark = models.TextField(max_length=256, blank=True, null=True)
-
-    # link
-    link = models.URLField(default='', blank=True)
-
     # 客户
-    create_by = models.ForeignKey(CustomUser, related_name='%(class)s_create_by_user', on_delete=models.SET_NULL, null=True, verbose_name = 'Customer')    
-
-    update_by = models.ForeignKey(CustomUser, related_name='%(class)s_update_by_user', on_delete=models.SET_NULL, null=True)
-
-    # 客户名称
-    customer_name = models.CharField(max_length=128, blank=True, null=True, verbose_name='name')
-
-    # 客户电话
-    customer_phone = PhoneNumberField(blank=True, null=True, verbose_name='phone')
-
-    # 客户公司
-    customer_company = models.CharField(max_length=128, blank=True, null=True, verbose_name='company')
-
-    # 客户公司电话
-    customer_company_phone = models.CharField(max_length=128, blank=True, null=True, verbose_name='company phone')
-
-    # 客户公司固定电话
-    customer_company_tel = models.CharField(max_length=128, blank=True, null=True, verbose_name='company tel')
-
-    # 客户公司地址
-    customer_company_address = models.CharField(max_length=128, blank=True, null=True, verbose_name='company address')
-
-    # 客户公司折扣
-    customer_company_discount = models.CharField(max_length=128, blank=True, null=True, verbose_name='company discount')
-
-    # 折扣
-    discount_name = models.CharField(max_length=128, default=None, null=True)
-
-    discount_value = models.DecimalField(default=None, max_digits=3, decimal_places=2, validators=[MinValueValidator(0.0), MaxValueValidator(1.0)], blank=True, null=True, editable=False)
-
+    customer = models.ForeignKey(CustomUser, related_name='order', on_delete=models.SET_NULL, null=True, verbose_name = 'Customer')
+    
+    # 公司
+    company = models.ForeignKey(Company, related_name='booking', on_delete=models.SET_NULL, null=True, verbose_name = 'Company', editable=False)
+    
     # 导游
     guide = models.ForeignKey(CustomUser, related_name='order', on_delete=models.SET_NULL, blank=True, null=True)
     
     # 车辆
     vehicle = models.ForeignKey(Vehicle, related_name='order', on_delete=models.SET_NULL, null=True)
+
+    # 创建时间
+    create_at = models.DateTimeField(auto_now_add=True)
+
+    # 备注
+    remark = models.TextField(max_length=256, blank=True, null=True)
 
     objects = OrderQueryset.as_manager()
 

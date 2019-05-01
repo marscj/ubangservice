@@ -13,8 +13,6 @@ from ubang.booking.models import Booking
 from ubang.vehicle.models import Vehicle
 
 class OrderForm(forms.ModelForm):
-
-    booking = forms.ModelChoiceField(required=True, queryset=None)
     
     contact_phone = PhoneNumberField(
         required=True,
@@ -31,13 +29,13 @@ class OrderForm(forms.ModelForm):
         
         instance = getattr(self, 'instance', None)
         
-        if instance and instance.arrival_time:
-            self.fields['arrival_time'].widget.attrs['readonly'] = True
-            self.fields['arrival_time'].disabled = True
+        if instance and instance.start_time:
+            self.fields['start_time'].widget.attrs['readonly'] = True
+            self.fields['start_time'].disabled = True
         
-        if instance and instance.departure_time:
-            self.fields['departure_time'].widget.attrs['readonly'] = True
-            self.fields['departure_time'].disabled = True
+        if instance and instance.end_time:
+            self.fields['end_time'].widget.attrs['readonly'] = True
+            self.fields['end_time'].disabled = True
 
         if instance and instance.vehicle:
             self.fields['vehicle'].widget.attrs['readonly'] = True
@@ -47,23 +45,20 @@ class OrderForm(forms.ModelForm):
             self.fields['guide'].widget.attrs['readonly'] = True
             self.fields['guide'].disabled = True
 
-        self.fields['booking'].initial = Booking.objects.get(primary_order=instance)
-        self.fields['booking'].queryset = Booking.objects.filter(order=instance)
-
-    def clean_departure_time(self):
-        arrival_time = self.cleaned_data.get('arrival_time')
-        departure_time = self.cleaned_data.get('departure_time')
+    def clean_end_time(self):
+        start_time = self.cleaned_data.get('start_time')
+        end_time = self.cleaned_data.get('end_time')
         
-        if arrival_time and departure_time:
-            duration = departure_time - arrival_time
+        if start_time and end_time:
+            duration = end_time - start_time
 
-            if arrival_time > departure_time:
+            if start_time > end_time:
                 raise ValidationError('Ensure arrival time is less than departure time')
             
             if duration.total_seconds() < 3600:
                 raise ValidationError('Ensure duration is greater than 1 hour')
         
-        return departure_time
+        return end_time
 
     def get_orderId(self):
         instance = getattr(self, 'instance', None)
@@ -72,12 +67,12 @@ class OrderForm(forms.ModelForm):
 
     def clean_vehicle(self):
         vehicle = self.cleaned_data.get('vehicle')
-        arrival_time = self.cleaned_data.get('arrival_time')
-        departure_time = self.cleaned_data.get('departure_time')
+        start_time = self.cleaned_data.get('start_time')
+        end_time = self.cleaned_data.get('end_time')
         orderId = self.get_orderId()
 
-        if vehicle and arrival_time and departure_time:
-            if Order.objects.check_vehicle(orderId, arrival_time, departure_time, vehicle):
+        if vehicle and start_time and end_time:
+            if Order.objects.check_vehicle(orderId, start_time, end_time, vehicle):
                 raise ValidationError('Order with this time and vehicle already exists.')
          
         if vehicle and not vehicle.is_actived:
@@ -87,12 +82,12 @@ class OrderForm(forms.ModelForm):
 
     def clean_guide(self):
         guide = self.cleaned_data.get('guide')
-        arrival_time = self.cleaned_data.get('arrival_time')
-        departure_time = self.cleaned_data.get('departure_time')
+        start_time = self.cleaned_data.get('start_time')
+        end_time = self.cleaned_data.get('end_time')
         orderId = self.get_orderId()
 
-        if guide and arrival_time and departure_time:
-            if Order.objects.check_guide(orderId, arrival_time, departure_time, guide):
+        if guide and start_time and end_time:
+            if Order.objects.check_guide(orderId, start_time, end_time, guide):
                 raise ValidationError('Order with this time and guide already exists.')
 
         if guide and not guide.is_tourguide:
@@ -102,23 +97,4 @@ class OrderForm(forms.ModelForm):
             raise ValidationError('Ensure %s is active' % guide)
         
         return guide
-
-    # def clean_booking(self):
-    #     booking = self.cleaned_data.get('booking')
-
-    #     if booking:
-    #         booking.primary_order = getattr(self, 'instance', None)
-    #         booking.save()
-
-    def save(self, commit=True):
-        order = super().save(commit=False)
-
-        booking = self.cleaned_data.get('booking')
-
-        if booking:
-            Booking.apply_order(order, booking)
-        
-
-        return super().save(commit)
-    
     

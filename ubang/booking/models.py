@@ -26,16 +26,19 @@ class Booking(MPTTModel):
     contact_phone = PhoneNumberField()
 
     # 开始时间
-    arrival_time = models.DateTimeField()
+    start_time = models.DateTimeField()
 
     # 结束时间
-    departure_time = models.DateTimeField()
+    end_time = models.DateTimeField()
 
     # 送车地址
     pick_up_addr = models.CharField(max_length=128, blank=True, null=True, verbose_name='Pick up address')
 
     # 还车地址
     drop_off_addr = models.CharField(max_length=128, blank=True, null=True, verbose_name='Drop off address')
+
+    # 有效期
+    expiry_date = models.DateTimeField(default=now)
         
     # 备注
     remark = models.TextField(max_length=256, blank=True, null=True)
@@ -57,9 +60,6 @@ class Booking(MPTTModel):
     # 订单
     order = models.ForeignKey(Order, related_name='bookings', on_delete=models.CASCADE, blank=True, null=True)
 
-    # 
-    primary_order = models.OneToOneField(Order, on_delete=models.CASCADE, blank=True, null=True)
-
     # 折扣
     discount_name = models.CharField(max_length=128, default='no discount', blank=True, null=True)
     discount_value = models.DecimalField(default=Decimal(0.0), max_digits=3, decimal_places=2, blank=True, null=True)
@@ -77,16 +77,9 @@ class Booking(MPTTModel):
 
     @property
     def apply(self):
-        return self.primary_order is not None
-
-    @classmethod
-    def apply_order(cls, order, book):
-        booking = Booking.objects.get(primary_order=order)
-        booking.primary_order = None
-        booking.save()
-        
-        book.primary_order = order
-        book.save()
+        if self.order:
+            return self.order.apply == self.bookingId
+        return False
 
 class Itinerary(models.Model):
     

@@ -138,14 +138,14 @@ class CustomerUserAdmin(UserAdmin):
 
     list_filter = (
         'company', 'gender', 'is_driver', 'is_tourguide', 'is_staff', 'is_actived',
-        ('order__arrival_time', DateTimeListFilter),
-        ('order__departure_time', DateTimeListFilter),
+        ('order__start_time', DateTimeListFilter),
+        ('order__end_time', DateTimeListFilter),
         'task__day',
         'task__is_freedom_day'
     )
 
     search_fields = (
-        'username', 'phone', 'email', 'wechart', 'order__arrival_time'
+        'username', 'phone', 'email', 'wechart', 'order__start_time'
     )
 
     list_editable = (

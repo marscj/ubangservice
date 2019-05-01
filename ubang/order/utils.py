@@ -53,7 +53,7 @@ def save_by_customer(order):
         order.save()
 
 def save_by_task(order):
-    days = get_days(order.arrival_time, order.departure_time)
+    days = get_days(order.start_time, order.end_time)
 
     return [create_task(order=order, day=day, guide=order.guide, vehicle=order.vehicle) for day in days]
         

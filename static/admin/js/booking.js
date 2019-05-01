@@ -5,20 +5,20 @@
         console.log('hello oder');
 
         $("#lookup_id_vehicle" ).click(function(event) {
-            if ($("#id_arrival_time_0").val() == "") {
+            if ($("#id_start_time_0").val() == "") {
                 alert("Please enter the arrival date");
-            } else if ($("#id_arrival_time_1").val() == "") {
+            } else if ($("#id_start_time_1").val() == "") {
                 alert("Please enter the arrival time");
-            } else if ($("#id_departure_time_0").val() == "") {
+            } else if ($("#id_end_time_0").val() == "") {
                 alert("Please enter the departure date");
-            } else if ($("#id_departure_time_1").val() == "") {
+            } else if ($("#id_end_time_1").val() == "") {
                 alert("Please enter the departure time");
             } else {
-                var arrival_time = $("#id_arrival_time_0").val() + " " + $("#id_arrival_time_1").val();
-                var departure_time = $("#id_departure_time_0").val() + " " + $("#id_departure_time_1").val();
+                var start_time = $("#id_start_time_0").val() + " " + $("#id_start_time_1").val();
+                var end_time = $("#id_end_time_0").val() + " " + $("#id_end_time_1").val();
 
-                var url1 = "&order__arrival_time__gte=" + arrival_time + "&order__arrival_time__lt=" + departure_time;
-                var url2 = "&order__departure_time__gte=" + arrival_time + "&order__departure_time__lt=" + departure_time;
+                var url1 = "&order__start_time__gte=" + start_time + "&order__start_time__lt=" + end_time;
+                var url2 = "&order__end_time__gte=" + start_time + "&order__end_time__lt=" + end_time;
                 var url = url1 + url2 + '&is_actived=1';
            
                 set_vehicle_lookup($("#lookup_id_vehicle"), url);
@@ -26,20 +26,20 @@
         });
 
         $("#lookup_id_guide" ).click(function(event) {
-            if ($("#id_arrival_time_0").val() == "") {
+            if ($("#id_start_time_0").val() == "") {
                 alert("Please enter the arrival date");
-            } else if ($("#id_arrival_time_1").val() == "") {
+            } else if ($("#id_start_time_1").val() == "") {
                 alert("Please enter the arrival time");
-            } else if ($("#id_departure_time_0").val() == "") {
+            } else if ($("#id_end_time_0").val() == "") {
                 alert("Please enter the departure date");
-            } else if ($("#id_departure_time_1").val() == "") {
+            } else if ($("#id_end_time_1").val() == "") {
                 alert("Please enter the departure time");
             } else {
-                var arrival_time = $("#id_arrival_time_0").val() + " " + $("#id_arrival_time_1").val();
-                var departure_time = $("#id_departure_time_0").val() + " " + $("#id_departure_time_1").val();
+                var start_time = $("#id_start_time_0").val() + " " + $("#id_start_time_1").val();
+                var end_time = $("#id_end_time_0").val() + " " + $("#id_end_time_1").val();
 
-                var url1 = "&order__arrival_time__gte=" + arrival_time + "&order__arrival_time__lt=" + departure_time;
-                var url2 = "&order__departure_time__gte=" + arrival_time + "&order__departure_time__lt=" + departure_time;
+                var url1 = "&order__start_time__gte=" + start_time + "&order__start_time__lt=" + end_time;
+                var url2 = "&order__end_time__gte=" + start_time + "&order__end_time__lt=" + end_time;
                 var url = url1 + url2 + "&is_tourguide=1" + "&is_actived=1";
            
                 set_guide_lookup($("#lookup_id_guide"), url);

@@ -9,8 +9,8 @@ from ubang.vehicle.models import ItineraryPrice
 class ItineraryInlineFormSet(forms.BaseInlineFormSet):
     
     def clean_booking_time(self, booking, day):
-        arrival_day = date(booking.arrival_time.year, booking.arrival_time.month, booking.arrival_time.day)
-        departure_day = date(booking.departure_time.year, booking.departure_time.month, booking.departure_time.day)
+        arrival_day = date(booking.start_time.year, booking.start_time.month, booking.start_time.day)
+        departure_day = date(booking.end_time.year, booking.end_time.month, booking.end_time.day)
 
         if booking and day: 
             if day < arrival_day:

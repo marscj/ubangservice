@@ -84,9 +84,9 @@ class Model(models.Model):
 
 class VehicleQuerySet(models.QuerySet):
     
-    def filter_order(self, arrival_time, departure_time):
+    def filter_order(self, start_time, end_time):
         return self.exclude(
-            ( Q(order__arrival_time__range=(arrival_time, departure_time)) | Q(order__departure_time__range=(arrival_time, departure_time)))
+            ( Q(order__start_time__range=(start_time, end_time)) | Q(order__end_time__range=(start_time, end_time)))
         )
 
 # 车辆 

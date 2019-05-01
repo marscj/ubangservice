@@ -9,8 +9,8 @@ from ubang.vehicle.models import ItineraryPrice
 class TaskInlineFormSet(forms.BaseInlineFormSet):
     
     def clean_order_time(self, order, day):
-        arrival_day = date(order.arrival_time.year, order.arrival_time.month, order.arrival_time.day)
-        departure_day = date(order.departure_time.year, order.departure_time.month, order.departure_time.day)
+        arrival_day = date(order.start_time.year, order.start_time.month, order.start_time.day)
+        departure_day = date(order.end_time.year, order.end_time.month, order.end_time.day)
 
         if order and day: 
             if day < arrival_day:

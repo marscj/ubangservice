@@ -56,8 +56,8 @@ class VehicleAdmin(admin.ModelAdmin):
 
     list_filter = (
         'is_actived', 'model__brand', 'model__type', 'model__category', 
-        ('order__arrival_time', OrderTimeListFilter),
-        ('order__departure_time', OrderTimeListFilter),
+        ('order__start_time', OrderTimeListFilter),
+        ('order__end_time', OrderTimeListFilter),
         'task__day',
         'task__is_freedom_day'
     )

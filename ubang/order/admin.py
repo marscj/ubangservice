@@ -29,7 +29,7 @@ class OrderAdmin(admin.ModelAdmin):
     fieldsets = ( 
         (None, {
             'classes': ('grp-collapse grp-open',),
-            'fields': ('orderId', 'status', 'contact_name', 'contact_phone', 'arrival_time', 'departure_time', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 'link', 'remark', 'booking')
+            'fields': ('orderId', 'status', 'contact_name', 'contact_phone', 'start_time', 'end_time', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 'link', 'remark', 'booking')
         }),
         ('Charge Info', {
             'classes': ('grp-collapse grp-closed',),
@@ -48,12 +48,12 @@ class OrderAdmin(admin.ModelAdmin):
     add_fieldsets = ( 
         (None, {
             'classes': ('grp-collapse grp-open',),
-            'fields': ('contact_name', 'contact_phone', 'arrival_time', 'departure_time', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 'link', 'remark')
+            'fields': ('contact_name', 'contact_phone', 'start_time', 'end_time', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 'link', 'remark')
         }),
     )
 
     list_display = (
-       'orderId', 'status', 'create_by', 'contact_name', 'contact_phone', 'arrival_time', 'departure_time', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 'discount_name', 'total', 'remark', 'hyper_link', 'tasks'
+       'orderId', 'status', 'create_by', 'contact_name', 'contact_phone', 'start_time', 'end_time', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 'discount_name', 'total', 'remark', 'hyper_link', 'tasks'
     )
 
     list_display_links = list_display
@@ -67,7 +67,7 @@ class OrderAdmin(admin.ModelAdmin):
     )
 
     search_fields = (
-        'orderId', 'contact_name', 'contact_phone', 'arrival_time', 'departure_time'
+        'orderId', 'contact_name', 'contact_phone', 'start_time', 'end_time'
     )
 
     readonly_fields = (
