@@ -1,6 +1,11 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from django import forms
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.contrib.admin.templatetags.admin_urls import add_preserved_filters
+from functools import update_wrapper
+from django.core.exceptions import ValidationError
 
 from mptt.admin import MPTTModelAdmin
 from mptt.forms import TreeNodeChoiceField 
@@ -8,12 +13,8 @@ from mptt.forms import TreeNodeChoiceField
 from .models import Booking, Itinerary
 from .forms import ItineraryInlineFormSet
 
-class BookingInlineForm(forms.BaseInlineFormSet): 
-    tree_field = TreeNodeChoiceField(queryset=Booking.objects.all()) 
-
 class BookingInline(admin.TabularInline): 
     model = Booking 
-    formset = BookingInlineForm 
     extra = 0 
     fk_name = 'order'
 
@@ -66,4 +67,69 @@ class BookingAdmin(MPTTModelAdmin):
     
     def itinerary(self, obj):
         return mark_safe("<br>".join(['%s %s'% (itinerary.day,  itinerary.itinerary or '') for itinerary in obj.itinerary.all()]))
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        obj = Order.objects.get(pk=object_id)
+        extra_context = {
+            'show_confirm': obj.status == OrderStatus.Draft, 
+            'show_cancel': obj.status == OrderStatus.Confirm
+        }
+        return super().change_view(request, object_id, form_url, extra_context)
+
+    def get_urls(self):
+        from django.urls import path
+
+        def wrap(view):
+            def wrapper(*args, **kwargs):
+                return self.admin_site.admin_view(view)(*args, **kwargs)
+            wrapper.model_admin = self
+            return update_wrapper(wrapper, view)
+
+        info = self.model._meta.app_label, self.model._meta.model_name
+
+        urlpatterns = [
+            path('<path:object_id>/confirm/', wrap(self.confirm_view), name='%s_%s_confirm' % info),
+        ]
+
+        urls = urlpatterns + super().get_urls()
+        return urls
+    
+    def confirm_view(self, request, object_id, form_url='',extra_context=None):
+        
+        opts = self.model._meta
+        obj = Order.objects.get(pk=object_id)
+    
+        if request.POST:
+            return self.response_confirm(request, obj)
+        
+        context = {
+            'opts': opts, 
+            'object': obj,
+            'show_confirm': obj.status == OrderStatus.Draft, 
+            'show_cancel': obj.status == OrderStatus.Confirm
+        }
+        return render(request, self.confirm_template, context)
+
+    def response_confirm(self, request, obj):
+
+        opts = self.model._meta
+        preserved_filters = self.get_preserved_filters(request)
+
+        if 'confirm' in request.POST:
+            obj.confirm()
+            list(messages.get_messages(request))
+            self.message_user(request, 'The Order %s was confirmed' % obj.orderId)
+            
+        elif 'cancel' in request.POST:
+            obj.cancel()
+            list(messages.get_messages(request))
+            self.message_user(request, 'The Order %s was cancelled' % obj.orderId, messages.WARNING)
+
+        redirect_url = reverse('admin:%s_%s_change' %
+                                   (opts.app_label, opts.model_name),
+                                   args=(obj.pk,),
+                                   current_app=self.admin_site.name)
+
+        redirect_url = add_preserved_filters({'preserved_filters': preserved_filters, 'opts': opts}, redirect_url)
+        return HttpResponseRedirect(redirect_url)
 
