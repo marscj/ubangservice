@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'ubang.booking',
     'ubang.payment',
     'ubang.company',
+    'ubang.task',
     'ubang.user',
     'ubang.resource',
     'ubang.vehicle',
