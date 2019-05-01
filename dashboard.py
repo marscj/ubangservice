@@ -44,10 +44,10 @@ class CustomIndexDashboard(Dashboard):
         ))
 
         self.children.append(modules.ModelList(
-            _('Order'),
+            _('Business'),
             column=1,
             collapsible=True,
-            models=('ubang.order.models.Order',)
+            models=('ubang.booking.models.Booking', 'ubang.order.models.Order',)
         ))
 
         self.children.append(modules.ModelList(

@@ -21,7 +21,7 @@ class WhoDidMiddleware(MiddlewareMixin):
         return response
 
     def mark_whodid(self, user, sender, instance, **kwargs):
-        create_by_field, update_by_field = conf.settings.CREATE_BY_FIELD, conf.settings.UPDATE_BY_FIELD
+        create_by_field, update_by_field, company_by_field = conf.settings.CREATE_BY_FIELD, conf.settings.UPDATE_BY_FIELD, conf.settings.COMPANY_BY_FIELD
 
         try:
             instance._meta.get_field(create_by_field)
@@ -37,3 +37,11 @@ class WhoDidMiddleware(MiddlewareMixin):
             pass
         else:
             setattr(instance, update_by_field, user)
+
+        try:
+            instance._meta.get_field(company_by_field)
+        except FieldDoesNotExist:
+            pass
+        else:
+            if not getattr(instance, company_by_field):
+                setattr(instance, company_by_field, user.company)

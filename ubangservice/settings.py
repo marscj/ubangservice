@@ -48,9 +48,11 @@ INSTALLED_APPS = [
     'django_countries',
     'phonenumber_field',
     'djmoney',
-
-    'input_filter',
+    'mptt',
+    'inline_actions',
+    
     'ubang.order',
+    'ubang.booking',
     'ubang.payment',
     'ubang.company',
     'ubang.user',
@@ -253,6 +255,7 @@ DEFAULT_GUIDE_PRICE = Decimal(400.0)
 # middleware create_by
 CREATE_BY_FIELD = 'create_by'
 UPDATE_BY_FIELD = 'update_by'
+COMPANY_BY_FIELD = 'company_by'
 
 # redis
 CACHES = {
@@ -266,3 +269,5 @@ CACHES = {
 }
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
+
+MPTT_ADMIN_LEVEL_INDENT = 30

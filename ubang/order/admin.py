@@ -8,7 +8,6 @@ from django.urls import reverse
 from django.contrib.admin.templatetags.admin_urls import add_preserved_filters
 from functools import update_wrapper
 
-
 from datetime import datetime
 
 from .models import Order
@@ -16,6 +15,7 @@ from .forms import OrderForm
 from .import OrderStatus
 from ubang.task.admin import TaskInline, TaskPriceInline, TaskProgressInline
 from ubang.payment.admin import PaymentInline
+from ubang.booking.admin import BookingInline
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
@@ -24,12 +24,12 @@ class OrderAdmin(admin.ModelAdmin):
 
     confirm_template = 'admin/order/confirm.html'
 
-    inlines = (TaskInline, TaskPriceInline, TaskProgressInline, PaymentInline, )
+    inlines = (TaskInline, TaskPriceInline, TaskProgressInline, PaymentInline, BookingInline)
 
     fieldsets = ( 
         (None, {
             'classes': ('grp-collapse grp-open',),
-            'fields': ('orderId', 'status', 'contact_name', 'contact_phone', 'arrival_time', 'departure_time', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 'link', 'remark')
+            'fields': ('orderId', 'status', 'contact_name', 'contact_phone', 'arrival_time', 'departure_time', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 'link', 'remark', 'booking')
         }),
         ('Charge Info', {
             'classes': ('grp-collapse grp-closed',),

@@ -9,11 +9,12 @@ from collections import Counter
 from phonenumber_field.formfields import PhoneNumberField
 
 from .models import Order
+from ubang.booking.models import Booking
 from ubang.vehicle.models import Vehicle
 
 class OrderForm(forms.ModelForm):
 
-    abc = forms.ModelChoiceField
+    booking = forms.ModelChoiceField(required=True, queryset=None)
     
     contact_phone = PhoneNumberField(
         required=True,
@@ -27,6 +28,7 @@ class OrderForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        
         instance = getattr(self, 'instance', None)
         
         if instance and instance.arrival_time:
@@ -44,6 +46,9 @@ class OrderForm(forms.ModelForm):
         if instance and instance.guide:
             self.fields['guide'].widget.attrs['readonly'] = True
             self.fields['guide'].disabled = True
+
+        self.fields['booking'].initial = Booking.objects.get(primary_order=instance)
+        self.fields['booking'].queryset = Booking.objects.filter(order=instance)
 
     def clean_departure_time(self):
         arrival_time = self.cleaned_data.get('arrival_time')
@@ -97,5 +102,23 @@ class OrderForm(forms.ModelForm):
             raise ValidationError('Ensure %s is active' % guide)
         
         return guide
+
+    # def clean_booking(self):
+    #     booking = self.cleaned_data.get('booking')
+
+    #     if booking:
+    #         booking.primary_order = getattr(self, 'instance', None)
+    #         booking.save()
+
+    def save(self, commit=True):
+        order = super().save(commit=False)
+
+        booking = self.cleaned_data.get('booking')
+
+        if booking:
+            Booking.apply_order(order, booking)
+        
+
+        return super().save(commit)
     
     
