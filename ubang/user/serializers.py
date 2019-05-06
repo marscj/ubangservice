@@ -4,12 +4,18 @@ from django.contrib.auth.models import Permission
 from django_countries.serializer_fields import CountryField
 from phonenumber_field.serializerfields import PhoneNumberField
 
-from .models import CustomUser
+from .models import CustomUser, Role
 
 class PermissionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Permission
+        fields = '__all__'
+
+class RoleSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Role
         fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
@@ -18,9 +24,16 @@ class UserSerializer(serializers.ModelSerializer):
 
     phone = PhoneNumberField()
 
-    user_permissions = PermissionSerializer(required=False, many=True)
-    # PermissionSerializer(required=False, many=True)
+    roles = serializers.SerializerMethodField()
 
     class Meta:
         model = CustomUser
-        fields = '__all__'
+        fields = (
+            'phone', 'country', 'roles'
+        )
+
+    def get_roles(self, obj):
+        if obj.roles is None or obj.roles.all().count() == 0:
+            return ['visitor']
+        
+        return obj

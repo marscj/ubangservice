@@ -40,6 +40,6 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
         
-# class Role(models.Model):
-#     name = models.CharField(max_length=64)
-#     user = models.ManyToManyField(User, related_name='roles', blank=True, null=True)
+class Role(models.Model):
+    name = models.CharField(max_length=64)
+    user = models.ManyToManyField(CustomUser, related_name='roles', blank=True)
