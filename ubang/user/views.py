@@ -1,50 +1,24 @@
-from rest_framework import views, permissions,status
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework_jwt import views as jwt_views
-# from rest_framework.decorators import api_view, APIView
+from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
-# from rest_framework.authtoken.models import Token
-# from rest_framework.authentication import TokenAuthentication
-# from rest_framework_jwt.views import ObtainJSONWebToken
-# from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from rest_framework.decorators import action
+from rest_framework_jwt.views import ObtainJSONWebToken
+from rest_framework.mixins import ListModelMixin
 
 from .serializers import UserSerializer
+from .models import CustomUser
 
-class LoginAuthTokenView(ObtainAuthToken):
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data, context={'request': request})
-
-        if serializer.is_valid():
-            user = serializer.validated_data['user']
-            token, created = Token.objects.get_or_create(user=user)
-            
-            context = {
-                'code': 20000,
-                'data': token.key
-            }
-            return Response(context)
-        
-        else:
-            context = {
-                'code': 20001,
-                'message': 'Unable to log in with provided credentials.'
-            }
-            return Response(context)
-
-class LoginJwtTokenView(jwt_views.ObtainJSONWebToken):
+class LoginJwtTokenView(ObtainJSONWebToken):
     
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
 
         if response.status_code == 200:
-
             context = {
                 'code': 20000,
                 'data': response.data,
             }
-
         else:
             context = {
                 'code': 20001,
@@ -53,39 +27,19 @@ class LoginJwtTokenView(jwt_views.ObtainJSONWebToken):
         
         return Response(context)
 
-class LogoutAuthTokenView(views.APIView):
+class LogoutJwtTokenView(APIView):
     
+    permission_classes = [IsAuthenticated]
     
     def post(self, request, *args, **kwargs):
-        
-        # request.user.auth_token.delete()
-        
         context = {
             'code': 20000,
             'message': 'ok'
         }
-
         return Response(context)
 
-class LogoutJwtTokenView(views.APIView):
-    
-    permission_classes = [permissions.IsAuthenticated]
-    
-    def post(self, request, *args, **kwargs):
-        
-        print(request.headers)
-        
-        context = {
-            'code': 20000,
-            'message': 'ok'
-        }
-
-        return Response(context)
-
-class UserInfo(views.APIView):
-    permission_classes = [permissions.IsAuthenticated]
-    # renderer_classes = (renderers.JSONRenderer,)
-    # serializer_class = UserSerializer
+class UserInfo(APIView):
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         user = UserSerializer(request.user)
@@ -99,5 +53,39 @@ class UserInfo(views.APIView):
                 'extra': user.data
             }
         }
-        print(context)
+        return Response(context)
+
+class UserView(ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserSerializer
+    queryset = CustomUser.objects.all()
+    
+    def list(self, request):
+        response = super().list(request)
+        
+        context = {
+            'code': 20000,
+            'data': response.data,
+        }
+
+        return Response(context)
+
+    @action(detail=False, methods=['get'])
+    def info(self, request):
+        serializer = UserSerializer(request.user)
+        context = {
+            'code': 20000,
+            'data': serializer.data,
+        }
+
+        return Response(context)
+
+    def retrieve(self, request, pk=None):
+        response = super().retrieve(request, pk)
+        
+        context = {
+            'code': 20001,
+            'message': response.data
+        }
+            
         return Response(context)

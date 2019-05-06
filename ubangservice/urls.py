@@ -25,9 +25,8 @@ urlpatterns = [
     
     path('admin/', admin.site.urls),
 
-    path('company/', include('user.urls')),
-
-    
+    url('user/', include('ubang.user.urls')),
+  
     url(r'api-auth/', include('rest_framework.urls')),
     
     url(r'^$', TemplateView.as_view(template_name="index.html")),

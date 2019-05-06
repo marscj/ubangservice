@@ -76,9 +76,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     
     'ubang.middleware.create_by.WhoDidMiddleware',
-    'django.middleware.cache.UpdateCacheMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
+    # 'django.middleware.cache.UpdateCacheMiddleware',
+    # 'django.middleware.common.CommonMiddleware',
+    # 'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
 REST_FRAMEWORK = {
@@ -87,7 +87,9 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-    )
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 2
 }
 
 ROOT_URLCONF = 'ubangservice.urls'
@@ -175,9 +177,6 @@ SHORT_DATE_FORMAT = 'Y-m-d'
 
 SHORT_DATETIME_FORMAT =  'Y-m-d H:i'
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
-
 # 跨域
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
@@ -206,13 +205,7 @@ STATICFILES_FINDERS = (
 GRAPPELLI_ADMIN_TITLE = 'UBang'
 GRAPPELLI_INDEX_DASHBOARD = 'dashboard.CustomIndexDashboard'
 GRAPPELLI_SWITCH_USER = True
-# GRAPPELLI_SWITCH_USER_TARGET = True
-# GRAPPELLI_SWITCH_USER_ORIGINAL = True
-# GRAPPELLI_AUTOCOMPLETE_SEARCH_FIELDS = True
 GRAPPELLI_CLEAN_INPUT_TYPES = True
-# GRAPPELLI_INDEX_DASHBOARD = {  # alternative method
-#     'ubangservice.admin.admin_site': 'ubangservice.my_dashboard.CustomIndexDashboard',
-# }
 
 # 货币
 DEFAULT_CURRENCY = 'AED'
@@ -270,17 +263,17 @@ UPDATE_BY_FIELD = 'update_by'
 COMPANY_BY_FIELD = 'company_by'
 
 # redis
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
-}
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_CACHE_ALIAS = "default"
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:6379/1",
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         }
+#     }
+# }
+# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# SESSION_CACHE_ALIAS = "default"
 
 # mptt
 MPTT_ADMIN_LEVEL_INDENT = 30
