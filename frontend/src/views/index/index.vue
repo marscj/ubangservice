@@ -1,5 +1,5 @@
 <template>
-  <div id="welcome" >
+  <div id="welcome">
     <div class="enter">
       <ul>
         <router-link tag="li" to="/login">
@@ -14,9 +14,7 @@
 </template>
 
 <script>
-export default {
-  
-}
+
 </script>
 
 <style scoped>
