@@ -27,7 +27,6 @@ class ImageInline(GenericTabularInline):
 class DateTimeListFilter(admin.DateFieldListFilter):
 
     def queryset(self, request, queryset):
-        print(self.used_parameters)
         try:
             return queryset.exclude(**self.used_parameters)
             # return queryset.filter(**self.used_parameters)

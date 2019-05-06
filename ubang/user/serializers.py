@@ -29,7 +29,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = (
-            'phone', 'country', 'roles'
+            'phone', 'country', 'roles', 'username', 'name', 'company', 'id'
         )
 
     def get_roles(self, obj):

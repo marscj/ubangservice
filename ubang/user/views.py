@@ -5,6 +5,9 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework_jwt.views import ObtainJSONWebToken
 from rest_framework.mixins import ListModelMixin
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
+
 
 from .serializers import UserSerializer
 from .models import CustomUser
@@ -59,6 +62,10 @@ class UserView(ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer
     queryset = CustomUser.objects.all()
+    
+    ordering_fields = ('id', 'username')
+    search_fields = ('username', 'email')
+    ordering = ('id', )
     
     def list(self, request):
         response = super().list(request)
