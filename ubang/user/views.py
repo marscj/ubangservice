@@ -5,9 +5,6 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework_jwt.views import ObtainJSONWebToken
 from rest_framework.mixins import ListModelMixin
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters
-
 
 from .serializers import UserSerializer
 from .models import CustomUser
@@ -16,7 +13,7 @@ class LoginJwtTokenView(ObtainJSONWebToken):
     
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
-
+        
         if response.status_code == 200:
             context = {
                 'code': 20000,
@@ -63,7 +60,7 @@ class UserView(ModelViewSet):
     serializer_class = UserSerializer
     queryset = CustomUser.objects.all()
     
-    ordering_fields = ('id', 'username')
+    ordering_fields = ('id', 'username', 'is_driver', 'is_tourguide', 'is_actived')
     search_fields = ('username', 'email')
     ordering = ('id', )
     

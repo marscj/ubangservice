@@ -83,6 +83,7 @@ MIDDLEWARE = [
 ]
 
 REST_FRAMEWORK = {
+    'ORDERING_PARAM': 'sort',
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
@@ -94,8 +95,13 @@ REST_FRAMEWORK = {
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
     ),
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 2
+    'DEFAULT_PAGINATION_CLASS': 'ubang.middleware.rest_framework.CustomPagination',
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'PAGE_SIZE': 2,
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.CursorPagination',
+    # 'PAGE_SIZE': 2,
+    
 }
 
 ROOT_URLCONF = 'ubangservice.urls'

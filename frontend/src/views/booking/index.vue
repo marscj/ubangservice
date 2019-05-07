@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
-    <div class filter-container>
-      <el-input v-model="listQuery.title" placeholder="Username,Name,Phone" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
+    <div class="filter-container">
+      <el-input v-model="listQuery.search" placeholder="Username,Name,Phone" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
       <el-select v-model="listQuery.importance" placeholder="Imp" clearable style="width: 90px" class="filter-item">
         <el-option v-for="item in importanceOptions" :key="item" :label="item" :value="item" />
       </el-select>
       <el-select v-model="listQuery.type" placeholder="Type" clearable class="filter-item" style="width: 130px">
         <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name+'('+item.key+')'" :value="item.key" />
       </el-select>
-      <el-select v-model="listQuery.ording" style="width: 140px" class="filter-item" @change="handleFilter">
+      <el-select v-model="listQuery.sort" style="width: 140px" class="filter-item" @change="handleFilter">
         <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
       </el-select>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
@@ -24,17 +24,76 @@
       v-loading="listLoading"
       :data="list"
       border
+      stripe
       fit
       highlight-current-row
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column label="ID" prop="id" sortable="custom" align="center" width="80">
-        <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
+      <el-table-column label="ID" prop="id" sortable="custom" align="center" width="60">
+        <template slot-scope="{row}">
+          <span>{{ row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Date" width="150px" align="center">
+      <el-table-column label="UserName" align="center" width="200">
+        <template slot-scope="{row}">
+          <span>{{ row.username }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="Name" align="center" width="120">
+        <template slot-scope="{row}">
+          <span>{{ row.name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="Phone" width="110px" align="center" class-name="small-padding fixed-width">
+        <template slot-scope="{row}">
+          <span>{{ row.phone }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="Email" width="200px" align="center" class-name="small-padding fixed-width">
+        <template slot-scope="{row}">
+          <span>{{ row.email }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="Company" width="110px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.company }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="Is Driver" width="110px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.is_driver }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="Is Guide" width="110px" align="center" class-name="small-padding fixed-width">
+        <template slot-scope="{row}">
+          <span>{{ row.is_tourguide }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="Active" width="110px" align="center" class-name="small-padding fixed-width">
+        <template slot-scope="{row}">
+          <span>{{ row.is_actived }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="Active" align="center" width="100" class-name="small-padding fixed-width">
+        <template slot-scope="{row}">
+          <!-- <el-button type="primary" size="mini" @click="handleUpdate(row)">
+            Edit
+          </el-button>
+          <el-button v-if="row.status!='published'" size="mini" type="success" @click="handleModifyStatus(row,'published')">
+            Publish
+          </el-button>
+          <el-button v-if="row.status!='draft'" size="mini" @click="handleModifyStatus(row,'draft')">
+            Draft
+          </el-button>
+          <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleModifyStatus(row,'deleted')">
+            Delete
+          </el-button> -->
+          <el-checkbox v-model="row.is_actived" @change="handleChangeStatus(row,'deleted')"/>
+        </template>
+      </el-table-column>
+      <!-- <el-table-column label="Date" width="150px" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
         </template>
@@ -83,7 +142,7 @@
             Delete
           </el-button>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
@@ -104,6 +163,7 @@ const calendarTypeOptions = [
 ]
 
 export default {
+  components: { Pagination },
   directives: { waves },
   data() {
     return {
@@ -113,14 +173,15 @@ export default {
       listLoading: true,
       listQuery: {
         page: 1,
+        limit: 20,
         importance: undefined,
-        title: undefined,
+        search: undefined,
         type: undefined,
-        ording: '+id'
+        sort: 'id'
       },
       importanceOptions: [1, 2, 3],
       calendarTypeOptions,
-      sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
+      sortOptions: [{ label: 'ID Ascending', key: 'id' }, { label: 'ID Descending', key: '-id' }]
     }
   },
   created() {
@@ -130,18 +191,23 @@ export default {
     getList() {
       this.listLoading = true
       getUsers(this.listQuery).then(response => {
-        this.list = response.data.results
-        this.total = response.data.count
-
-        // Just to simulate the time of the request
-        setTimeout(() => {
-          this.listLoading = false
-        }, 1.5 * 1000)
+        this.list = response.data.items
+        this.total = response.data.total
+        this.listLoading = false
+      }).catch(() => {
+        this.loading = false
       })
     },
     handleFilter() {
       this.listQuery.page = 1
       this.getList()
+    },
+    handleChangeStatus(row, status) {
+      this.$message({
+        message: row,
+        type: 'success'
+      })
+      row.status = status
     },
     sortChange(data) {
       const { prop, order } = data
@@ -151,7 +217,7 @@ export default {
     },
     sortByID(order) {
       if (order === 'ascending') {
-        this.listQuery.sort = '+id'
+        this.listQuery.sort = 'id'
       } else {
         this.listQuery.sort = '-id'
       }
@@ -169,12 +235,12 @@ export default {
       }
     },
     handleCreate() {
-      this.resetTemp()
-      this.dialogStatus = 'create'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
+      // this.resetTemp()
+      // this.dialogStatus = 'create'
+      // this.dialogFormVisible = true
+      // this.$nextTick(() => {
+      //   this.$refs['dataForm'].clearValidate()
+      // })
     },
   }
 }

@@ -25,7 +25,7 @@ urlpatterns = [
     
     path('admin/', admin.site.urls),
 
-    url('', include('ubang.user.urls')),
+    url(r'user/', include('ubang.user.urls')),
   
     url(r'api-auth/', include('rest_framework.urls')),
     
