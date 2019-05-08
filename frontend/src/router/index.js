@@ -24,11 +24,15 @@ export const constantRoutes = [
     path: '/dashboard',
     component: Layout,
     redirect: '/dashboard/index',
+    meta: {
+      title: 'Home',
+      icon: 'dashboard'
+    },
     children: [{
       path: 'index',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+      meta: { title: 'Home', icon: 'dashboard', affix: true }
     }]
   },
 
@@ -37,10 +41,10 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
-        path: 'index',
+        path: '/booking/index',
         name: 'Booking',
         component: () => import('@/views/booking/index'),
-        meta: { title: 'Booking', icon: 'booking', noCache: true }
+        meta: { title: 'Bookings', icon: 'booking', noCache: true }
       }
     ]
   },
@@ -50,23 +54,34 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
-        path: 'index',
+        path: '/order/index',
         name: 'Order',
         component: () => import('@/views/order/index'),
-        meta: { title: 'Order', icon: 'order', noCache: true }
+        meta: { title: 'Orders', icon: 'order', noCache: true }
       }
     ]
   },
 
   {
-    path: '/user',
+    path: '/permission',
     component: Layout,
+    redirect: '/permission/user',
+    meta: {
+      title: 'Authorization',
+      icon: 'lock'
+    },
     children: [
       {
-        path: 'index',
-        name: 'User',
+        path: 'user',
+        name: 'Users',
         component: () => import('@/views/user/index'),
-        meta: { title: 'User', icon: 'user', noCache: true }
+        meta: { title: 'Users' }
+      },
+      {
+        path: 'permission',
+        name: 'Permission',
+        component: () => import('@/views/permission/index'),
+        meta: { title: 'Permission' }
       }
     ]
   },
