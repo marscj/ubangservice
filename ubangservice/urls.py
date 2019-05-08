@@ -26,6 +26,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     url(r'user/', include('ubang.user.urls')),
+
+    url(r'booking/', include('ubang.booking.urls')),
   
     url(r'api-auth/', include('rest_framework.urls')),
     

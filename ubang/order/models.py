@@ -42,6 +42,12 @@ class Order(models.Model):
 
     # 结束时间
     end_time = models.DateTimeField()
+
+    # 创建时间
+    create_at = models.DateTimeField(auto_now_add=True)
+
+    # 修改时间
+    change_at = models.DateTimeField(auto_now_add=True)
     
     # 订单状态
     status = models.IntegerField(default=OrderStatus.Open, choices=OrderStatus.CHOICES)
@@ -59,9 +65,6 @@ class Order(models.Model):
     company = models.ForeignKey(Company, related_name='order', on_delete=models.SET_NULL, null=True, editable=False)
 
     applyId = models.CharField(max_length=64, editable=False, blank=True, null=True)
-
-    # 创建时间
-    create_at = models.DateTimeField(auto_now_add=True)
 
     # 备注
     remark = models.TextField(max_length=256, blank=True, null=True)

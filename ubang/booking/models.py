@@ -44,6 +44,8 @@ class Booking(MPTTModel):
 
     create_at = models.DateTimeField(auto_now_add=True, editable=False)
 
+    change_at = models.DateTimeField(auto_now_add=True, editable=False)
+
     # 客户
     create_by = models.ForeignKey(CustomUser, related_name='booking_customer', on_delete=models.SET_NULL, null=True, verbose_name = 'Customer', editable=False) 
 
