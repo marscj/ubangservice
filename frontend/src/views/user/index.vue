@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input v-model="listQuery.search" placeholder="username name phone email" style="width: 240px;" class="filter-item" @keyup.enter.native="handleFilter" />
-      <el-select v-model="options" multiple placeholder="Type" clearable class="filter-item" style="width: 180px" @change="handleFilter">
+      <el-select v-model="options" multiple placeholder="Options" clearable class="filter-item" style="width: 180px" @change="handleFilter">
         <el-option v-for="item in TypeOptions" :key="item.value" :label="item.label" :value="item.value" />
       </el-select>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
@@ -120,7 +120,8 @@ import Pagination from '@/components/Pagination'
 
 const TypeOptions = [
   { value: 'driver', label: 'Driver' }, 
-  { value: 'guide', label: 'Guide' }
+  { value: 'guide', label: 'Guide' },
+  { value: 'active', label: 'Active' }
 ]
 
 export default {
@@ -139,6 +140,7 @@ export default {
         search: undefined,
         is_driver: undefined,
         is_tourguide: undefined,
+        is_actived: undefined,
         sort: 'id'
       },
       temp: {
@@ -187,8 +189,11 @@ export default {
         this.listQuery.is_tourguide = undefined
       }
 
-      console.log(this.listQuery.is_driver, this.listQuery.is_tourguide)
-      console.log(this.options)
+      if(this.options.includes('active')){
+        this.listQuery.is_actived = true
+      } else {
+        this.listQuery.is_actived = undefined
+      }
 
       this.getList()
     },
