@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin, GroupAdmin
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.conf import settings
 
-from .models import Company, Discount
+from .models import Company
 from .forms import CompanyForm
 from ubang.user.models import CustomUser
 from ubang.vehicle.models import Vehicle
@@ -27,10 +27,6 @@ from ubang.vehicle.models import Vehicle
 #     # raw_id_fields = [
 #     #     'customuser'
 #     # ]
-
-@admin.register(Discount)
-class DiscountAdmin(admin.ModelAdmin):
-    pass
 
 @admin.register(Company)
 class CompanyAdmin(admin.ModelAdmin):

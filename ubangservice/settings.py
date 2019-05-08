@@ -63,7 +63,8 @@ INSTALLED_APPS = [
     'ubang.user',
     'ubang.resource',
     'ubang.vehicle',
-    'ubang.itinerary'
+    'ubang.itinerary',
+    'ubang.discount'
 ]
 
 MIDDLEWARE = [
