@@ -5,7 +5,7 @@ from django_countries.serializer_fields import CountryField
 from phonenumber_field.serializerfields import PhoneNumberField
 
 from .models import CustomUser, Role
-from ubang.company.models import Company
+from ubang.company.serializers import CompanySerializer
 
 class PermissionSerializer(serializers.ModelSerializer):
 
@@ -18,12 +18,6 @@ class RoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Role
         fields = '__all__'
-
-class CompanySerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Company
-        fields = ('id', 'name',)
 
 class UserSerializer(serializers.ModelSerializer):
 

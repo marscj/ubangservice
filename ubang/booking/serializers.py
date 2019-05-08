@@ -4,6 +4,7 @@ from phonenumber_field.serializerfields import PhoneNumberField
 
 from .models import Booking
 from ubang.user.serializers import UserSerializer
+from ubang.company.serializers import CompanySerializer
 
 class BookingSerializer(serializers.ModelSerializer):
 
@@ -11,7 +12,7 @@ class BookingSerializer(serializers.ModelSerializer):
 
     create_by = UserSerializer()
 
-    company_by = 
+    company_by = CompanySerializer(required=False, allow_null=True)
 
     class Meta:
         model = Booking

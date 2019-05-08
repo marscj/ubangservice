@@ -1,11 +1,11 @@
 from django.contrib import admin
 
-from .models import ItineraryPrice, Brand, Model, Vehicle
+from .models import Brand, Model, Vehicle, ModelPrice
 from .forms import ModelForm, VehicleForm
 from ubang.vehicle import VehicleType, VehicleCategory
 
-class ItineraryPriceInlie(admin.TabularInline):
-    model = ItineraryPrice
+class ModelPriceInlie(admin.TabularInline):
+    model = ModelPrice
     extra = 0
 
     raw_id_fields = ('itinerary',)
@@ -16,7 +16,7 @@ class BrandAdmin(admin.ModelAdmin):
 
 @admin.register(Model)
 class ModelAdmin(admin.ModelAdmin):
-    inlines = (ItineraryPriceInlie, )
+    inlines = (ModelPriceInlie, )
 
     form = ModelForm
 

@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from datetime import datetime, date
 
 from .models import Booking, Itinerary
-from ubang.vehicle.models import ItineraryPrice
+from ubang.vehicle.models import ModelPrice
 
 class ItineraryForm(forms.ModelForm):
     

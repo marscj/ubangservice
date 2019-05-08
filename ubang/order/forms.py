@@ -113,10 +113,10 @@ class TaskInlineFormSet(forms.BaseInlineFormSet):
 
     def clean_itinerary(self, itinerary, vehicle):
         if itinerary and vehicle:
-            if vehicle.model and vehicle.model.it_price:
+            if vehicle.model and vehicle.model.price:
                 try:
-                    vehicle.model.it_price.all().get(itinerary=itinerary)
-                except ItineraryPrice.DoesNotExist:
+                    vehicle.model.price.all().get(itinerary=itinerary)
+                except ModelPrice.DoesNotExist:
                     raise ValidationError('Ensure %s model has itinerary price' % vehicle.traffic_plate_no)
             else:
                 raise ValidationError('Ensure %s has model' % vehicle.traffic_plate_no)

@@ -12,21 +12,6 @@ from ubang.itinerary.models import Itinerary
 
 from .import BusCategory, CarCategory, VehicleCategory, VehicleType
 
-class ItineraryPrice(models.Model):
-    
-    cost_price = models.DecimalField(default=600.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
-    gross_price = models.DecimalField(default=800.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
-
-    itinerary = models.ForeignKey(Itinerary, related_name='it_price', on_delete=models.CASCADE)
-    model = models.ForeignKey('Model', related_name='it_price', on_delete=models.SET_NULL, null=True)
-
-    class Meta:
-        verbose_name = _("ItineraryPrice")
-        verbose_name_plural = _("ItineraryPrices")
-
-    def __str__(self):
-        return str(id)
-
 # 品牌
 class Brand(models.Model):
     
@@ -118,3 +103,18 @@ class Vehicle(models.Model):
 
     def __str__(self):
         return self.traffic_plate_no
+
+class ModelPrice(models.Model):
+    
+    cost_price = models.DecimalField(default=600.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
+    gross_price = models.DecimalField(default=800.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
+
+    itinerary = models.ForeignKey(Itinerary, related_name='price', on_delete=models.CASCADE)
+    model = models.ForeignKey('Model', related_name='price', on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        verbose_name = _("Model Price")
+        verbose_name_plural = _("Model Prices")
+
+    def __str__(self):
+        return str(id)

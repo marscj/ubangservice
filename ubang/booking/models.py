@@ -57,7 +57,7 @@ class Booking(MPTTModel):
     guide = models.ForeignKey(CustomUser, related_name='booking_guide', on_delete=models.SET_NULL, blank=True, null=True)
 
     # 订单
-    order = models.ForeignKey(Order, related_name='bookings', on_delete=models.CASCADE, blank=True, null=True)
+    order = models.ForeignKey(Order, related_name='booking', on_delete=models.CASCADE, blank=True, null=True)
 
     parent = models.ForeignKey('self', related_name='children', on_delete=models.CASCADE, null=True, blank=True)
 

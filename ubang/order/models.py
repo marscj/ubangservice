@@ -14,7 +14,7 @@ from datetime import datetime, date
 
 from ubang.user.models import CustomUser
 from ubang.company.models import Company
-from ubang.vehicle.models import Vehicle, ItineraryPrice
+from ubang.vehicle.models import Vehicle
 from ubang.itinerary.models import Itinerary
 from .import OrderStatus
 
