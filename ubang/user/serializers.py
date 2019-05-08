@@ -19,6 +19,12 @@ class RoleSerializer(serializers.ModelSerializer):
         model = Role
         fields = '__all__'
 
+class CompanySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Company
+        fields = ('id', 'name',)
+
 class UserSerializer(serializers.ModelSerializer):
 
     country = CountryField(required=False, allow_null=True)
@@ -27,12 +33,13 @@ class UserSerializer(serializers.ModelSerializer):
 
     roles = serializers.SerializerMethodField()
 
-    company = serializers.ModelField(Company()._meta.get_field('name'), required=False, allow_null=True)
+    company = CompanySerializer(required=False, allow_null=True)
+    # company = CompanySerializer()
 
     class Meta:
         model = CustomUser
         fields = (
-            'id', 'username', 'name', 'phone', 'email', 'country', 'company', 'roles', 'is_driver', 'is_tourguide', 'is_actived'
+            'id', 'username', 'name', 'phone', 'email', 'country', 'company', 'roles', 'is_driver', 'is_tourguide', 'is_actived', 'introduction'
         )
 
     def get_roles(self, obj):

@@ -13,7 +13,7 @@ class CustomUser(AbstractUser):
 
     phone = PhoneNumberField(blank=True, null=True)
 
-    name = models.CharField(max_length=128, default='')
+    name = models.CharField(max_length=128, default='', blank=True, null=True)
 
     is_driver = models.BooleanField(default=False)
     
@@ -30,6 +30,8 @@ class CustomUser(AbstractUser):
     whatsup = models.CharField(max_length=64, blank=True, null=True)
 
     avatar = models.ImageField(upload_to='photos', null=True, blank=True)
+
+    introduction = models.TextField(max_length=256, blank=True, null=True)
 
     company = models.ForeignKey(Company, related_name='user', on_delete=models.SET_NULL, blank=True,null=True)
 

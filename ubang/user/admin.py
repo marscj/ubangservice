@@ -54,7 +54,7 @@ class CustomerUserAdmin(UserAdmin):
         ),
         (_('Personal info'), {
             'classes': ('grp-collapse grp-open',),
-            'fields': ('company', 'is_actived', 'is_driver', 'is_tourguide', 'name', 'phone', 'wechart', 'email', 'gender', 'country', 'avatar')
+            'fields': ('company', 'is_actived', 'is_driver', 'is_tourguide', 'name', 'phone', 'wechart', 'email', 'gender', 'country', 'avatar', 'introduction')
         }),
         (_('Permissions'), {
             'classes': ('grp-collapse grp-open',),

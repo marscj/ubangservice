@@ -60,6 +60,7 @@ class UserView(ModelViewSet):
     serializer_class = UserSerializer
     queryset = CustomUser.objects.all()
     
+    filterset_fields = ('is_driver', 'is_tourguide')
     ordering_fields = ('id', 'username', 'is_driver', 'is_tourguide', 'is_actived')
     search_fields = ('username', 'email')
     ordering = ('id', )
@@ -88,8 +89,26 @@ class UserView(ModelViewSet):
         response = super().retrieve(request, pk)
         
         context = {
-            'code': 20001,
-            'message': response.data
+            'code': 20000,
+            'data': response.data
         }
             
         return Response(context)
+
+    def update(self, request, *args, **kwargs):
+        print(request.data)
+        try:
+            response = super().update(request, *args, **kwargs)
+            context = {
+                'code': 20000,
+                'data': response.data
+            }
+
+            return Response(context)
+        except (ValueError, Exception) as e:
+            context = {
+                'code': 20001,
+                'message': '%s' % e
+            }
+                
+            return Response(context)

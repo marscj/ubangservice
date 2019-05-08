@@ -10,15 +10,23 @@ export function login(data) {
 
 export function getUsers(query) {
   return request({
-    url: '/users/',
+    url: 'user/users/',
     method: 'get',
     params: query
   })
 }
 
+export function updateUser(id, data) {
+  return request({
+    url: `user/users/${id}/`,
+    method: 'put',
+    data
+  })
+}
+
 export function getInfo(token) {
   return request({
-    url: '/users/info/',
+    url: 'user/users/info/',
     method: 'get'
   })
 }
