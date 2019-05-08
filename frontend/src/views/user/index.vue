@@ -24,27 +24,27 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column label="ID" prop="id" sortable="custom" align="center" width="60">
+      <el-table-column label="ID" prop="id" sortable="custom" align="center" width="60px">
         <template slot-scope="{row}">
           <span>{{ row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="UserName" align="center" width="180">
+      <el-table-column label="UserName" align="center" width="180px">
         <template slot-scope="{row}">
           <span>{{ row.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Name" align="center" width="120">
+      <el-table-column label="Name" align="center" width="120px">
         <template slot-scope="{row}">
           <span class="link-type" @click="handleUpdate(row)">{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Phone" width="120" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="Phone" width="120px" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <span class="link-type" @click="handleUpdate(row)">{{ row.phone }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Email" width="180" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="Email" width="180px" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <span class="link-type" @click="handleUpdate(row)">{{ row.email }}</span>
         </template>
@@ -59,22 +59,22 @@
           <span class="link-type" @click="handleUpdate(row)">{{ row.introduction }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Driver" width="80" align="center">
+      <el-table-column label="Driver" width="80px" align="center">
         <template slot-scope="{row}">
           <el-checkbox v-model="row.is_driver" @change="handleChangeStatus(row, 'is_driver')" />
         </template>
       </el-table-column>
-      <el-table-column label="Guide" width="80" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="Guide" width="80px" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-checkbox v-model="row.is_tourguide" @change="handleChangeStatus(row, 'is_tourguide')" />
         </template>
       </el-table-column>
-      <el-table-column label="Active" align="center" width="80" class-name="small-padding fixed-width">
+      <el-table-column label="Active" align="center" width="80px" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-checkbox v-model="row.is_actived" @change="handleChangeStatus(row, 'is_actived')" />
         </template>
       </el-table-column>
-      <el-table-column label="Actions" align="center" width="100" class-name="small-padding fixed-width">
+      <el-table-column label="Actions" align="center" width="100px" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
             Edit

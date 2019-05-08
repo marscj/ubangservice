@@ -5,11 +5,13 @@ from django.utils.timezone import now
 from phonenumber_field.modelfields import PhoneNumberField
 from mptt.models import MPTTModel
 
+from .import BookingStatus
 from ubang.vehicle.models import Vehicle
 from ubang.user.models import CustomUser
 from ubang.order.models import Order
 from ubang.company.models import Company
 from ubang.itinerary.models import Itinerary as _Itinerary
+from ubang.discount.models import Discount
 
 class BookingQuerySet(models.QuerySet):
     pass
@@ -38,12 +40,17 @@ class Booking(MPTTModel):
 
     # 有效期
     expiry_date = models.DateTimeField(default=now)
+
+    # 状态
+    status = models.IntegerField(default=BookingStatus.Darft, choices=BookingStatus.CHOICES)
         
     # 备注
     remark = models.TextField(max_length=256, blank=True, null=True)
 
+    # 创建时间
     create_at = models.DateTimeField(auto_now_add=True, editable=False)
 
+    # 修改时间
     change_at = models.DateTimeField(auto_now_add=True, editable=False)
 
     # 客户
@@ -60,6 +67,9 @@ class Booking(MPTTModel):
 
     # 订单
     order = models.ForeignKey(Order, related_name='booking', on_delete=models.CASCADE, blank=True, null=True)
+
+    # 折扣
+    discount = models.ForeignKey(Discount, related_name='booking', on_delete=models.SET_NULL, blank=True, null=True)
 
     parent = models.ForeignKey('self', related_name='children', on_delete=models.CASCADE, null=True, blank=True)
 

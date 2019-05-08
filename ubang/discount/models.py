@@ -9,7 +9,7 @@ class Discount(models.Model):
     uuid = models.UUIDField()
     name = models.CharField(max_length=128)
     value = models.DecimalField(default=Decimal(0.0), max_digits=3, decimal_places=2, validators=[MinValueValidator(0.0), MaxValueValidator(1.0)])
-    exp_date = models.DateTimeField(default=None, blank=True, null=True)
+    expiry_date = models.DateTimeField(default=None, blank=True, null=True)
 
     class Meta:
         verbose_name = _("Disscount")
