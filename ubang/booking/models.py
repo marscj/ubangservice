@@ -14,7 +14,11 @@ from ubang.itinerary.models import Itinerary as _Itinerary
 from ubang.discount.models import Discount
 
 class BookingQuerySet(models.QuerySet):
-    pass
+    
+    def datetime_filter(self,start_time, end_time):
+        return self.filter(
+            models.Q(start_time__range=(start_time, end_time)) & models.Q(end_time__range=(start_time, end_time))
+        )
 
 class Booking(MPTTModel):
     
@@ -73,7 +77,7 @@ class Booking(MPTTModel):
 
     parent = models.ForeignKey('self', related_name='children', on_delete=models.CASCADE, null=True, blank=True)
 
-    # objects = BookingQuerySet.as_manager()
+    objects = BookingQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("Booking")

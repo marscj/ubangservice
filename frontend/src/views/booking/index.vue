@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.search" placeholder="id " style="width: 240px" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-input v-model="listQuery.search" placeholder="id name phone" style="width: 240px" class="filter-item" @keyup.enter.native="handleFilter" />
       
       <el-date-picker class="filter-item" v-model="listQuery.start_time" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="Start Time:" />
       <el-date-picker class="filter-item" v-model="listQuery.end_time" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="End Time:" />
 
-      <el-select class="filter-item" v-model="listQuery.status" placeholder="Status" clearable>
+      <el-select class="filter-item" v-model="listQuery.status" placeholder="Status" clearable @change="handleFilter">
         <el-option v-for="item in options"
           :key="item.value"
           :label="item.label"
@@ -31,13 +31,14 @@
       fit
       highlight-current-row
       style="width: 100%;"
-      @sort-change="sortChange"
-    >
-      <el-table-column label="BookingId" width="180px" align="center">
+      row-key="id"
+    > 
+      <el-table-column prop="bookingId" label="BookingId" width="220px" align="center">
         <template slot-scope="{row}">
-          <router-link :to="'/booking/edit/'+row.id" class="link-type">
+          <router-link v-if="row.children===null || row.parent != null" :to="'/booking/edit/'+ row.id" class="link-type">
             <span>{{ row.bookingId }}</span>
           </router-link>
+          <span v-else class="link-type">{{ row.bookingId }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Start Time" width="160px" align="center">
@@ -54,7 +55,7 @@
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column label="Create at" width="160px" align="center">
+      <!-- <el-table-column label="Create at" width="160px" align="center">
         <template slot-scope="{row}">
           <router-link :to="'/booking/edit/'+row.id" class="link-type">
             <span>{{ row.change_at }}</span>
@@ -65,6 +66,13 @@
         <template slot-scope="{row}">
           <router-link :to="'/booking/edit/'+row.id" class="link-type">
             <span>{{ row.change_at }}</span>
+          </router-link>
+        </template>
+      </el-table-column> -->
+      <el-table-column label="Create by" width="160px" align="center">
+        <template slot-scope="{row}">
+          <router-link :to="'/booking/edit/'+row.id" class="link-type">
+            <span>{{ row.create_by.name || row.create_by.username }}</span>
           </router-link>
         </template>
       </el-table-column>
@@ -168,7 +176,7 @@ export default {
       this.getList()
     },
     handleCreate() {},
-    sortChange() {}
+    sortChange() {},
   }
 }
 </script>
