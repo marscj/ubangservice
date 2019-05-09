@@ -24,10 +24,6 @@ export const constantRoutes = [
     path: '/dashboard',
     component: Layout,
     redirect: '/dashboard/index',
-    meta: {
-      title: 'Home',
-      icon: 'dashboard'
-    },
     children: [{
       path: 'index',
       name: 'Dashboard',
@@ -39,27 +35,25 @@ export const constantRoutes = [
   {
     path: '/booking',
     component: Layout,
-    children: [
-      {
-        path: '/booking/index',
-        name: 'Booking',
-        component: () => import('@/views/booking/index'),
-        meta: { title: 'Bookings', icon: 'booking', noCache: true }
-      }
-    ]
+    redirect: '/booking/index',
+    children: [{
+      path: 'index',
+      name: 'Booking',
+      component: () => import('@/views/booking/index'),
+      meta: { title: 'Booking', icon: 'booking', noCache: true }
+    }]
   },
 
   {
     path: '/order',
     component: Layout,
-    children: [
-      {
-        path: '/order/index',
-        name: 'Order',
-        component: () => import('@/views/order/index'),
-        meta: { title: 'Orders', icon: 'order', noCache: true }
-      }
-    ]
+    redirect: '/order/index',
+    children: [{
+      path: 'index',
+      name: 'Order',
+      component: () => import('@/views/order/index'),
+      meta: { title: 'Order', icon: 'order', noCache: true }
+    }]
   },
 
   {
@@ -70,20 +64,18 @@ export const constantRoutes = [
       title: 'Authorization',
       icon: 'lock'
     },
-    children: [
-      {
-        path: 'user',
-        name: 'Users',
-        component: () => import('@/views/user/index'),
-        meta: { title: 'Users' }
-      },
-      {
-        path: 'permission',
-        name: 'Permission',
-        component: () => import('@/views/permission/index'),
-        meta: { title: 'Permission' }
-      }
-    ]
+    children: [{
+      path: 'user',
+      name: 'Users',
+      component: () => import('@/views/user/index'),
+      meta: { title: 'Users' }
+    },
+    {
+      path: 'permission',
+      name: 'Permission',
+      component: () => import('@/views/permission/index'),
+      meta: { title: 'Permission' }
+    }]
   },
 
   {

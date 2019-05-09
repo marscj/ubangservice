@@ -2,9 +2,30 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input v-model="listQuery.search" placeholder="username name phone email" style="width: 240px;" class="filter-item" @keyup.enter.native="handleFilter" />
-      <el-select v-model="options" multiple placeholder="Options" clearable class="filter-item" style="width: 180px" @change="handleFilter">
-        <el-option v-for="item in TypeOptions" :key="item.value" :label="item.label" :value="item.value" />
+      <el-select v-model="listQuery.is_driver" placeholder="Driver" clearable class="filter-item" @change="handleFilter">
+        <el-option v-for="item in BoolOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
       </el-select>
+
+      <el-select v-model="listQuery.is_tourguide" placeholder="Tourguide" clearable class="filter-item" @change="handleFilter">
+        <el-option v-for="item in BoolOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
+
+      <el-select v-model="listQuery.is_actived" placeholder="Active" clearable class="filter-item" @change="handleFilter">
+        <el-option v-for="item in BoolOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
+      
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         Search
       </el-button>
@@ -22,9 +43,8 @@
       fit
       highlight-current-row
       style="width: 100%;"
-      @sort-change="sortChange"
     >
-      <el-table-column label="ID" prop="id" sortable="custom" align="center" width="60px">
+      <el-table-column label="ID" align="center" width="60px">
         <template slot-scope="{row}">
           <span>{{ row.id }}</span>
         </template>
@@ -118,10 +138,9 @@ import waves from '@/directive/waves'
 import { parseTime } from '@/utils'
 import Pagination from '@/components/Pagination'
 
-const TypeOptions = [
-  { value: 'driver', label: 'Driver' }, 
-  { value: 'guide', label: 'Guide' },
-  { value: 'active', label: 'Active' }
+const BoolOptions = [
+  { value: true, label: 'Yes' },
+  { value: false, label: 'No' }
 ]
 
 export default {
@@ -133,7 +152,6 @@ export default {
       list: null,
       total: 0,
       listLoading: true,
-      options: undefined,
       listQuery: {
         page: 1,
         limit: 20,
@@ -157,7 +175,7 @@ export default {
       dialogFormVisible: false,
       dialogStatus: '',
       rules: {},
-      TypeOptions
+      BoolOptions
     }
   },
   created() {
@@ -176,25 +194,6 @@ export default {
     },
     handleFilter() {
       this.listQuery.page = 1
-
-      if(this.options.includes('driver')){
-        this.listQuery.is_driver = true
-      } else {
-        this.listQuery.is_driver = undefined
-      }
-
-      if(this.options.includes('guide')){
-        this.listQuery.is_tourguide = true
-      } else {
-        this.listQuery.is_tourguide = undefined
-      }
-
-      if(this.options.includes('active')){
-        this.listQuery.is_actived = true
-      } else {
-        this.listQuery.is_actived = undefined
-      }
-
       this.getList()
     },
     handleChangeStatus(row, key) {
@@ -217,20 +216,6 @@ export default {
         row[key] = !row[key]
         this.listLoading = false
       })
-    },
-    sortChange(data) {
-      const { prop, order } = data
-      if (prop === 'id') {
-        this.sortByID(order)
-      }
-    },
-    sortByID(order) {
-      if (order === 'ascending') {
-        this.listQuery.sort = 'id'
-      } else {
-        this.listQuery.sort = '-id'
-      }
-      this.handleFilter()
     },
     resetTemp() {
       this.temp = {
