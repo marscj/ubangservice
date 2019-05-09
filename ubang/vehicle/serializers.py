@@ -28,4 +28,12 @@ class VehicleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Vehicle
-        fields = ('id',)
+        fields = '__all__'
+
+class VehicleListSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Vehicle
+        fields = (
+            'traffic_plate_no',
+        )

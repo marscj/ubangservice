@@ -15,3 +15,14 @@ class CompanySerializer(serializers.ModelSerializer):
         model = Company
         fields = '__all__'
 
+class CompanyListSerializer(serializers.ModelSerializer):
+    
+    phone = PhoneNumberField()
+
+    tel = PhoneNumberField()
+    
+    class Meta:
+        model = Company
+        fields = (
+            'name',
+        )

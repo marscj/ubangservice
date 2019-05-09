@@ -73,7 +73,7 @@ class Booking(MPTTModel):
 
     parent = models.ForeignKey('self', related_name='children', on_delete=models.CASCADE, null=True, blank=True)
 
-    objects = BookingQuerySet.as_manager()
+    # objects = BookingQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("Booking")

@@ -36,12 +36,21 @@ export const constantRoutes = [
     path: '/booking',
     component: Layout,
     redirect: '/booking/index',
-    children: [{
-      path: 'index',
-      name: 'Booking',
-      component: () => import('@/views/booking/index'),
-      meta: { title: 'Booking', icon: 'booking', noCache: true }
-    }]
+    children: [
+      {
+        path: 'index',
+        name: 'Booking',
+        component: () => import('@/views/booking/index'),
+        meta: { title: 'Booking', icon: 'booking', noCache: true }
+      },
+      {
+        path: 'edit/:id(\\d+)',
+        component: () => import('@/views/booking/edit'),
+        name: 'EditBooking',
+        meta: { title: 'Edit Booking', noCache: true, activeMenu: '/booking/list' },
+        hidden: true
+      }
+    ]
   },
 
   {

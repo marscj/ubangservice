@@ -86,29 +86,31 @@ class UserView(ModelViewSet):
         return Response(context)
 
     def retrieve(self, request, pk=None):
-        response = super().retrieve(request, pk)
+        try:
+            response = super().retrieve(request, pk)            
+            context = {
+                'code': 20000,
+                'data': response.data
+            }
+            return Response(context)
+        except (ValueError, Exception) as e:  
+            context = {
+                'code': 20001,
+                'message': '%s' % e
+            }
+            return Response(context) 
         
-        context = {
-            'code': 20000,
-            'data': response.data
-        }
-            
-        return Response(context)
-
     def update(self, request, *args, **kwargs):
-        print(request.data)
         try:
             response = super().update(request, *args, **kwargs)
             context = {
                 'code': 20000,
                 'data': response.data
             }
-
             return Response(context)
         except (ValueError, Exception) as e:
             context = {
                 'code': 20001,
                 'message': '%s' % e
             }
-                
             return Response(context)

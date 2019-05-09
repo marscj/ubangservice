@@ -41,3 +41,9 @@ class UserSerializer(serializers.ModelSerializer):
             return ['visitor']
         
         return obj
+
+class UserListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'name')

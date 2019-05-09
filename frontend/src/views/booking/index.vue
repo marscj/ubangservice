@@ -33,12 +33,69 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column label="OrderId" width="120px" align="center">
+      <el-table-column label="BookingId" width="180px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.orderId }}</span>
+          <router-link :to="'/booking/edit/'+row.id" class="link-type">
+            <span>{{ row.bookingId }}</span>
+          </router-link>
         </template>
       </el-table-column>
-      
+      <el-table-column label="Start Time" width="160px" align="center">
+        <template slot-scope="{row}">
+          <router-link :to="'/booking/edit/'+row.id" class="link-type">
+            <span>{{ row.start_time }}</span>
+          </router-link>
+        </template>
+      </el-table-column>
+      <el-table-column label="End Time" width="160px" align="center">
+        <template slot-scope="{row}">
+          <router-link :to="'/booking/edit/'+row.id" class="link-type">
+            <span>{{ row.end_time }}</span>
+          </router-link>
+        </template>
+      </el-table-column>
+      <el-table-column label="Create at" width="160px" align="center">
+        <template slot-scope="{row}">
+          <router-link :to="'/booking/edit/'+row.id" class="link-type">
+            <span>{{ row.change_at }}</span>
+          </router-link>
+        </template>
+      </el-table-column>
+      <el-table-column label="Change at" width="160px" align="center">
+        <template slot-scope="{row}">
+          <router-link :to="'/booking/edit/'+row.id" class="link-type">
+            <span>{{ row.change_at }}</span>
+          </router-link>
+        </template>
+      </el-table-column>
+      <el-table-column label="Vehicle" width="120px" align="center">
+        <template slot-scope="{row}">
+          <router-link :to="'/booking/edit/'+row.id" class="link-type">
+            <span v-if=row.vehicle>{{ row.vehicle.traffic_plate_no }}</span>
+          </router-link>          
+        </template>
+      </el-table-column>
+      <el-table-column label="Guide" width="120px" align="center">
+        <template slot-scope="{row}">
+          <router-link :to="'/booking/edit/'+row.id" class="link-type">
+            <span v-if=row.guide>{{ row.guide.name || row.guide.username }}</span>
+          </router-link>          
+        </template>
+      </el-table-column>
+      <el-table-column label="Remark" min_width="240px" align="center">
+        <template slot-scope="{row}">
+          <router-link :to="'/booking/edit/'+row.id" class="link-type">
+            <span v-if=row.remark>{{ row.remark }}</span>
+          </router-link>          
+        </template>
+      </el-table-column>
+      <el-table-column label="Status" width="100px" class-name="status-col" align="center">
+        <template slot-scope="{row}">
+          <el-tag :type="row.status | typeStatus">
+            {{ row.status | transStatus }}
+          </el-tag>          
+        </template>
+      </el-table-column>
     </el-table>
     
     
@@ -55,6 +112,26 @@ const Status = [
 ]
 
 export default {
+  filters: {
+    transStatus(status) {
+      const statusMap = {
+        0: 'Darft',
+        1: 'Confirm',
+        2: 'Cancel',
+        3: 'Delete'
+      }
+      return statusMap[status]
+    },
+    typeStatus(status) {
+      const statusMap = {
+        0: 'info',
+        1: 'success',
+        2: 'danger',
+        3: 'danger'
+      }
+      return statusMap[status]
+    },
+  },
   data() {
     return {
       tableKey: 0,
