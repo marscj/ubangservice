@@ -5,11 +5,7 @@
       <el-date-picker v-model="listQuery.start_time" class="filter-item" type="date" value-format="yyyy-MM-dd 00:00" placeholder="Start Date:" />
       <el-date-picker v-model="listQuery.end_time" class="filter-item" type="date" value-format="yyyy-MM-dd 23:59" placeholder="End Date:" />
       <el-select v-model="listQuery.status" class="filter-item" placeholder="Status" clearable @change="handleFilter">
-        <el-option v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
+        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         Search
