@@ -2,37 +2,33 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input v-model="listQuery.search" placeholder="id name phone" style="width: 240px" class="filter-item" @keyup.enter.native="handleFilter" />
-      
-      <el-date-picker class="filter-item" v-model="listQuery.start_time" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="Start Time:" />
-      <el-date-picker class="filter-item" v-model="listQuery.end_time" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="End Time:" />
-
-      <el-select class="filter-item" v-model="listQuery.status" placeholder="Status" clearable @change="handleFilter">
+      <el-date-picker v-model="listQuery.start_time" class="filter-item" type="date" value-format="yyyy-MM-dd 00:00" placeholder="Start Date:" />
+      <el-date-picker v-model="listQuery.end_time" class="filter-item" type="date" value-format="yyyy-MM-dd 23:59" placeholder="End Date:" />
+      <el-select v-model="listQuery.status" class="filter-item" placeholder="Status" clearable @change="handleFilter">
         <el-option v-for="item in options"
           :key="item.value"
           :label="item.label"
           :value="item.value">
         </el-option>
       </el-select>
-      
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         Search
       </el-button>
-      <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate" >
+      <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">
         Add
       </el-button>
     </div>
-
-    <el-table 
+    <el-table
       :key="tableKey"
+      v-loading="listLoading"
       :data="list"
-      v-loading="listLoading" 
-      border 
+      border
       stripe
       fit
       highlight-current-row
       style="width: 100%;"
       row-key="id"
-    > 
+    >
       <el-table-column prop="bookingId" label="BookingId" width="220px" align="center">
         <template slot-scope="{row}">
           <router-link v-if="row.children===null || row.parent != null" :to="'/booking/edit/'+ row.id" class="link-type">
@@ -79,47 +75,48 @@
       <el-table-column label="Vehicle" width="120px" align="center">
         <template slot-scope="{row}">
           <router-link :to="'/booking/edit/'+row.id" class="link-type">
-            <span v-if=row.vehicle>{{ row.vehicle.traffic_plate_no }}</span>
-          </router-link>          
+            <span v-if="row.vehicle">{{ row.vehicle.traffic_plate_no }}</span>
+          </router-link>
         </template>
       </el-table-column>
       <el-table-column label="Guide" width="120px" align="center">
         <template slot-scope="{row}">
           <router-link :to="'/booking/edit/'+row.id" class="link-type">
-            <span v-if=row.guide>{{ row.guide.name || row.guide.username }}</span>
-          </router-link>          
+            <span v-if="row.guide">{{ row.guide.name || row.guide.username }}</span>
+          </router-link>
         </template>
       </el-table-column>
       <el-table-column label="Remark" min_width="240px" align="center">
         <template slot-scope="{row}">
           <router-link :to="'/booking/edit/'+row.id" class="link-type">
-            <span v-if=row.remark>{{ row.remark }}</span>
-          </router-link>          
+            <span v-if="row.remark">{{ row.remark }}</span>
+          </router-link>
         </template>
       </el-table-column>
       <el-table-column label="Status" width="100px" class-name="status-col" align="center">
         <template slot-scope="{row}">
           <el-tag :type="row.status | typeStatus">
             {{ row.status | transStatus }}
-          </el-tag>          
+          </el-tag>
         </template>
       </el-table-column>
     </el-table>
-    
-    
+    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
   </div>
 </template>
 
 <script>
 import { getBookings } from '@/api/booking'
+import Pagination from '@/components/Pagination'
 
 const Status = [
-  { value: 0, label: 'Darft'},
-  { value: 1, label: 'Confirm'},
-  { value: 2, label: 'Cancel'},
+  { value: 0, label: 'Darft' },
+  { value: 1, label: 'Confirm' },
+  { value: 2, label: 'Cancel' }
 ]
 
 export default {
+  components: { Pagination },
   filters: {
     transStatus(status) {
       const statusMap = {
@@ -138,7 +135,7 @@ export default {
         3: 'danger'
       }
       return statusMap[status]
-    },
+    }
   },
   data() {
     return {
@@ -146,7 +143,7 @@ export default {
       list: null,
       listLoading: true,
       listQuery: {
-        page: 1, 
+        page: 1,
         limit: 20,
         search: undefined,
         start_time: undefined,
@@ -162,7 +159,7 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      getBookings(this.listQuery).then( response => {
+      getBookings(this.listQuery).then(response => {
         console.log(response)
         this.list = response.data.items
         this.total = response.data.total
@@ -173,10 +170,11 @@ export default {
     },
     handleFilter() {
       this.listQuery.page = 1
+      this.listQuery.list = null
       this.getList()
     },
     handleCreate() {},
-    sortChange() {},
+    sortChange() {}
   }
 }
 </script>

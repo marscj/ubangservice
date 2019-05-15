@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 
@@ -16,8 +17,10 @@ from ubang.discount.models import Discount
 class BookingQuerySet(models.QuerySet):
     
     def datetime_filter(self,start_time, end_time):
+        print(start_time, end_time)
         return self.filter(
-            models.Q(start_time__range=(start_time, end_time)) & models.Q(end_time__range=(start_time, end_time))
+            (Q(start_time__range=(start_time, end_time)) & 
+            Q(end_time__range=(start_time, end_time)))
         )
 
 class Booking(MPTTModel):

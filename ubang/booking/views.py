@@ -9,7 +9,7 @@ class BookingView(ModelViewSet):
     permission_classes = [IsAuthenticated]
     filterset_fields = ('status', )
     search_fields = ('bookingId', 'contact_name', 'contact_phone', 'create_by__name', 'create_by__username', 'vehicle__traffic_plate_no', 'guide__name', 'guide__username',)
-    
+
     def get_serializer_class(self):
         if self.action == 'list':
             return BookingListSerializer
@@ -23,9 +23,8 @@ class BookingView(ModelViewSet):
             end_time = self.request.query_params.get('end_time', None)
 
             if start_time and end_time:
-                print(queryset, '#######################', start_time, end_time)
                 queryset = Booking.objects.datetime_filter(start_time, end_time)
-                print(queryset, '#######################')
+                print(queryset)
 
             return queryset
         else:
@@ -42,6 +41,7 @@ class BookingView(ModelViewSet):
                 'code': 20000,
                 'data': response.data,
             }
+            
             return Response(context)
         except (ValueError, Exception) as e:
             context = {
