@@ -50,7 +50,7 @@ class Order(models.Model):
     change_at = models.DateTimeField(auto_now_add=True)
     
     # 订单状态
-    status = models.IntegerField(default=OrderStatus.Open, choices=OrderStatus.CHOICES)
+    status = models.CharField(max_length=16, default=OrderStatus.Open, choices=OrderStatus.CHOICES)
 
     # 导游
     guide = models.ForeignKey(CustomUser, related_name='order_guide', on_delete=models.SET_NULL, blank=True, null=True)

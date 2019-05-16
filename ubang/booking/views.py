@@ -22,9 +22,11 @@ class BookingView(ModelViewSet):
             start_time = self.request.query_params.get('start_time', None)
             end_time = self.request.query_params.get('end_time', None)
 
-            if start_time and end_time:
-                queryset = Booking.objects.datetime_filter(start_time, end_time)
-                print(queryset)
+            if start_time:
+                queryset = queryset.filter(start_time__lte=start_time)
+            
+            if end_time:
+                queryset = queryset.filter(end_time__gte=end_time)
 
             return queryset
         else:

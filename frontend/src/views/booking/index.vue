@@ -2,8 +2,8 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input v-model="listQuery.search" placeholder="id name phone" style="width: 240px" class="filter-item" @keyup.enter.native="handleFilter" />
-      <el-date-picker v-model="listQuery.start_time" class="filter-item" type="date" value-format="yyyy-MM-dd 00:00" placeholder="Start Date:" />
-      <el-date-picker v-model="listQuery.end_time" class="filter-item" type="date" value-format="yyyy-MM-dd 23:59" placeholder="End Date:" />
+      <el-date-picker v-model="listQuery.start_time" class="filter-item" type="datetime" value-format="yyyy-MM-dd HH:mm" placeholder="Start Time:" />
+      <el-date-picker v-model="listQuery.end_time" class="filter-item" type="datetime" value-format="yyyy-MM-dd HH:mm" placeholder="End Time:" />
       <el-select v-model="listQuery.status" class="filter-item" placeholder="Status" clearable @change="handleFilter">
         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </el-select>
@@ -92,7 +92,7 @@
       <el-table-column label="Status" width="100px" class-name="status-col" align="center">
         <template slot-scope="{row}">
           <el-tag :type="row.status | typeStatus">
-            {{ row.status | transStatus }}
+            {{ row.status }}
           </el-tag>
         </template>
       </el-table-column>
@@ -106,23 +106,15 @@ import { getBookings } from '@/api/booking'
 import Pagination from '@/components/Pagination'
 
 const Status = [
-  { value: 0, label: 'Darft' },
-  { value: 1, label: 'Confirm' },
-  { value: 2, label: 'Cancel' }
+  { value: 'Darft', label: 'Darft' },
+  { value: 'Confirm', label: 'Confirm' },
+  { value: 'Cancel', label: 'Cancel' },
+  { value: 'Delete', label: 'Delete' },
 ]
 
 export default {
   components: { Pagination },
   filters: {
-    transStatus(status) {
-      const statusMap = {
-        0: 'Darft',
-        1: 'Confirm',
-        2: 'Cancel',
-        3: 'Delete'
-      }
-      return statusMap[status]
-    },
     typeStatus(status) {
       const statusMap = {
         0: 'info',
@@ -136,6 +128,7 @@ export default {
   data() {
     return {
       tableKey: 0,
+      total: 0,
       list: null,
       listLoading: true,
       listQuery: {

@@ -2,11 +2,11 @@
 default_app_config = 'ubang.order.apps.OrderConfig'
 
 class OrderStatus:
-    Open = 0
-    Padding = 1
-    Cancel = 2
-    Complete = 3
-    Delete = 4
+    Open = 'Open'
+    Padding = 'Padding'
+    Cancel = 'Cancel'
+    Complete = 'Complete'
+    Delete = 'Delete'
 
     CHOICES = [
         (Open, 'Open'),
