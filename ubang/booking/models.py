@@ -17,7 +17,10 @@ from ubang.discount.models import Discount
 class BookingQuerySet(models.QuerySet):
     
     def datetime_filter(self,start_time, end_time):
-        print(start_time, end_time)
+        # return self.filter(
+        #     (Q(start_time__lte=start_time) | 
+        #     Q(end_time__gte=end_time))
+        # )
         return self.filter(
             (Q(start_time__range=(start_time, end_time)) & 
             Q(end_time__range=(start_time, end_time)))
