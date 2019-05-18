@@ -77,7 +77,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     
+    'ubang.middleware.jwt_auth.JWTAuthenticationMiddleware',
     'ubang.middleware.create_by.WhoDidMiddleware',
+    
     # 'django.middleware.cache.UpdateCacheMiddleware',
     # 'django.middleware.common.CommonMiddleware',
     # 'django.middleware.cache.FetchFromCacheMiddleware',

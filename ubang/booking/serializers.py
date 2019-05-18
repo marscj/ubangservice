@@ -16,11 +16,11 @@ class BookingSerializer(serializers.ModelSerializer):
 
     company_by = CompanySerializer(required=False, allow_null=True)
 
-    vehicle = VehicleSerializer()
+    vehicle = VehicleSerializer(required=False, allow_null=True)
 
-    guide = UserSerializer(required=True, allow_null=True)
+    guide = UserSerializer(required=False, allow_null=True)
 
-    order = OrderSerializer(required=True, allow_null=True)
+    order = OrderSerializer(required=False, allow_null=True)
 
     class Meta:
         model = Booking
@@ -31,14 +31,16 @@ class BookingListSerializer(serializers.ModelSerializer):
     
     contact_phone = PhoneNumberField(required=True)
 
-    create_by = UserListSerializer()
+    create_by = UserListSerializer(required=False, allow_null=True)
 
-    vehicle = VehicleListSerializer()
+    vehicle = VehicleListSerializer(required=False, allow_null=True)
 
-    guide = UserListSerializer(required=True, allow_null=True)
+    guide = UserListSerializer(required=False, allow_null=True)
+
+    company_by = CompanySerializer(required=False, allow_null=True)
 
     class Meta:
         model = Booking
         fields = (
-            'id', 'bookingId', 'start_time', 'end_time', 'create_by', 'create_at', 'change_at', 'contact_name', 'contact_phone', 'vehicle', 'guide', 'status', 'parent',
+            'id', 'bookingId', 'start_time', 'end_time', 'create_by', 'company_by', 'create_at', 'change_at', 'contact_name', 'contact_phone', 'vehicle', 'guide', 'status', 'parent',
         )

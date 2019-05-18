@@ -52,7 +52,7 @@ class Booking(MPTTModel):
     expiry_date = models.DateTimeField(default=now)
 
     # 状态
-    status = models.CharField(max_length=16, default=BookingStatus.Darft, choices=BookingStatus.CHOICES)
+    status = models.CharField(max_length=16, default=BookingStatus.Created, choices=BookingStatus.CHOICES)
         
     # 备注
     remark = models.TextField(max_length=256, blank=True, null=True)

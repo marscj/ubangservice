@@ -71,7 +71,7 @@
       </el-table-column>
       <el-table-column label="Company" width="200px" align="center">
         <template slot-scope="{row}">
-          <span v-if=row.company class="link-type" @click="handleUpdate(row)">{{ row.company.name }}</span>
+          <span v-if="row.company" class="link-type" @click="handleUpdate(row)">{{ row.company.name }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Introduction" min-width="150px">

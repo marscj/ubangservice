@@ -49,6 +49,13 @@ export const constantRoutes = [
         name: 'EditBooking',
         meta: { title: 'Edit Booking', noCache: true, activeMenu: '/booking/list' },
         hidden: true
+      },
+      {
+        path: 'create',
+        component: () => import('@/views/booking/create'),
+        name: 'CreateBooking',
+        meta: { title: 'Create Booking', noCache: true, activeMenu: '/booking/list' },
+        hidden: true
       }
     ]
   },

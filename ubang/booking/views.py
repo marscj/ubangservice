@@ -14,7 +14,7 @@ class BookingView(ModelViewSet):
         if self.action == 'list':
             return BookingListSerializer
         else :
-            return BookingSerializer
+            return BookingListSerializer
 
     def get_queryset(self):
         if self.action == 'list':
@@ -70,6 +70,22 @@ class BookingView(ModelViewSet):
     def update(self, request, *args, **kwargs):
         try:
             response = super().update(request, *args, **kwargs)
+            context = {
+                'code': 20000,
+                'data': response.data
+            }
+            return Response(context)
+        except (ValueError, Exception) as e:
+            context = {
+                'code': 20001,
+                'message': '%s' % e
+            }
+            return Response(context) 
+
+    def create(self, request, *args, **kwargs):
+        print(request.data)
+        try:
+            response = super().create(request, *args, **kwargs)
             context = {
                 'code': 20000,
                 'data': response.data

@@ -2,8 +2,8 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input v-model="listQuery.search" placeholder="id name phone" style="width: 240px" class="filter-item" @keyup.enter.native="handleFilter" />
-      <el-date-picker v-model="listQuery.start_time" class="filter-item" type="datetime" value-format="yyyy-MM-dd HH:mm" placeholder="Start Time:" />
-      <el-date-picker v-model="listQuery.end_time" class="filter-item" type="datetime" value-format="yyyy-MM-dd HH:mm" placeholder="End Time:" />
+      <el-date-picker v-model="listQuery.start_time" class="filter-item" type="datetime" value-format="yyyy-MM-dd HH:mm" format="yyyy-MM-dd HH:mm" placeholder="Start Time:" />
+      <el-date-picker v-model="listQuery.end_time" class="filter-item" type="datetime" value-format="yyyy-MM-dd HH:mm" format="yyyy-MM-dd HH:mm" placeholder="End Time:" />
       <el-select v-model="listQuery.status" class="filter-item" placeholder="Status" clearable @change="handleFilter">
         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </el-select>
@@ -64,7 +64,7 @@
       <el-table-column label="Create by" width="160px" align="center">
         <template slot-scope="{row}">
           <router-link :to="'/booking/edit/'+row.id" class="link-type">
-            <span>{{ row.create_by.name || row.create_by.username }}</span>
+            <span v-if="row.create_by">{{ row.create_by.name || row.create_by.username }}</span>
           </router-link>
         </template>
       </el-table-column>
@@ -106,8 +106,7 @@ import { getBookings } from '@/api/booking'
 import Pagination from '@/components/Pagination'
 
 const Status = [
-  { value: 'Darft', label: 'Darft' },
-  { value: 'Confirm', label: 'Confirm' },
+  { value: 'Created', label: 'Created' },
   { value: 'Cancel', label: 'Cancel' },
   { value: 'Delete', label: 'Delete' },
 ]
@@ -117,10 +116,9 @@ export default {
   filters: {
     typeStatus(status) {
       const statusMap = {
-        0: 'info',
-        1: 'success',
-        2: 'danger',
-        3: 'danger'
+        Created: 'success',
+        Cancel: 'warning',
+        Delete: 'danger'
       }
       return statusMap[status]
     }
@@ -162,7 +160,9 @@ export default {
       this.listQuery.list = null
       this.getList()
     },
-    handleCreate() {},
+    handleCreate() {
+      this.$router.push({ path: '/booking/create/' })
+    },
     sortChange() {}
   }
 }

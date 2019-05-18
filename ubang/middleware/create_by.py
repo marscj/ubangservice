@@ -9,6 +9,7 @@ class WhoDidMiddleware(MiddlewareMixin):
         if request.method not in ('GET', 'HEAD', 'OPTIONS', 'TRACE'):
             if hasattr(request, 'user') and request.user.is_authenticated:
                 user = request.user
+                print(request.user)
             else:
                 user = None
 
@@ -22,7 +23,6 @@ class WhoDidMiddleware(MiddlewareMixin):
 
     def mark_whodid(self, user, sender, instance, **kwargs):
         create_by_field, update_by_field, company_by_field = conf.settings.CREATE_BY_FIELD, conf.settings.UPDATE_BY_FIELD, conf.settings.COMPANY_BY_FIELD
-
         try:
             instance._meta.get_field(create_by_field)
         except FieldDoesNotExist:
@@ -43,5 +43,5 @@ class WhoDidMiddleware(MiddlewareMixin):
         except FieldDoesNotExist:
             pass
         else:
-            if not getattr(instance, company_by_field):
+            if not getattr(instance, company_by_field) and user is not None and user.company is not None:
                 setattr(instance, company_by_field, user.company)
