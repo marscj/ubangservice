@@ -8,7 +8,6 @@ from datetime import datetime, date
 from decimal import Decimal
 
 from .models import Booking
-from .utils import save_discount
 
 @receiver(pre_save, sender=Booking)
 def booking_model_pre_save(sender, **kwargs):
@@ -23,4 +22,4 @@ def booking_model_post_save(sender, **kwargs):
     booking = kwargs['instance']
 
     if kwargs['created']:
-        save_discount(booking, booking.company_by)
+        pass

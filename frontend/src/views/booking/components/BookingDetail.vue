@@ -56,37 +56,30 @@
               <el-row>
                 <el-card >
                   <el-form-item label="Status:">
-                    <!-- <span v-if="postForm.status">{{ postForm.status }}</span> -->
                     <el-input v-model="postForm.status" v-if="postForm.status" disabled></el-input>
+                    <el-input v-else disabled></el-input>
                   </el-form-item>
                   <el-form-item label="Order:">
-                    <!-- <span v-if="postForm.order">{{ postForm.order.orderId }}</span> -->
                     <el-input v-model="postForm.order.orderId" v-if="postForm.order" disabled></el-input>
-                    <!-- <el-input disabled></el-input> -->
+                    <el-input v-else disabled></el-input>
                   </el-form-item>
                   <el-form-item label="Creator:">
-                    <!-- <span v-if="postForm.create_by">{{ postForm.create_by.name || postForm.create_by.username }}</span> -->
                     <el-input v-model="name" disabled></el-input>
                   </el-form-item>
                   <el-form-item label="Company:">
-                    <!-- <span v-if="postForm.company_by">{{ postForm.company_by.name }}</span> -->
                     <el-input v-model="postForm.company_by.name" v-if="postForm.company_by" disabled></el-input>
                   </el-form-item>
-                  <el-form-item label="Discount:">
-                    <!-- <span v-if="postForm.discount">{{ postForm.discount.name }}</span> -->
-                    <el-input v-model="postForm.discount.name" v-if="postForm.discount" disabled></el-input>
-                  </el-form-item>
                   <el-form-item label="Create at:">
-                    <!-- <span v-if="postForm.create_at">{{ postForm.create_at }}</span> -->
                     <el-input v-model="postForm.create_at" v-if="postForm.create_at" disabled></el-input>
+                    <el-input v-else disabled></el-input>
                   </el-form-item>
                   <el-form-item label="Change at:">
-                    <!-- <span postForm.change_at>{{ postForm.change_at }}</span> -->
                     <el-input v-model="postForm.change_at" v-if="postForm.change_at" disabled></el-input>
+                    <el-input v-else disabled></el-input>
                   </el-form-item>
                   <el-form-item label="Expiry date:">
-                    <!-- <span v-if="postForm.expiry_date">{{ postForm.expiry_date }}</span> -->
                     <el-input v-model="postForm.expiry_date" v-if="postForm.expiry_date" disabled></el-input>
+                    <el-input v-else disabled></el-input>
                   </el-form-item>
                 </el-card>
               </el-row>

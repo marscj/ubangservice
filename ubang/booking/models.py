@@ -12,7 +12,6 @@ from ubang.user.models import CustomUser
 from ubang.order.models import Order
 from ubang.company.models import Company
 from ubang.itinerary.models import Itinerary as _Itinerary
-from ubang.discount.models import Discount
 
 class BookingQuerySet(models.QuerySet):
     
@@ -77,9 +76,6 @@ class Booking(MPTTModel):
 
     # 订单
     order = models.ForeignKey(Order, related_name='booking', on_delete=models.CASCADE, blank=True, null=True)
-
-    # 折扣
-    discount = models.ForeignKey(Discount, related_name='booking', on_delete=models.SET_NULL, blank=True, null=True)
 
     parent = models.ForeignKey('self', related_name='children', on_delete=models.CASCADE, null=True, blank=True)
 
