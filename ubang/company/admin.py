@@ -8,26 +8,6 @@ from .forms import CompanyForm
 from ubang.user.models import CustomUser
 from ubang.vehicle.models import Vehicle
 
-# class UserItemInline(admin.TabularInline):
-#     classes = ('grp-collapse grp-open',)
-#     inline_classes = ('grp-collapse grp-open',)
-#     model = CustomUser
-#     extra = 0
-
-#     # raw_id_fields = [
-#     #     'customuser'
-#     # ]
-
-# class VehicleItemInline(admin.TabularInline):
-#     classes = ('grp-collapse grp-open',)
-#     inline_classes = ('grp-collapse grp-open',)
-#     model = Vehicle
-#     extra = 0
-
-#     # raw_id_fields = [
-#     #     'customuser'
-#     # ]
-
 @admin.register(Company)
 class CompanyAdmin(admin.ModelAdmin):
     
@@ -40,7 +20,6 @@ class CompanyAdmin(admin.ModelAdmin):
             ),
         }),
         ('Permission', {
-            'classes': ('grp-collapse grp-closed',),
             'fields' : ('permissions',)
         }),
     )

@@ -19,8 +19,6 @@ admin.site.site_header = 'UBang Service'
 admin.site.index_title = 'UBang Service Administration'
 
 class ImageInline(GenericTabularInline):
-    classes = ('grp-collapse grp-closed',)
-    inline_classes = ('grp-collapse grp-closed',)
     model = Image
     extra = 1
 
@@ -49,19 +47,15 @@ class CustomerUserAdmin(UserAdmin):
 
     fieldsets = (
         (None, {
-            'classes': ('grp-collapse grp-open',),
             'fields': ('username', 'password')}
         ),
         (_('Personal info'), {
-            'classes': ('grp-collapse grp-open',),
             'fields': ('company', 'is_actived', 'is_driver', 'is_tourguide', 'name', 'phone', 'wechart', 'email', 'gender', 'country', 'avatar', 'introduction')
         }),
         (_('Permissions'), {
-            'classes': ('grp-collapse grp-open',),
             'fields': ('is_active', 'is_staff', 'is_superuser', 'user_permissions'),
         }),
         (_('Important dates'), {
-            'classes': ('grp-collapse grp-closed',),
             'fields': ('last_login', 'date_joined')
         }),
     )

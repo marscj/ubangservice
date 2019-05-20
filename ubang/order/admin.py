@@ -66,19 +66,15 @@ class OrderAdmin(admin.ModelAdmin):
 
     fieldsets = ( 
         (None, {
-            'classes': ('grp-collapse grp-open',),
             'fields': ('orderId', 'status', 'start_time', 'end_time', 'vehicle', 'guide', 'remark')
         }),
         ('Customer Info', {
-            'classes': ('grp-collapse grp-closed',),
             'fields': ('customer', )
         }),
         ('Company Info', {
-            'classes': ('grp-collapse grp-closed',),
             'fields': ('company',)
         }),
         ('Charge Info', {
-            'classes': ('grp-collapse grp-closed',),
             'fields': ('total',)
         }),
     )
