@@ -7,9 +7,6 @@ from django.contrib.admin.templatetags.admin_urls import add_preserved_filters
 from functools import update_wrapper
 from django.core.exceptions import ValidationError
 
-from mptt.admin import MPTTModelAdmin
-from mptt.forms import TreeNodeChoiceField 
-
 from .models import Booking, Itinerary
 from .forms import ItineraryInlineFormSet
 
@@ -55,7 +52,7 @@ class ItineraryInline(admin.TabularInline):
     #     return False
 
 @admin.register(Booking)
-class BookingAdmin(MPTTModelAdmin):
+class BookingAdmin(admin.ModelAdmin):
 
     inlines = (
         ItineraryInline,

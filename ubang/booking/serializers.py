@@ -26,6 +26,13 @@ class BookingSerializer(serializers.ModelSerializer):
         model = Booking
         fields = '__all__'
 
+class BookingParentSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Booking
+        fields = (
+            'id', 'bookingId'
+        )
 
 class BookingListSerializer(serializers.ModelSerializer):
     
@@ -35,12 +42,16 @@ class BookingListSerializer(serializers.ModelSerializer):
 
     vehicle = VehicleListSerializer(required=False, allow_null=True)
 
+    vehicle_id = serializers.IntegerField(write_only=True)
+
     guide = UserListSerializer(required=False, allow_null=True)
+
+    guide_id = serializers.IntegerField(write_only=True, required=False)
 
     company_by = CompanySerializer(required=False, allow_null=True)
 
     class Meta:
         model = Booking
         fields = (
-            'id', 'bookingId', 'start_time', 'end_time', 'create_by', 'company_by', 'create_at', 'change_at', 'contact_name', 'contact_phone', 'vehicle', 'guide', 'status', 'parent',
+            'id', 'bookingId', 'start_time', 'end_time', 'create_by', 'company_by', 'create_at', 'change_at', 'contact_name', 'contact_phone', 'vehicle', 'vehicle_id', 'guide', 'guide_id', 'status'
         )

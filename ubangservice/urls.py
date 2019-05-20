@@ -20,14 +20,14 @@ from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
 
-urlpatterns = [
-    path('grappelli/', include('grappelli.urls')),
-    
+urlpatterns = [    
     path('admin/', admin.site.urls),
 
     url(r'user/', include('ubang.user.urls')),
 
     url(r'booking/', include('ubang.booking.urls')),
+
+    url(r'vehicle/', include('ubang.vehicle.urls')),
   
     url(r'api-auth/', include('rest_framework.urls')),
     

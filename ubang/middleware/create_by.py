@@ -9,7 +9,6 @@ class WhoDidMiddleware(MiddlewareMixin):
         if request.method not in ('GET', 'HEAD', 'OPTIONS', 'TRACE'):
             if hasattr(request, 'user') and request.user.is_authenticated:
                 user = request.user
-                print(request.user)
             else:
                 user = None
 

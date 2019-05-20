@@ -235,7 +235,6 @@ export default {
       })
     },
     handleUpdate(row) {
-      console.log(row.id)
       this.temp = Object.assign({}, {
         id: row.id,
         username: row.username,

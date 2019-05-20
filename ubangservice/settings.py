@@ -37,8 +37,6 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     # 'jet',
     'django.contrib.contenttypes',
-    'grappelli.dashboard',
-    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     # 'django.contrib.contenttypes',
@@ -52,7 +50,6 @@ INSTALLED_APPS = [
     'django_countries',
     'phonenumber_field',
     'djmoney',
-    'mptt',
     'inline_actions',
     
     'ubang.order',
@@ -293,9 +290,6 @@ COMPANY_BY_FIELD = 'company_by'
 # }
 # SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 # SESSION_CACHE_ALIAS = "default"
-
-# mptt
-MPTT_ADMIN_LEVEL_INDENT = 30
 
 # jwt
 JWT_AUTH = {

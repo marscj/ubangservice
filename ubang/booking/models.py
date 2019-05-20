@@ -4,7 +4,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 
 from phonenumber_field.modelfields import PhoneNumberField
-from mptt.models import MPTTModel
 
 from .import BookingStatus
 from ubang.vehicle.models import Vehicle
@@ -25,7 +24,7 @@ class BookingQuerySet(models.QuerySet):
             Q(end_time__range=(start_time, end_time)))
         )
 
-class Booking(MPTTModel):
+class Booking(models.Model):
     
     bookingId = models.CharField(max_length=64, editable=False)
 
@@ -76,8 +75,6 @@ class Booking(MPTTModel):
 
     # 订单
     order = models.ForeignKey(Order, related_name='booking', on_delete=models.CASCADE, blank=True, null=True)
-
-    parent = models.ForeignKey('self', related_name='children', on_delete=models.CASCADE, null=True, blank=True)
 
     objects = BookingQuerySet.as_manager()
 

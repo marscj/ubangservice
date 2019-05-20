@@ -108,7 +108,7 @@ import Pagination from '@/components/Pagination'
 const Status = [
   { value: 'Created', label: 'Created' },
   { value: 'Cancel', label: 'Cancel' },
-  { value: 'Delete', label: 'Delete' },
+  { value: 'Delete', label: 'Delete' }
 ]
 
 export default {

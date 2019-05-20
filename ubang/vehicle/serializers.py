@@ -18,7 +18,7 @@ class ModelSerializer(serializers.ModelSerializer):
         model = Model
         fields = '__all__'
 
-class VehicleSerializer(serializers.ModelSerializer):
+class VehicleDetailSerializer(serializers.ModelSerializer):
 
     model = ModelSerializer()
 
@@ -30,10 +30,18 @@ class VehicleSerializer(serializers.ModelSerializer):
         model = Vehicle
         fields = '__all__'
 
+class VehicleSerializer(serializers.ModelSerializer):
+    
+    model = ModelSerializer()
+
+    class Meta:
+        model = Vehicle
+        fields = '__all__'
+
 class VehicleListSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Vehicle
         fields = (
-            'traffic_plate_no',
+             'id', 'traffic_plate_no'
         )

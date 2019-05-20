@@ -36,9 +36,6 @@ class BookingView(ModelViewSet):
         try:
             response = super().list(request)
 
-            for item in response.data['items']:
-                item['children'] = BookingListSerializer(Booking.objects.get(pk=item['id']).get_children(), many=True).data or None
-
             context = {
                 'code': 20000,
                 'data': response.data,
@@ -70,6 +67,7 @@ class BookingView(ModelViewSet):
     def update(self, request, *args, **kwargs):
         try:
             response = super().update(request, *args, **kwargs)
+            
             context = {
                 'code': 20000,
                 'data': response.data
@@ -80,10 +78,10 @@ class BookingView(ModelViewSet):
                 'code': 20001,
                 'message': '%s' % e
             }
+            print(context)
             return Response(context) 
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
         try:
             response = super().create(request, *args, **kwargs)
             context = {
