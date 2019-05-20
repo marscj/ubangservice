@@ -26,14 +26,6 @@ class BookingSerializer(serializers.ModelSerializer):
         model = Booking
         fields = '__all__'
 
-class BookingParentSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = Booking
-        fields = (
-            'id', 'bookingId'
-        )
-
 class BookingListSerializer(serializers.ModelSerializer):
     
     contact_phone = PhoneNumberField(required=True)

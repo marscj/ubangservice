@@ -18,7 +18,7 @@ class BookingView(ModelViewSet):
 
     def get_queryset(self):
         if self.action == 'list':
-            queryset = Booking.objects.filter(parent__isnull=True)
+            queryset = Booking.objects.all()
             start_time = self.request.query_params.get('start_time', None)
             end_time = self.request.query_params.get('end_time', None)
 
