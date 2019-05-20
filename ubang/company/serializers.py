@@ -17,12 +17,8 @@ class CompanySerializer(serializers.ModelSerializer):
 
 class CompanyListSerializer(serializers.ModelSerializer):
     
-    phone = PhoneNumberField()
-
-    tel = PhoneNumberField()
-    
     class Meta:
         model = Company
         fields = (
-            'name',
+           'id', 'name',
         )

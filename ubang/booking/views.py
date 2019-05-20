@@ -65,20 +65,20 @@ class BookingView(ModelViewSet):
             return Response(context)
 
     def update(self, request, *args, **kwargs):
+        print(request.data)
         try:
             response = super().update(request, *args, **kwargs)
-            
             context = {
                 'code': 20000,
                 'data': response.data
             }
+            print(response.data)
             return Response(context)
         except (ValueError, Exception) as e:
             context = {
                 'code': 20001,
                 'message': '%s' % e
             }
-            print(context)
             return Response(context) 
 
     def create(self, request, *args, **kwargs):

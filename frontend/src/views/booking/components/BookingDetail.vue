@@ -60,10 +60,10 @@
                     <el-input v-model="order" disabled></el-input>
                   </el-form-item>
                   <el-form-item label="Creator:">
-                    <el-input v-model="create_by" disabled></el-input>
+                    <el-input v-model="creator" disabled></el-input>
                   </el-form-item>
                   <el-form-item label="Company:">
-                    <el-input v-model="company_by" disabled></el-input>
+                    <el-input v-model="company" disabled></el-input>
                   </el-form-item>
                   <el-form-item label="Create at:">
                     <el-input v-model="postForm.create_at" v-if="postForm.create_at" disabled></el-input>
@@ -167,7 +167,6 @@ import Sticky from '@/components/Sticky'
 import { validURL } from '@/utils/validate'
 import { getBooking, updateBooking, createBooking } from '@/api/booking'
 import { getModels, getVehicles } from '@/api/vehicle'
-import { objectPop } from '@/utils/util'
 
 const defaultForm = {
   id: undefined,
@@ -182,7 +181,7 @@ const defaultForm = {
   remark: undefined,
   expiry_date: undefined,
   create_at: undefined,
-  change_at: undefined,  
+  change_at: undefined,
   vehicle_id: undefined,
   guide_id: undefined,
 }
@@ -253,6 +252,7 @@ export default {
         if(value) {
           this.relatedKey.vehicle = value
           this.postForm.vehicle_id = value.id
+          delete this.postForm.vehicle
         }
       }
     },
@@ -267,6 +267,7 @@ export default {
         if(value) {
           this.relatedKey.guide = value
           this.postForm.guide_id = value.id
+          delete this.postForm.guide
         }        
       }
     },    
@@ -277,25 +278,40 @@ export default {
         }
         return undefined
       },
-      set(value) {}
+      set(value) {
+        if(value) {
+          this.relatedKey.order = value
+          delete this.postForm.order
+        }
+      }
     }, 
-    create_by: {
+    creator: {
       get() {
         if(this.relatedKey.create_by) {
           return this.relatedKey.create_by.name || this.relatedKey.create_by.username
         }
         return undefined
       },
-      set(value) {}
+      set(value) {
+        if(value) {
+          this.relatedKey.create_by = value
+          delete this.postForm.create_by
+        }
+      }
     },
-    company_by: {
+    company: {
       get() {
         if(this.relatedKey.company_by) {
           return this.relatedKey.company_by.name
         }
         return undefined
       },
-      set(value) {}
+      set(value) {
+        if(value) {
+          this.relatedKey.company_by = value
+          delete this.postForm.company_by
+        }
+      }
     },
   },
   created() {
@@ -308,14 +324,17 @@ export default {
     this.tempRoute = Object.assign({}, this.$route)
   },
   methods: {
+    setData(data) {
+      this.postForm = data
+      this.vehicle = this.postForm.vehicle
+      this.guide = this.postForm.guide
+      this.order = this.postForm.order
+      this.creator = this.postForm.create_by
+      this.company = this.postForm.company_by
+    },
     fetchData(id) {
       getBooking(id).then(response => {
-        this.postForm = response.data
-        this.vehicle = objectPop(this.postForm, 'vehicle')
-        this.guide = objectPop(this.postForm, 'guide')
-        this.order = objectPop(this.postForm, 'order')
-        this.create_by = objectPop(this.postForm, 'create_by')
-        this.company_by = objectPop(this.postForm, 'company_by')
+        this.setData(response.data)
         this.setTagsViewTitle()
       }).catch(err => {
         
@@ -349,8 +368,8 @@ export default {
       this.$refs.postForm.validate(valid => {
         if (valid) {
           this.loading = true
-          console.log(this.postForm)
           updateBooking(this.postForm.id, this.postForm).then(response => {
+            this.setData(response.data)
             this.$notify({
               title: 'Success',
               message: 'Change Successfully',
@@ -395,7 +414,7 @@ export default {
     },
     selectVechicleHandle(row) {
       this.vehicleDialog.show = false
-      this.relatedKey.vehicle = Object.assign({}, row)
+      this.vehicle = Object.assign({}, row)
     }
   }
 }

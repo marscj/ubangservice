@@ -40,10 +40,10 @@ class BookingListSerializer(serializers.ModelSerializer):
 
     guide_id = serializers.IntegerField(write_only=True, required=False)
 
-    company_by = CompanySerializer(required=False, allow_null=True)
+    company_by = CompanyListSerializer(required=False, allow_null=True)
 
     class Meta:
         model = Booking
         fields = (
-            'id', 'bookingId', 'start_time', 'end_time', 'create_by', 'company_by', 'create_at', 'change_at', 'contact_name', 'contact_phone', 'vehicle', 'vehicle_id', 'guide', 'guide_id', 'status'
+            'id', 'bookingId', 'start_time', 'end_time', 'create_by', 'company_by', 'create_at', 'change_at', 'contact_name', 'contact_phone', 'pick_up_addr', 'drop_off_addr', 'remark', 'vehicle', 'vehicle_id', 'guide', 'guide_id', 'status'
         )
