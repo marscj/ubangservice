@@ -77,9 +77,6 @@
                     <el-input v-model="postForm.expiry_date" v-if="postForm.expiry_date" disabled></el-input>
                     <el-input v-else disabled></el-input>
                   </el-form-item>
-                  <el-form-item label="Root:">
-                    <el-input v-model="parent" disabled></el-input>
-                  </el-form-item>
                 </el-card>
               </el-row>
             </el-col>
@@ -227,7 +224,6 @@ export default {
       relatedKey: {
         vehicle: undefined,
         guide: undefined,
-        parent: undefined,
         order: undefined,
         create_by: undefined,
         company_by: undefined,
@@ -273,20 +269,7 @@ export default {
           this.postForm.guide_id = value.id
         }        
       }
-    },
-    parent: {
-      get() {
-        if(this.relatedKey.parent) {
-          return this.relatedKey.parent.bookingId
-        }
-        return undefined
-      },
-      set(value) {
-        if(value) {
-          this.relatedKey.parent = value
-        }
-      }
-    },
+    },    
     order: {
       get() {
         if(this.relatedKey.order) {
@@ -330,7 +313,6 @@ export default {
         this.postForm = response.data
         this.vehicle = objectPop(this.postForm, 'vehicle')
         this.guide = objectPop(this.postForm, 'guide')
-        this.parent = objectPop(this.postForm, 'parent')
         this.order = objectPop(this.postForm, 'order')
         this.create_by = objectPop(this.postForm, 'create_by')
         this.company_by = objectPop(this.postForm, 'company_by')

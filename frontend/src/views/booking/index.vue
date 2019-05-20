@@ -27,10 +27,9 @@
     >
       <el-table-column prop="bookingId" label="BookingId" width="220px" align="center">
         <template slot-scope="{row}">
-          <router-link v-if="row.children===null || row.parent != null" :to="'/booking/edit/'+ row.id" class="link-type">
+          <router-link  :to="'/booking/edit/'+ row.id" class="link-type">
             <span>{{ row.bookingId }}</span>
           </router-link>
-          <span v-else class="link-type">{{ row.bookingId }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Start Time" width="160px" align="center">

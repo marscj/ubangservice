@@ -16,30 +16,21 @@ import datetime
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
 from decimal import Decimal
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 FRONTEND_ROOT = 'frontend/dist'
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '&3dhis!j!lqdu6%d=og*mvuulew7tabjuph*b5_w5gyzy-6!uh'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-# Application definition
-
 INSTALLED_APPS = [
-    # 'jet',
-    'django.contrib.contenttypes',
+    'simpleui',
     'django.contrib.admin',
     'django.contrib.auth',
-    # 'django.contrib.contenttypes',
+    'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -50,7 +41,6 @@ INSTALLED_APPS = [
     'django_countries',
     'phonenumber_field',
     'djmoney',
-    'inline_actions',
     
     'ubang.order',
     'ubang.booking',
@@ -115,7 +105,6 @@ AUTH_USER_MODEL = 'user.CustomUser'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # 'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'static')],
         'DIRS': [FRONTEND_ROOT, os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -216,12 +205,6 @@ STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder"
 )
-
-# Grappelli admin interface
-GRAPPELLI_ADMIN_TITLE = 'UBang'
-GRAPPELLI_INDEX_DASHBOARD = 'dashboard.CustomIndexDashboard'
-GRAPPELLI_SWITCH_USER = True
-GRAPPELLI_CLEAN_INPUT_TYPES = True
 
 # 货币
 DEFAULT_CURRENCY = 'AED'
