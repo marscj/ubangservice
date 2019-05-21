@@ -1,3 +1,4 @@
+from django.contrib.admin.options import get_content_type_for_model
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
@@ -14,7 +15,7 @@ class BookingView(ModelViewSet):
         if self.action == 'list':
             return BookingListSerializer
         else :
-            return BookingListSerializer
+            return BookingSerializer
 
     def get_queryset(self):
         if self.action == 'list':
@@ -65,14 +66,13 @@ class BookingView(ModelViewSet):
             return Response(context)
 
     def update(self, request, *args, **kwargs):
-        print(request.data)
         try:
             response = super().update(request, *args, **kwargs)
             context = {
                 'code': 20000,
                 'data': response.data
             }
-            print(response.data)
+            self.log_change(request, Booking.objects.get(pk=response.data['id']))
             return Response(context)
         except (ValueError, Exception) as e:
             context = {
@@ -88,6 +88,7 @@ class BookingView(ModelViewSet):
                 'code': 20000,
                 'data': response.data
             }
+            self.log_addition(request, Booking.objects.get(pk=response.data['id']))
             return Response(context)
         except (ValueError, Exception) as e:
             context = {
@@ -95,3 +96,35 @@ class BookingView(ModelViewSet):
                 'message': '%s' % e
             }
             return Response(context)
+
+    def log_addition(self, request, object, message=''):
+        from django.contrib.admin.models import LogEntry, ADDITION
+        return LogEntry.objects.log_action(
+            user_id=request.user.pk,
+            content_type_id=get_content_type_for_model(object).pk,
+            object_id=object.pk,
+            object_repr=str(object),
+            action_flag=ADDITION,
+            change_message=message,
+        )
+
+    def log_change(self, request, object, message=''):
+        from django.contrib.admin.models import LogEntry, CHANGE
+        return LogEntry.objects.log_action(
+            user_id=request.user.pk,
+            content_type_id=get_content_type_for_model(object).pk,
+            object_id=object.pk,
+            object_repr=str(object),
+            action_flag=CHANGE,
+            change_message=message,
+        )
+
+    def log_deletion(self, request, object, object_repr):
+        from django.contrib.admin.models import LogEntry, DELETION
+        return LogEntry.objects.log_action(
+            user_id=request.user.pk,
+            content_type_id=get_content_type_for_model(object).pk,
+            object_id=object.pk,
+            object_repr=object_repr,
+            action_flag=DELETION,
+        )

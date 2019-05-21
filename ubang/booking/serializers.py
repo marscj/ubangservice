@@ -1,3 +1,4 @@
+from django.contrib.admin.models import LogEntry
 from rest_framework import serializers
 
 from phonenumber_field.serializerfields import PhoneNumberField
@@ -8,23 +9,48 @@ from ubang.company.serializers import CompanySerializer, CompanyListSerializer
 from ubang.vehicle.serializers import VehicleSerializer, VehicleListSerializer
 from ubang.order.serializers import OrderSerializer, OrderListSerializer
 
+class LogEntrySerializer(serializers.ModelSerializer):
+    
+    user = UserListSerializer(required=False, allow_null=True)
+    message = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = LogEntry
+        fields = ( 
+            'user', 'action_time', 'message'
+        )
+
+    def get_message(self, obj):
+        return obj.__str__()
+
+
 class BookingSerializer(serializers.ModelSerializer):
 
     contact_phone = PhoneNumberField(required=True)
 
-    create_by = UserSerializer()
+    create_by = UserListSerializer(required=False, allow_null=True)
 
-    company_by = CompanySerializer(required=False, allow_null=True)
+    vehicle = VehicleListSerializer(required=False, allow_null=True)
 
-    vehicle = VehicleSerializer(required=False, allow_null=True)
+    vehicle_id = serializers.IntegerField(write_only=True)
 
-    guide = UserSerializer(required=False, allow_null=True)
+    guide = UserListSerializer(required=False, allow_null=True)
 
-    order = OrderSerializer(required=False, allow_null=True)
+    guide_id = serializers.IntegerField(write_only=True, required=False)
+
+    company_by = CompanyListSerializer(required=False, allow_null=True)
+
+    order = OrderListSerializer(required=False, allow_null=True)
+
+    history = serializers.SerializerMethodField()
 
     class Meta:
         model = Booking
         fields = '__all__'
+    
+    def get_history(self, obj):
+        serializer = LogEntrySerializer(LogEntry.objects.filter(object_id=obj.id), many=True)
+        return serializer.data
 
 class BookingListSerializer(serializers.ModelSerializer):
     

@@ -85,6 +85,42 @@
             </el-col>
           </el-row>
         </div>
+        <div class="log-container">
+          <el-row>
+            <el-col >
+              <el-card >
+                <div slot="header">
+                  <span>History</span>
+                </div>
+                <el-timeline>
+                  <el-timeline-item
+                    v-for="(activity, index) in history"
+                    :key="index"
+                    :timestamp="activity.action_time">
+                    <el-card >
+                      <el-row style="padding-bottom: 10px"> 
+                        <el-col> 
+                          <span style="font-size: 12px">
+                            {{activity.user.name || activity.user.username}}
+                          </span>                          
+                        </el-col>
+                      </el-row>
+                      <el-row>
+                        <el-col>
+                          <span>
+                            {{activity.message}}
+                          </span>
+                        </el-col>
+                      </el-row>
+                      
+                    </el-card>
+                    
+                  </el-timeline-item>
+                </el-timeline>
+              </el-card>
+            </el-col>
+          </el-row>
+        </div>
       </div>
     </el-form>
 
@@ -155,7 +191,7 @@
 
     <el-dialog title="Select Guide" :visible.sync="guideDialog.show" width="60%">
       <el-table :data="guideDialog.list"
-      :key="tabKey"
+      :key="tableKey"
       :loading="guideDialog.loading"
       border 
       stripe
@@ -194,9 +230,7 @@
           </template>
         </el-table-column>
       </el-table>
-      
     </el-dialog>
-    
   </div>
 </template>
 
@@ -263,6 +297,7 @@ export default {
         order: undefined,
         create_by: undefined,
         company_by: undefined,
+        history: undefined
       },
       vehicleDialog: {
         show: false,
@@ -359,6 +394,17 @@ export default {
         }
       }
     },
+    history: {
+      get() {
+        return this.relatedKey.history
+      },
+      set(value) {
+        if(value) {
+          this.relatedKey.history = value
+          delete this.postForm.history
+        }
+      }
+    }
   },
   created() {
     if (this.isEdit) {
@@ -377,6 +423,7 @@ export default {
       this.order = this.postForm.order
       this.creator = this.postForm.create_by
       this.company = this.postForm.company_by
+      this.history = this.postForm.history
     },
     fetchData(id) {
       getBooking(id).then(response => {
@@ -441,7 +488,6 @@ export default {
           this.vehicleDialog.modelLoading = false
           this.vehicleDialog.modelOptions = response.data
         }).catch(err => {
-          console.log(err)
           this.vehicleDialog.modelLoading = false
         })
       } 
@@ -501,7 +547,13 @@ export default {
     .itinerary-container {
       position: relative;
       @include clearfix;
-      padding-bottom: 50px;
+      padding-bottom: 20px;
+    }
+
+    .log-container {
+      position: relative;
+      @include clearfix;
+      padding-bottom: 20px;
     }
   }
 
