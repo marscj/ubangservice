@@ -9,7 +9,7 @@ from .forms import OrderForm, TaskInlineFormSet
 from .import OrderStatus
 from ubang.payment.admin import PaymentInline
 from ubang.booking.admin import BookingInline
-from .models import Task, TaskProgress
+from .models import Task
 
 class TaskInline(admin.TabularInline):
     model = Task
@@ -39,20 +39,8 @@ class TaskInline(admin.TabularInline):
     def has_add_permission(self, request):
         return False
 
-class TaskProgressInline(admin.TabularInline):
-    model = TaskProgress
-    extra = 0
-
-    fields = ('task', 'checkin_time', 'checkout_time', 'checkin_long', 'checkin_lat', 'checkout_long', 'checkout_lat', 'checkin_picture', 'checkout_picture')
-
-    raw_id_fields = ('task', )
-
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    pass
-
-@admin.register(TaskProgress)
-class TaskProgressAdmin(admin.ModelAdmin):
     pass
 
 @admin.register(Order)
@@ -62,11 +50,11 @@ class OrderAdmin(admin.ModelAdmin):
 
     confirm_template = 'admin/order/confirm.html'
 
-    inlines = (TaskInline, TaskProgressInline, PaymentInline, BookingInline)
+    inlines = (TaskInline, PaymentInline, BookingInline)
 
     fieldsets = ( 
         (None, {
-            'fields': ('orderId', 'status', 'start_time', 'end_time', 'vehicle', 'guide', 'remark')
+            'fields': ('orderId', 'status', 'remark')
         }),
         ('Customer Info', {
             'fields': ('customer', )
@@ -84,13 +72,13 @@ class OrderAdmin(admin.ModelAdmin):
     )
 
     list_display = (
-       'orderId', 'status', 'customer', 'company', 'start_time', 'end_time', 'vehicle', 'guide', 'total', 'remark', 'task'
+       'orderId', 'status', 'customer', 'company', 'total', 'remark', 'task'
     )
 
     list_display_links = list_display
 
     raw_id_fields = (
-        'guide', 'vehicle', 'company', 'customer'
+        'company', 'customer'
     )
 
     list_filter = (
@@ -98,14 +86,14 @@ class OrderAdmin(admin.ModelAdmin):
     )
 
     search_fields = (
-        'orderId', 'contact_name', 'contact_phone', 'start_time', 'end_time'
+        'orderId', 
     )
 
-    class Media:
-        js = [
-            'admin/js/order.js',
-            'admin/js/task.js'
-        ]
+    # class Media:
+    #     js = [
+    #         'admin/js/order.js',
+    #         'admin/js/task.js'
+    #     ]
 
     def task(self, obj):
         return mark_safe("<br>".join(['%s %s %s %s'% (task.day, task.guide or '', task.vehicle or '', task.itinerary or '') for task in obj.task.all()]))

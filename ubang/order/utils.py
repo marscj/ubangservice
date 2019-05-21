@@ -6,7 +6,7 @@ from django.conf import settings
 from datetime import date, datetime, timedelta
 from decimal import Decimal
 
-from .models import Task, TaskProgress
+from .models import Task
 
 def format_duration(duration):
     

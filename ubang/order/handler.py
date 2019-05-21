@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from datetime import datetime, date
 from decimal import Decimal
 
-from .models import Order, Task, TaskProgress
+from .models import Order, Task
 from .utils import save_by_task
 
 @receiver(pre_save, sender=Order)

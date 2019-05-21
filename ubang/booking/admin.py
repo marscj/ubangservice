@@ -59,7 +59,7 @@ class BookingAdmin(admin.ModelAdmin):
     )
 
     list_display = (
-        'bookingId', 'apply', 'start_time', 'end_time', 'vehicle', 'guide', 'contact_name', 'contact_phone',  'create_at', 'itinerary'
+        'bookingId', 'start_time', 'end_time', 'vehicle', 'guide', 'contact_name', 'contact_phone',  'create_at', 'itinerary'
     )
     
     def itinerary(self, obj):

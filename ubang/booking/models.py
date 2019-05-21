@@ -85,12 +85,6 @@ class Booking(models.Model):
     def __str__(self):
         return self.bookingId
 
-    @property
-    def apply(self):
-        if self.order:
-            return self.order.applyId == self.bookingId
-        return False
-
 class Itinerary(models.Model):
     
     # 日期
