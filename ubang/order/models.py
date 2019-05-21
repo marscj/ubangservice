@@ -16,6 +16,7 @@ from ubang.user.models import CustomUser
 from ubang.company.models import Company
 from ubang.vehicle.models import Vehicle
 from ubang.itinerary.models import Itinerary
+from ubang.discount.models import Discount
 from .import OrderStatus
 
 class OrderQueryset(models.QuerySet):
@@ -25,12 +26,6 @@ class Order(models.Model):
     
     # id
     orderId = models.CharField(max_length=64, unique=True, editable=False)
-
-    # 创建时间
-    create_at = models.DateTimeField(auto_now_add=True)
-
-    # 修改时间
-    change_at = models.DateTimeField(auto_now_add=True)
     
     # 订单状态
     status = models.CharField(max_length=16, default=OrderStatus.Created, choices=OrderStatus.CHOICES)
@@ -40,6 +35,9 @@ class Order(models.Model):
     
     # 公司
     company = models.ForeignKey(Company, related_name='order', on_delete=models.SET_NULL, null=True, editable=False)
+
+    # 折扣
+    discount = models.ForeignKey(Discount, related_name='order', on_delete=models.SET_NULL, blank=True, null=True)
 
     # 备注
     remark = models.TextField(max_length=256, blank=True, null=True)
@@ -94,7 +92,7 @@ class Task(models.Model):
     remark = models.CharField(max_length=256, blank=True, null=True)
 
     # 签到
-    checkin_time = models.TimeField()
+    checkin_time = models.TimeField(default=None, blank=True, null=True)
 
     # 签出
     checkout_time = models.TimeField(default=None, blank=True, null=True)

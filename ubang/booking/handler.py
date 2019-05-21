@@ -8,6 +8,7 @@ from datetime import datetime, date
 from decimal import Decimal
 
 from .models import Booking
+from ubang.order.models import Order
 
 @receiver(pre_save, sender=Booking)
 def booking_model_pre_save(sender, **kwargs):
@@ -22,4 +23,6 @@ def booking_model_post_save(sender, **kwargs):
     booking = kwargs['instance']
 
     if kwargs['created']:
-        pass
+        order = Order.objects.create(customer=booking.create_by, company=booking.company_by)
+        booking.order = order
+        booking.save()

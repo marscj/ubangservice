@@ -6,7 +6,7 @@ from .models import Booking
 from ubang.user.serializers import UserSerializer, UserListSerializer
 from ubang.company.serializers import CompanySerializer, CompanyListSerializer
 from ubang.vehicle.serializers import VehicleSerializer, VehicleListSerializer
-from ubang.order.serializers import OrderSerializer
+from ubang.order.serializers import OrderSerializer, OrderListSerializer
 
 class BookingSerializer(serializers.ModelSerializer):
 
@@ -42,8 +42,10 @@ class BookingListSerializer(serializers.ModelSerializer):
 
     company_by = CompanyListSerializer(required=False, allow_null=True)
 
+    order = OrderListSerializer(required=False, allow_null=True)
+
     class Meta:
         model = Booking
         fields = (
-            'id', 'bookingId', 'start_time', 'end_time', 'create_by', 'company_by', 'create_at', 'change_at', 'contact_name', 'contact_phone', 'pick_up_addr', 'drop_off_addr', 'remark', 'vehicle', 'vehicle_id', 'guide', 'guide_id', 'status'
+            'id', 'bookingId', 'start_time', 'end_time', 'status', 'create_by', 'company_by', 'contact_name', 'contact_phone', 'pick_up_addr', 'drop_off_addr', 'remark', 'vehicle', 'vehicle_id', 'guide', 'guide_id', 'order'
         )

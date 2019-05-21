@@ -24,41 +24,41 @@ class OrderForm(forms.ModelForm):
         model = Order
         fields = '__all__'
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
         
-        instance = getattr(self, 'instance', None)
+    #     instance = getattr(self, 'instance', None)
         
-        if instance and instance.start_time:
-            self.fields['start_time'].widget.attrs['readonly'] = True
-            self.fields['start_time'].disabled = True
+    #     if instance and instance.start_time:
+    #         self.fields['start_time'].widget.attrs['readonly'] = True
+    #         self.fields['start_time'].disabled = True
         
-        if instance and instance.end_time:
-            self.fields['end_time'].widget.attrs['readonly'] = True
-            self.fields['end_time'].disabled = True
+    #     if instance and instance.end_time:
+    #         self.fields['end_time'].widget.attrs['readonly'] = True
+    #         self.fields['end_time'].disabled = True
 
-        if instance and instance.vehicle:
-            self.fields['vehicle'].widget.attrs['readonly'] = True
-            self.fields['vehicle'].disabled = True
+    #     if instance and instance.vehicle:
+    #         self.fields['vehicle'].widget.attrs['readonly'] = True
+    #         self.fields['vehicle'].disabled = True
 
-        if instance and instance.guide:
-            self.fields['guide'].widget.attrs['readonly'] = True
-            self.fields['guide'].disabled = True
+    #     if instance and instance.guide:
+    #         self.fields['guide'].widget.attrs['readonly'] = True
+    #         self.fields['guide'].disabled = True
 
-    def clean_end_time(self):
-        start_time = self.cleaned_data.get('start_time')
-        end_time = self.cleaned_data.get('end_time')
+    # def clean_end_time(self):
+    #     start_time = self.cleaned_data.get('start_time')
+    #     end_time = self.cleaned_data.get('end_time')
         
-        if start_time and end_time:
-            duration = end_time - start_time
+    #     if start_time and end_time:
+    #         duration = end_time - start_time
 
-            if start_time > end_time:
-                raise ValidationError('Ensure arrival time is less than departure time')
+    #         if start_time > end_time:
+    #             raise ValidationError('Ensure arrival time is less than departure time')
             
-            if duration.total_seconds() < 3600:
-                raise ValidationError('Ensure duration is greater than 1 hour')
+    #         if duration.total_seconds() < 3600:
+    #             raise ValidationError('Ensure duration is greater than 1 hour')
         
-        return end_time
+    #     return end_time
 
     def get_orderId(self):
         instance = getattr(self, 'instance', None)
@@ -121,29 +121,29 @@ class TaskInlineFormSet(forms.BaseInlineFormSet):
             else:
                 raise ValidationError('Ensure %s has model' % vehicle.traffic_plate_no)
 
-    def clean_guide(self, guide):
-        if guide and not guide.is_tourguide:
-            raise ValidationError('Ensure %s is tourguide user' % guide)
+    # def clean_guide(self, guide):
+    #     if guide and not guide.is_tourguide:
+    #         raise ValidationError('Ensure %s is tourguide user' % guide)
 
-        if guide and not guide.is_actived:
-            raise ValidationError('Ensure %s is active' % guide)
+    #     if guide and not guide.is_actived:
+    #         raise ValidationError('Ensure %s is active' % guide)
 
-    def clean_vehicle(self, vehicle):
-        if vehicle and not vehicle.is_actived:
-            raise ValidationError('Ensure %s is active' % vehicle.traffic_plate_no)
+    # def clean_vehicle(self, vehicle):
+    #     if vehicle and not vehicle.is_actived:
+    #         raise ValidationError('Ensure %s is active' % vehicle.traffic_plate_no)
 
-    def clean(self):
-        for form in self.forms:
-            if form.cleaned_data and not form.cleaned_data.get('DELETE'):
-                order = form.cleaned_data.get('order')
-                vehicle = form.cleaned_data.get('vehicle')
-                guide = form.cleaned_data.get('guide')
-                itinerary = form.cleaned_data.get('itinerary')
-                day = form.cleaned_data.get('day')
+    # def clean(self):
+    #     for form in self.forms:
+    #         if form.cleaned_data and not form.cleaned_data.get('DELETE'):
+    #             order = form.cleaned_data.get('order')
+    #             vehicle = form.cleaned_data.get('vehicle')
+    #             guide = form.cleaned_data.get('guide')
+    #             itinerary = form.cleaned_data.get('itinerary')
+    #             day = form.cleaned_data.get('day')
 
-                self.clean_order_time(order, day)
-                self.clean_itinerary(itinerary, vehicle)
-                self.clean_guide(guide)
-                self.clean_vehicle(vehicle)
+    #             self.clean_order_time(order, day)
+    #             self.clean_itinerary(itinerary, vehicle)
+    #             self.clean_guide(guide)
+    #             self.clean_vehicle(vehicle)
                 
-        return super().clean()
+    #     return super().clean()

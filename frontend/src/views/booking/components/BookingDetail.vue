@@ -64,15 +64,7 @@
                   </el-form-item>
                   <el-form-item label="Company:">
                     <el-input v-model="company" disabled></el-input>
-                  </el-form-item>
-                  <el-form-item label="Create at:">
-                    <el-input v-model="postForm.create_at" v-if="postForm.create_at" disabled></el-input>
-                    <el-input v-else disabled></el-input>
-                  </el-form-item>
-                  <el-form-item label="Change at:">
-                    <el-input v-model="postForm.change_at" v-if="postForm.change_at" disabled></el-input>
-                    <el-input v-else disabled></el-input>
-                  </el-form-item>
+                  </el-form-item>                  
                   <el-form-item label="Expiry date:">
                     <el-input v-model="postForm.expiry_date" v-if="postForm.expiry_date" disabled></el-input>
                     <el-input v-else disabled></el-input>
@@ -227,10 +219,8 @@ const defaultForm = {
   drop_off_addr: undefined,
   remark: undefined,
   expiry_date: undefined,
-  create_at: undefined,
-  change_at: undefined,
   vehicle_id: undefined,
-  guide_id: undefined,
+  guide_id: undefined
 }
 
 export default {

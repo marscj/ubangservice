@@ -55,12 +55,6 @@ class Booking(models.Model):
     # 备注
     remark = models.TextField(max_length=256, blank=True, null=True)
 
-    # 创建时间
-    create_at = models.DateTimeField(auto_now_add=True, editable=False)
-
-    # 修改时间
-    change_at = models.DateTimeField(auto_now=True, editable=False)
-
     # 客户
     create_by = models.ForeignKey(CustomUser, related_name='booking_customer', on_delete=models.SET_NULL, null=True, verbose_name = 'Customer', editable=False) 
 

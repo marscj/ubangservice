@@ -18,12 +18,6 @@ class Payment(models.Model):
     # 是否有效
     is_active = models.BooleanField(default=True)
 
-    # 创建时间
-    create_at = models.DateTimeField(auto_now_add=True)
-
-    # 修改时间
-    last_change = models.DateTimeField(auto_now=True)
-
     # 支付状态
     charge_status = models.CharField(
         max_length=20, choices=ChargeStatus.CHOICES,
@@ -52,10 +46,6 @@ class Payment(models.Model):
 
     class Meta:
         ordering = ('pk', )
-
-    def __repr__(self):
-        return 'Payment(gateway=%s, is_active=%s, create_at=%s, charge_status=%s)' % (
-            self.gateway, self.is_active, self.create_at, self.charge_status)
 
     def get_last_transaction(self):
         return max(self.transactions.all(), default=None, key=attrgetter('pk'))
@@ -121,48 +111,3 @@ class Payment(models.Model):
         return (
             self.is_active and self.charge_status in can_refund_charge_status
             and self.gateway != CustomPaymentChoices.MANUAL)
-
-# # 交易
-# class Transaction(models.Model):
-
-#     # 创建时间
-#     create_at = models.DateTimeField(auto_now_add=True, editable=False)
-
-#     # 支付
-#     payment = models.ForeignKey(Payment, related_name='transactions', on_delete=models.PROTECT)
-
-#     # token
-#     token = models.CharField(max_length=128, blank=True, default='')
-    
-#     # 种类
-#     kind = models.CharField(max_length=10, choices=TransactionKind.CHOICES)
-
-#     # 交易是否成功
-#     is_success = models.BooleanField(default=False)
-
-#     # 货币
-#     currency = models.CharField(max_length=10)
-
-#     # 金额
-#     amount = models.DecimalField(
-#         max_digits=settings.DEFAULT_MAX_DIGITS,
-#         decimal_places=settings.DEFAULT_DECIMAL_PLACES,
-#         default=Decimal('0.0'))
-
-#     # 错误信息
-#     error = models.CharField(
-#         choices=[(tag, tag.value) for tag in TransactionError],
-#         max_length=256, null=True)
-
-#     # 入口信息
-#     gateway_response = JSONField(encoder=DjangoJSONEncoder)
-
-#     class Meta:
-#         ordering = ('pk', )
-
-#     def __repr__(self):
-#         return 'Transaction(type=%s, is_success=%s, created=%s)' % (
-#             self.kind, self.is_success, self.created)
-
-#     def get_amount(self):
-#         return Money(self.amount, self.currency or settings.DEFAULT_CURRENCY)
