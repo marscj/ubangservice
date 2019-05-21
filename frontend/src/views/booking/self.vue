@@ -1,5 +1,5 @@
 <template>
-  <booking-list :is-self="false"/>
+  <booking-list :is-self="true"/>
 </template>
 
 <script>
@@ -10,3 +10,4 @@ export default {
   components: { BookingList }
 }
 </script>
+

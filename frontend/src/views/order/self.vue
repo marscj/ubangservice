@@ -1,5 +1,5 @@
 <template>
-  <order-list :is-self="false"/>
+  <order-list :is-self="true"/>
 </template>
 
 <script>

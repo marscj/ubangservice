@@ -36,12 +36,22 @@ export const constantRoutes = [
     path: '/booking',
     component: Layout,
     redirect: '/booking/index',
+    meta: {
+      title: 'Booking',
+      icon: 'lock'
+    },
     children: [
       {
         path: 'index',
         name: 'Booking',
         component: () => import('@/views/booking/index'),
-        meta: { title: 'Booking', icon: 'booking', noCache: true }
+        meta: { title: 'Booking List', noCache: true }
+      },
+      {
+        path: 'self',
+        name: 'My Booking',
+        component: () => import('@/views/booking/self'),
+        meta: { title: 'My Booking', noCache: true }
       },
       {
         path: 'edit/:id(\\d+)',
@@ -64,12 +74,24 @@ export const constantRoutes = [
     path: '/order',
     component: Layout,
     redirect: '/order/index',
-    children: [{
-      path: 'index',
-      name: 'Order',
-      component: () => import('@/views/order/index'),
-      meta: { title: 'Order', icon: 'order', noCache: true }
-    }]
+    meta: {
+      title: 'Order',
+      icon: 'lock'
+    },
+    children: [
+      {
+        path: 'index',
+        name: 'Order',
+        component: () => import('@/views/order/index'),
+        meta: { title: 'Order List', noCache: true }
+      },
+      {
+        path: 'self',
+        name: 'My Order',
+        component: () => import('@/views/order/self'),
+        meta: { title: 'My Order', noCache: true }
+      }
+    ]
   },
 
   {
