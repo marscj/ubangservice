@@ -112,9 +112,7 @@
                           </span>
                         </el-col>
                       </el-row>
-                      
                     </el-card>
-                    
                   </el-timeline-item>
                 </el-timeline>
               </el-card>
