@@ -1,7 +1,7 @@
 <template>
   <div class="createPost-container" >
     <el-form ref="postForm" :model="postForm" :rules="rules" label-position="top" label-width="120px" class="form-container">
-      <sticky :z-index="10" :class-name="'sub-navbar '+postForm.status">
+      <sticky :z-index="10" :class-name="'sub-navbar ' + postForm.status">
         <el-button v-if="isEdit" v-loading="loading" style="margin-left: 10px;" type="danger" >
           Delete
         </el-button>
