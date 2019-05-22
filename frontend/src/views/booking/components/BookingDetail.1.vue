@@ -17,7 +17,7 @@
     <el-form ref="postForm" :model="postForm" :rules="rules" label-position="top" label-width="120px" class="form-container">
       <div class="createPost-main-container" >      
         <div class="bookingInfo-container" >
-          <el-row :gutter="24">
+          <el-row :gutter="20">
             <el-col :span="16">
               <el-card>
                 <el-form-item label="Start time:" prop="start_time" >
@@ -76,48 +76,10 @@
         <div class="itinerary-container">
           <el-card >
             <div slot="header">
-              <el-row type="flex" justify="space-between">
-                <el-col :span="6"><div align="left">Itinerary</div></el-col>
-                <el-col :span="6"><div align="right"><el-button type="primary" @click="handleItinerary('Create', null)">Add</el-button></div></el-col>
-              </el-row>              
+              <el-button icon="el-icon-search" circle @click="addItinerary"></el-button>
+                <span>Itinerary</span>
             </div>
-            <el-table
-              :key="tableKey"
-              :data="postForm.itinerary" 
-              stripe
-              style="width: 100%;"
-              row-key="id"
-              >
-                <el-table-column width="120px" label="Day" align="center">
-                  <template slot-scope="{row}">
-                    <span>{{ row.day }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column width="300px" label="Itinerary" align="center">
-                  <template slot-scope="{row}">
-                    <span>{{ row.itinerary }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column width="80px" label="Charge" align="center">
-                  <template slot-scope="{row}">
-                    <span>{{ row.charge }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column min-width="300px" label="Remark" align="center">
-                  <template slot-scope="{row}">
-                    <span>{{ row.remark }}</span>
-                  </template>
-                </el-table-column>
-
-                <el-table-column label="Actions" align="center" width="100px" class-name="small-padding fixed-width">
-                  <template slot-scope="{row}">
-                    <el-button type="primary" size="mini" @click="handleItinerary('Edit', row)">
-                      Edit
-                    </el-button>
-                  </template>
-                </el-table-column>
-              </el-table>                  
-            <!-- <el-form-item
+            <el-form-item
               v-for="itinerary in postForm.itinerary"
               :key="itinerary.key"
             >
@@ -130,8 +92,8 @@
                 </el-option>
               </el-select>
               <el-input v-model="itinerary.remark" placeholder="remark" style="width: 300px;"></el-input>
-              <span v-if="itinerary.itinerary">  {{itinerary.itinerary.gross_price}} AED</span>              
-            </el-form-item>             -->
+              <span v-if="itinerary.itinerary">{{itinerary.itinerary.gross_price}} AED</span>              
+            </el-form-item>            
           </el-card>
         </div>
         <div class="log-container">
@@ -273,34 +235,6 @@
         </el-table-column>
       </el-table>
     </el-dialog>
-    <el-dialog :title="itineraryDialog.title + '  Itinerary'" :visible.sync="itineraryDialog.show">
-      <el-form ref="itineraryForm" :model="itineraryDialog.data" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="Day" prop="day" :rules="{ required: true, message: 'This fields is required', trigger: 'change' }">
-          <el-date-picker v-model="itineraryDialog.data.day" type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd" placeholder="Select date" clearable />
-        </el-form-item>
-        <el-form-item v-if="vehicle" label="Itinerary" prop="itinerary" :rules="{ required: true, message: 'This fields is required', trigger: 'change' }">
-          <el-select v-model="itineraryDialog.data.itinerary" placeholder="Select Itinerary">
-            <el-option v-for="item in vehicle.model.price"
-              :key="item.id"
-              :label="item.itiner.name"
-              :value="item">
-            </el-option>
-          </el-select>
-        </el-form-item>        
-        <el-form-item label="remark" prop="remark">
-          <el-input v-model="itineraryDialog.data.remark" :autosize="{ minRows: 2, maxRows: 4}" type="textarea"/>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="itineraryDialog.show = false">
-          Cancel
-        </el-button>
-        <el-button type="primary" @click="itineraryDialog.title==='Create'?createItineraryData():updateItineraryData()">
-          Confirm
-        </el-button>
-      </div>
-    </el-dialog>
-    
   </div>
 </template>
 
@@ -388,16 +322,6 @@ export default {
         },
         list: undefined,
         loading: false
-      },
-      itineraryDialog: {
-        show: false,
-        title: 'Edit',
-        data: {
-          day: undefined,
-          itinerary: undefined,
-          remark: undefined,
-          charge: undefined
-        }
       }
     }
   },
@@ -593,26 +517,6 @@ export default {
         this.guideDialog.loading = false
       })
     },
-    setItineraryData(data) {
-      if(data) {
-        this.itineraryDialog.data = Object.assign({}, data)
-      } else {
-        this.itineraryDialog.data = {
-          day: undefined,
-          itinerary: undefined,
-          remark: undefined,
-          charge: undefined
-        }
-      }      
-    },
-    handleItinerary(title, data) {
-      this.itineraryDialog.show = true
-      this.itineraryDialog.title = title
-      this.setItineraryData(data)
-      this.$nextTick(() => {
-        this.$refs['itineraryForm'].clearValidate()
-      })
-    },
     selectVechicleHandle(row) {
       this.vehicleDialog.show = false
       this.vehicle = Object.assign({}, row)
@@ -621,25 +525,12 @@ export default {
       this.guideDialog.show = false
       this.guide = Object.assign({}, row)
     },
-    createItineraryData() {
-      this.$refs['itineraryForm'].validate((valid) => {
-        if(valid) {
-          this.postForm.itinerary.push({
-            day: this.itineraryDialog.data.day,
-            itinerary: this.itineraryDialog.data.itinerary.itiner.name,
-            charge: this.itineraryDialog.data.itinerary.gross_price,
-            remark: this.itineraryDialog.data.remark
-          });
-          this.itineraryDialog.show = false
-        }
-      })      
-    },
-    updateItineraryData() {
-      this.$refs['itineraryForm'].validate((valid) => {
-        if(valid) {          
-          this.itineraryDialog.show = false
-        }
-      })
+    addItinerary() {
+      this.postForm.itinerary.push({
+        key: Date.now(),
+        day: undefined,
+        itinerary: undefined
+      });
     }
   }
 }

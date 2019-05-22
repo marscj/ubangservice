@@ -117,7 +117,7 @@
           <el-input v-model="temp.email" />
         </el-form-item>
         <el-form-item label="introduction" prop="introduction">
-          <el-input v-model="temp.introduction" />
+          <el-input v-model="temp.introduction" :autosize="{ minRows: 2, maxRows: 4}" type="textarea"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
