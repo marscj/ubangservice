@@ -36,21 +36,7 @@ class ItineraryInline(admin.TabularInline):
     formset = ItineraryInlineFormSet
 
     fields = ('day', 'itinerary', 'remark')
-
-    # readonly_fields = ('day', )
-
-    def get_readonly_fields(self, request, obj=None):
-        if request.user.is_superuser:
-            return self.readonly_fields
-        else:
-            return ('taskId', 'guide', 'vehicle', 'day')
-
-    # def has_delete_permission(self, request, obj):
-    #     return False
-
-    # def has_add_permission(self, request):
-    #     return False
-
+    
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
 

@@ -109,7 +109,7 @@ class ModelPrice(models.Model):
     cost_price = models.DecimalField(default=600.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
     gross_price = models.DecimalField(default=800.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
 
-    itinerary = models.ForeignKey(Itinerary, related_name='price', on_delete=models.CASCADE)
+    itiner = models.ForeignKey(Itinerary, related_name='price', on_delete=models.CASCADE)
     model = models.ForeignKey('Model', related_name='price', on_delete=models.SET_NULL, null=True)
 
     class Meta:

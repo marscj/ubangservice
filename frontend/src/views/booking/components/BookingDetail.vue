@@ -1,21 +1,21 @@
 <template>
   <div class="createPost-container" >
+    <sticky :z-index="10" :class-name="'sub-navbar ' + postForm.status">
+      <el-button v-if="isEdit" v-loading="loading" style="margin-left: 10px;" type="danger" >
+        Delete
+      </el-button>
+      <el-button v-if="isEdit" v-loading="loading" style="margin-left: 10px;" type="warning" >
+        Cancel
+      </el-button>
+      <el-button v-if="!isEdit" v-loading="loading" style="margin-left: 10px;" type="success" @click="createForm">
+        Create
+      </el-button>
+      <el-button v-else v-loading="loading" style="margin-left: 10px;" type="success" @click="updateForm">
+        Edit
+      </el-button>
+    </sticky>
     <el-form ref="postForm" :model="postForm" :rules="rules" label-position="top" label-width="120px" class="form-container">
-      <sticky :z-index="10" :class-name="'sub-navbar ' + postForm.status">
-        <el-button v-if="isEdit" v-loading="loading" style="margin-left: 10px;" type="danger" >
-          Delete
-        </el-button>
-        <el-button v-if="isEdit" v-loading="loading" style="margin-left: 10px;" type="warning" >
-          Cancel
-        </el-button>
-        <el-button v-if="!isEdit" v-loading="loading" style="margin-left: 10px;" type="success" @click="createForm">
-          Create
-        </el-button>
-        <el-button v-else v-loading="loading" style="margin-left: 10px;" type="success" @click="updateForm">
-          Edit
-        </el-button>
-      </sticky>
-      <div class="createPost-main-container" >
+      <div class="createPost-main-container" >      
         <div class="bookingInfo-container" >
           <el-row :gutter="20">
             <el-col :span="16">
@@ -33,7 +33,8 @@
                   <el-input v-model="postForm.contact_phone"></el-input>
                 </el-form-item>
                 <el-form-item v-if="postForm.start_time && postForm.end_time" label="Vehicle:" prop="vehicle_id" style="width: 300px;" >
-                  <el-input v-model="vehicle" @focus="handleVehicle" suffix-icon="el-icon-search" readonly></el-input>
+                  <el-input v-if="vehicle" v-model="vehicle.traffic_plate_no" @focus="handleVehicle" suffix-icon="el-icon-search" readonly></el-input>
+                  <el-input v-else v-model="vehicle" @focus="handleVehicle" suffix-icon="el-icon-search" readonly></el-input>
                 </el-form-item>
                 <el-form-item v-if="postForm.start_time && postForm.end_time" label="Guide:" prop="guide_id" style="width: 300px;">
                   <el-input v-model="guide" @focus="handleGuide" suffix-icon="el-icon-search" readonly></el-input>
@@ -50,78 +51,84 @@
               </el-card>
             </el-col>
             <el-col :span="8">
-              <el-row>
-                <el-card >
-                  <el-form-item label="Status:">
-                    <el-input v-model="postForm.status" v-if="postForm.status" disabled></el-input>
-                    <el-input v-else disabled></el-input>
-                  </el-form-item>
-                  <el-form-item label="Order:">
-                    <el-input v-model="order" disabled></el-input>
-                  </el-form-item>
-                  <el-form-item label="Creator:">
-                    <el-input v-model="creator" disabled></el-input>
-                  </el-form-item>
-                  <el-form-item label="Company:">
-                    <el-input v-model="company" disabled></el-input>
-                  </el-form-item>                  
-                  <el-form-item label="Expiry date:">
-                    <el-input v-model="postForm.expiry_date" v-if="postForm.expiry_date" disabled></el-input>
-                    <el-input v-else disabled></el-input>
-                  </el-form-item>
-                </el-card>
-              </el-row>
-            </el-col>
-          </el-row>
-        </div>
-        <div class="itinerary-container">
-          <el-row>
-            <el-col >
               <el-card >
-                <div slot="header">
-                  <span>Itinerary</span>
-                </div>
+                <el-form-item label="Status:">
+                  <el-input v-model="postForm.status" v-if="postForm.status" disabled></el-input>
+                  <el-input v-else disabled></el-input>
+                </el-form-item>
+                <el-form-item label="Order:">
+                  <el-input v-model="order" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="Creator:">
+                  <el-input v-model="creator" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="Company:">
+                  <el-input v-model="company" disabled></el-input>
+                </el-form-item>                  
+                <el-form-item label="Expiry date:">
+                  <el-input v-model="postForm.expiry_date" v-if="postForm.expiry_date" disabled></el-input>
+                  <el-input v-else disabled></el-input>
+                </el-form-item>
               </el-card>
             </el-col>
           </el-row>
+        </div>      
+        <div class="itinerary-container">
+          <el-card >
+            <div slot="header">
+              <el-button icon="el-icon-search" circle @click="addItinerary"></el-button>
+                <span>Itinerary</span>
+            </div>
+            <el-form-item
+              v-for="itinerary in postForm.itinerary"
+              :key="itinerary.key"
+            >
+              <el-date-picker v-model="itinerary.day" type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd" placeholder="Select date" clearable />
+              <el-select v-model="itinerary.itinerary" placeholder="Select Itinerary">
+                <el-option v-for="item in vehicle.model.price"
+                  :key="item.id"
+                  :label="item.itiner.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+              <el-input v-model="itinerary.remark" placeholder="remark" style="width: 300px;"></el-input>
+              <el-input v-model="itinerary.gross_price" placeholder="" style="width: 300px;"></el-input>
+              
+            </el-form-item>            
+          </el-card>
         </div>
         <div class="log-container">
-          <el-row>
-            <el-col >
-              <el-card >
-                <div slot="header">
-                  <span>History</span>
-                </div>
-                <el-timeline>
-                  <el-timeline-item
-                    v-for="(activity, index) in history"
-                    :key="index"
-                    :timestamp="activity.action_time">
-                    <el-card >
-                      <el-row style="padding-bottom: 10px"> 
-                        <el-col> 
-                          <span style="font-size: 12px">
-                            {{activity.user.name || activity.user.username}}
-                          </span>                          
-                        </el-col>
-                      </el-row>
-                      <el-row>
-                        <el-col>
-                          <span>
-                            {{activity.message}}
-                          </span>
-                        </el-col>
-                      </el-row>
-                    </el-card>
-                  </el-timeline-item>
-                </el-timeline>
-              </el-card>
-            </el-col>
-          </el-row>
-        </div>
+          <el-card >
+            <div slot="header">              
+              <span>History</span>
+            </div>
+            <el-timeline>
+              <el-timeline-item
+                v-for="(activity, index) in history"
+                :key="index"
+                :timestamp="activity.action_time">
+                <el-card >
+                  <el-row style="padding-bottom: 10px"> 
+                    <el-col> 
+                      <span style="font-size: 12px">
+                        {{activity.user.name || activity.user.username}}
+                      </span>                          
+                    </el-col>
+                  </el-row>
+                  <el-row>
+                    <el-col>
+                      <span>
+                        {{activity.message}}
+                      </span>
+                    </el-col>
+                  </el-row>
+                </el-card>
+              </el-timeline-item>
+            </el-timeline>
+          </el-card>
+        </div>      
       </div>
     </el-form>
-
     <el-dialog title="Select Vehicle" :visible.sync="vehicleDialog.show" width="60%">
       <div class="filter-container">
         <el-select 
@@ -295,7 +302,7 @@ export default {
         order: undefined,
         create_by: undefined,
         company_by: undefined,
-        history: undefined
+        history: [],
       },
       vehicleDialog: {
         show: false,
@@ -323,7 +330,7 @@ export default {
     vehicle: {
       get() {
         if(this.relatedKey.vehicle) {
-          return this.relatedKey.vehicle.traffic_plate_no
+          return this.relatedKey.vehicle
         }
         return undefined
       },
@@ -402,7 +409,7 @@ export default {
           delete this.postForm.history
         }
       }
-    }
+    }    
   },
   created() {
     if (this.isEdit) {
@@ -518,6 +525,13 @@ export default {
     selectGuideHandle(row) {
       this.guideDialog.show = false
       this.guide = Object.assign({}, row)
+    },
+    addItinerary() {
+      this.postForm.itinerary.push({
+        key: Date.now(),
+        day: undefined,
+        itinerary: undefined
+      });
     }
   }
 }
@@ -554,8 +568,15 @@ export default {
       padding-bottom: 20px;
     }
   }
-
-
 }
 
+.edit-input {
+  padding-right: 100px;
+}
+
+.cancel-btn {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+}
 </style>

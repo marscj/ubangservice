@@ -2,27 +2,19 @@ from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
+from django.conf import settings
+from django.core.validators import MinValueValidator
 
 from phonenumber_field.modelfields import PhoneNumberField
 
 from .import BookingStatus
-from ubang.vehicle.models import Vehicle
+from ubang.vehicle.models import Vehicle, ModelPrice
 from ubang.user.models import CustomUser
 from ubang.order.models import Order
 from ubang.company.models import Company
-from ubang.itinerary.models import Itinerary as _Itinerary
 
 class BookingQuerySet(models.QuerySet):
-    
-    def datetime_filter(self,start_time, end_time):
-        # return self.filter(
-        #     (Q(start_time__lte=start_time) | 
-        #     Q(end_time__gte=end_time))
-        # )
-        return self.filter(
-            (Q(start_time__range=(start_time, end_time)) & 
-            Q(end_time__range=(start_time, end_time)))
-        )
+    pass
 
 class Booking(models.Model):
     
@@ -84,8 +76,11 @@ class Itinerary(models.Model):
     # 日期
     day = models.DateField()
 
-    # 内容
-    itinerary = models.ForeignKey(_Itinerary, related_name='itinerary', on_delete=models.SET_NULL, blank=True, null=True)
+    # 行程
+    itinerary = models.CharField(max_length=128)
+    
+    # 价格
+    charge = models.DecimalField(default=800.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
 
     # 订单
     booking = models.ForeignKey(Booking, related_name='itinerary', on_delete=models.CASCADE)

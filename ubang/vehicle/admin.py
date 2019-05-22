@@ -8,7 +8,7 @@ class ModelPriceInlie(admin.TabularInline):
     model = ModelPrice
     extra = 0
 
-    raw_id_fields = ('itinerary',)
+    raw_id_fields = ('itiner',)
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
