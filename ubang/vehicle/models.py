@@ -125,4 +125,4 @@ class ModelPrice(models.Model):
         verbose_name_plural = _("Model Prices")
 
     def __str__(self):
-        return str(itinerary)
+        return self.itinerary

@@ -42,18 +42,21 @@ class BookingAdmin(admin.ModelAdmin):
 
     fields = (
         'bookingId', 'start_time', 'end_time', 'contact_name', 'contact_phone', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 
-        'expiry_date', 'status',  'create_by', 'company_by', 'order'
+        'expiry_date', 'status',  'create_by', 'company_by', 'order',
     )
 
     readonly_fields = (
-        'bookingId',
+        'bookingId', 'create_by', 'company_by'
     )
 
     raw_id_fields = (
         'create_by', 'company_by', 'vehicle', 'guide', 'order'
     )
 
-    list_display = fields
+    list_display = (
+        '__str__', 'start_time', 'end_time', 'contact_name', 'contact_phone', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 
+        'expiry_date', 'status',  'create_by', 'company_by', 'order', 'itinerary'
+    )
     
     def itinerary(self, obj):
         return mark_safe("<br>".join(['%s %s'% (itinerary.day,  itinerary.itinerary or '') for itinerary in obj.itinerary.all()]))

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 
 from .models import Brand, Model, Vehicle, ModelPrice
 from .forms import ModelForm, VehicleForm
@@ -10,7 +11,9 @@ class ModelPriceInlie(admin.TabularInline):
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
-    pass
+    list_display =  (
+        '__str__',
+    )
 
 @admin.register(Model)
 class ModelAdmin(admin.ModelAdmin):
@@ -18,30 +21,43 @@ class ModelAdmin(admin.ModelAdmin):
 
     form = ModelForm
 
-    fields = ('brand', 'type', 'category', 'name', 'passengers', 'year', 'is_automatic',  'photo', 'introduction')
+    fields = (
+        'brand', 'type', 'category', 'name', 'passengers', 'year', 'is_automatic',  'photo', 'introduction'
+    )
 
-    list_display = fields
+    list_display =  (
+        '__str__', 'brand', 'type', 'category', 'passengers', 'year', 'is_automatic',  'photo', 'introduction', 'model_price'
+    )
 
-    list_display_links = list_display
+    raw_id_fields = []
 
-    raw_id_fields = ('brand',)
+    def model_price(self, obj):
+        return mark_safe("<br>".join(['%s,cost(%s),gross(%s)'% (price.itinerary, price.cost_price, price.gross_price) for price in obj.price.all()]))
 
 @admin.register(Vehicle)
 class VehicleAdmin(admin.ModelAdmin):
 
     form = VehicleForm
     
-    fields = ('traffic_plate_no', 'model', 'company', 'driver', 'exp_date', 'is_actived')
+    fields = (
+        'traffic_plate_no', 'model', 'company', 'driver', 'exp_date', 'is_actived'
+    )
 
-    list_display = ('traffic_plate_no', 'brand', 'model', 'type', 'category', 'passengers', 'company', 'driver', 'exp_date', 'is_actived')
+    list_display = (
+        '__str__', 'brand', 'model', 'type', 'category', 'passengers', 'company', 'driver', 'exp_date', 'is_actived', 'model_price'
+    )
 
-    list_display_links = ('traffic_plate_no', 'brand', 'model', 'type', 'category', 'passengers', 'company', 'driver', 'exp_date')
+    raw_id_fields = (
+        'driver', 'model',
+    )
 
-    raw_id_fields = ('model', 'company', 'driver')
+    list_editable = (
+        'is_actived',
+    )
 
-    list_editable = ('is_actived', )
-
-    readonly_fields = ('brand', 'type', 'category', 'passengers')
+    readonly_fields = (
+        'brand', 'type', 'category', 'passengers'
+    )
 
     list_filter = (
         'is_actived', 'model__brand', 'model__type', 'model__category'
@@ -70,3 +86,7 @@ class VehicleAdmin(admin.ModelAdmin):
     def category(self, obj):
         if obj.model:
             return VehicleCategory.CHOICES[obj.model.category][1]
+
+    def model_price(self, obj):
+        if obj.model:
+            return mark_safe("<br>".join(['%s,cost(%s),gross(%s)'% (price.itinerary, price.cost_price, price.gross_price) for price in obj.model.price.all()]))
