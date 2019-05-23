@@ -22,15 +22,6 @@ class ImageInline(GenericTabularInline):
     model = Image
     extra = 1
 
-class DateTimeListFilter(admin.DateFieldListFilter):
-
-    def queryset(self, request, queryset):
-        try:
-            return queryset.exclude(**self.used_parameters)
-            # return queryset.filter(**self.used_parameters)
-        except (ValueError, ValidationError) as e:
-            raise IncorrectLookupParameters(e)
-
 @admin.register(CustomUser)
 class CustomerUserAdmin(UserAdmin):
     
@@ -64,16 +55,8 @@ class CustomerUserAdmin(UserAdmin):
         '__str__', 'company', 'name', 'is_driver', 'is_tourguide', 'phone', 'wechart', 'email', 'gender', 'is_staff', 'is_superuser', 'is_actived'
     )
 
-    list_display_links = (
-        '__str__', 'company', 'name', 'phone', 'wechart', 'gender', 'is_staff', 'email', 'is_superuser',
-    )
-
     list_filter = (
         'company', 'gender', 'is_driver', 'is_tourguide', 'is_staff', 'is_actived',
-        # ('order__start_time', DateTimeListFilter),
-        # ('order__end_time', DateTimeListFilter),
-        # 'task__day',
-        # 'task__is_freedom_day'
     )
 
     search_fields = (

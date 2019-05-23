@@ -72,10 +72,8 @@ class OrderAdmin(admin.ModelAdmin):
     )
 
     list_display = (
-       'orderId', 'status', 'customer', 'company', 'total', 'remark', 'task'
+       '__str__', 'status', 'customer', 'company', 'total', 'remark', 'task'
     )
-
-    list_display_links = list_display
 
     raw_id_fields = (
         'company', 'customer'
