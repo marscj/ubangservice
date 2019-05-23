@@ -64,6 +64,29 @@ class BookingSerializer(serializers.ModelSerializer):
         serializer = ItinerarySerializer(Itinerary.objects.filter(booking=obj), many=True)
         return serializer.data
 
+    def create(self, validated_data):
+        itinerary_data = validated_data.pop('itinerary')
+        booking = Booking.objects.create(**validated_data)
+        for data in itinerary_data:
+            Itinerary.objects.create(booking=booking, **data)
+        return booking
+
+    def update(self, instance, validated_data):
+        itinerary_data = validated_data.pop('itinerary')
+        itinerary = list(instance.itinerary.all())
+        
+        super().update(instance, validated_data)
+
+        for itiner in itinerary_data:
+            iti = itinerary.pop(0)
+            iti.day = itiner.get('day', iti.day)
+            iti.itinerary = itiner.get('itinerary', iti.itinerary)
+            iti.charge = itiner.get('charge', iti.charge)
+            iti.remark = itiner.get('remark', iti.remark)
+            iti.save()
+
+        return instance
+
 class BookingListSerializer(serializers.ModelSerializer):
     
     contact_phone = PhoneNumberField(required=True)

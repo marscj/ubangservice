@@ -80,7 +80,9 @@ class Itinerary(models.Model):
     itinerary = models.CharField(max_length=128)
     
     # 价格
-    charge = models.DecimalField(default=800.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
+    vehicle_charge = models.DecimalField(default=800.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
+
+    guide_charge = models.DecimalField(default=400.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
 
     # 订单
     booking = models.ForeignKey(Booking, related_name='itinerary', on_delete=models.CASCADE)

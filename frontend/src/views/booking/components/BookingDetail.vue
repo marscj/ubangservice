@@ -21,10 +21,10 @@
             <el-col :span="16">
               <el-card>
                 <el-form-item label="Start time:" prop="start_time" >
-                  <el-date-picker v-model="postForm.start_time" type="datetime" value-format="yyyy-MM-dd HH:mm" format="yyyy-MM-dd HH:mm" placeholder="Select date and time" clearable/>
+                  <el-date-picker v-model="postForm.start_time" type="datetime" value-format="yyyy-MM-dd HH:mm" format="yyyy-MM-dd HH:mm" placeholder="Select date and time" clearable @change="handleDuration"/>
                 </el-form-item>
                 <el-form-item label="End time:" prop="end_time" >
-                  <el-date-picker v-model="postForm.end_time" type="datetime" value-format="yyyy-MM-dd HH:mm" format="yyyy-MM-dd HH:mm" placeholder="Select date and time" clearable/>
+                  <el-date-picker v-model="postForm.end_time" type="datetime" value-format="yyyy-MM-dd HH:mm" format="yyyy-MM-dd HH:mm" placeholder="Select date and time" clearable @change="handleDuration"/>
                 </el-form-item>
                 <el-form-item label="Contact name:" prop="contact_name" style="width: 300px;" >
                   <el-input v-model="postForm.contact_name" placeholder=""></el-input>
@@ -78,16 +78,15 @@
             <div slot="header">
               <el-row type="flex" justify="space-between">
                 <el-col :span="6"><div align="left">Itinerary</div></el-col>
-                <el-col :span="6"><div align="right"><el-button type="primary" @click="handleItinerary('Create', null)">Add</el-button></div></el-col>
               </el-row>              
             </div>
-            <el-table
-              :key="tableKey"
-              :data="postForm.itinerary" 
-              stripe
-              style="width: 100%;"
-              row-key="id"
-              >
+            <div v-if="vehicle">
+              <el-table              
+                :key="tableKey"
+                :data="postForm.itinerary" 
+                stripe
+                style="width: 100%;"
+                row-key="id">
                 <el-table-column width="120px" label="Day" align="center">
                   <template slot-scope="{row}">
                     <span>{{ row.day }}</span>
@@ -96,11 +95,16 @@
                 <el-table-column width="300px" label="Itinerary" align="center">
                   <template slot-scope="{row}">
                     <span>{{ row.itinerary }}</span>
+                  </template>                    
+                </el-table-column>
+                <el-table-column width="130px" label="Vehicle Charge" align="center">
+                  <template slot-scope="{row}">
+                    <span v-if="row.vehicle_charge">{{ row.vehicle_charge }} (AED)</span>
                   </template>
                 </el-table-column>
-                <el-table-column width="80px" label="Charge" align="center">
+                <el-table-column width="120px" label="Guide Charge" align="center">
                   <template slot-scope="{row}">
-                    <span>{{ row.charge }}</span>
+                    <span v-if="row.guide_charge">{{ row.guide_charge }} (AED)</span>
                   </template>
                 </el-table-column>
                 <el-table-column min-width="300px" label="Remark" align="center">
@@ -111,12 +115,13 @@
 
                 <el-table-column label="Actions" align="center" width="100px" class-name="small-padding fixed-width">
                   <template slot-scope="{row}">
-                    <el-button type="primary" size="mini" @click="handleItinerary('Edit', row)">
+                    <el-button type="primary" size="mini" @click="handleItinerary(row)">
                       Edit
                     </el-button>
                   </template>
                 </el-table-column>
-              </el-table>                  
+              </el-table>
+            </div>                  
             <!-- <el-form-item
               v-for="itinerary in postForm.itinerary"
               :key="itinerary.key"
@@ -273,17 +278,17 @@
         </el-table-column>
       </el-table>
     </el-dialog>
-    <el-dialog :title="itineraryDialog.title + '  Itinerary'" :visible.sync="itineraryDialog.show">
+    <el-dialog title="Edit Itinerary" :visible.sync="itineraryDialog.show">
       <el-form ref="itineraryForm" :model="itineraryDialog.data" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
         <el-form-item label="Day" prop="day" :rules="{ required: true, message: 'This fields is required', trigger: 'change' }">
-          <el-date-picker v-model="itineraryDialog.data.day" type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd" placeholder="Select date" clearable />
+          <el-date-picker v-model="itineraryDialog.data.day" type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd" placeholder="Select date" clearable disabled/>
         </el-form-item>
         <el-form-item v-if="vehicle" label="Itinerary" prop="itinerary" :rules="{ required: true, message: 'This fields is required', trigger: 'change' }">
-          <el-select v-model="itineraryDialog.data.itinerary" placeholder="Select Itinerary">
+          <el-select v-model="itineraryDialog.data.itinerary" placeholder="Select Itinerary" @change="handleItineraryChange">
             <el-option v-for="item in vehicle.model.price"
               :key="item.id"
               :label="item.itiner.name"
-              :value="item">
+              :value="item.itiner.name">
             </el-option>
           </el-select>
         </el-form-item>        
@@ -295,7 +300,7 @@
         <el-button @click="itineraryDialog.show = false">
           Cancel
         </el-button>
-        <el-button type="primary" @click="itineraryDialog.title==='Create'?createItineraryData():updateItineraryData()">
+        <el-button type="primary" @click="updateItineraryData">
           Confirm
         </el-button>
       </div>
@@ -310,6 +315,7 @@ import { validURL } from '@/utils/validate'
 import { getBooking, updateBooking, createBooking } from '@/api/booking'
 import { getModels, getVehicles } from '@/api/vehicle'
 import { getUsers } from '@/api/user'
+var moment = require("moment");
 
 const defaultForm = {
   id: undefined,
@@ -324,7 +330,8 @@ const defaultForm = {
   remark: undefined,
   expiry_date: undefined,
   vehicle_id: undefined,
-  guide_id: undefined
+  guide_id: undefined,
+  itinerary: []
 }
 
 export default {
@@ -336,13 +343,13 @@ export default {
       default: false
     }
   },
-  mounted(){
-  },
+  mounted(){},
   data() {
     return {
       tableKey: 0,
       postForm: Object.assign({}, defaultForm),
       loading: false,
+      duration: undefined,
       rules: {
         start_time: [
           { required: true, message: 'This fields is required', trigger: 'change' }
@@ -391,12 +398,12 @@ export default {
       },
       itineraryDialog: {
         show: false,
-        title: 'Edit',
         data: {
           day: undefined,
           itinerary: undefined,
           remark: undefined,
-          charge: undefined
+          vehicle_charge: undefined,
+          guide_charge: undefined
         }
       }
     }
@@ -504,6 +511,7 @@ export default {
       this.creator = this.postForm.create_by
       this.company = this.postForm.company_by
       this.history = this.postForm.history
+      this.handleDuration()
     },
     fetchData(id) {
       getBooking(id).then(response => {
@@ -594,20 +602,20 @@ export default {
       })
     },
     setItineraryData(data) {
-      if(data) {
+      if(data) {        
         this.itineraryDialog.data = Object.assign({}, data)
-      } else {
+      } else {        
         this.itineraryDialog.data = {
           day: undefined,
           itinerary: undefined,
           remark: undefined,
-          charge: undefined
+          vehicle_charge: undefined,
+          guide_charge: undefined
         }
       }      
     },
-    handleItinerary(title, data) {
+    handleItinerary(data) {
       this.itineraryDialog.show = true
-      this.itineraryDialog.title = title
       this.setItineraryData(data)
       this.$nextTick(() => {
         this.$refs['itineraryForm'].clearValidate()
@@ -621,25 +629,64 @@ export default {
       this.guideDialog.show = false
       this.guide = Object.assign({}, row)
     },
-    createItineraryData() {
-      this.$refs['itineraryForm'].validate((valid) => {
-        if(valid) {
-          this.postForm.itinerary.push({
-            day: this.itineraryDialog.data.day,
-            itinerary: this.itineraryDialog.data.itinerary.itiner.name,
-            charge: this.itineraryDialog.data.itinerary.gross_price,
-            remark: this.itineraryDialog.data.remark
-          });
-          this.itineraryDialog.show = false
-        }
-      })      
-    },
     updateItineraryData() {
       this.$refs['itineraryForm'].validate((valid) => {
-        if(valid) {          
+        if(valid) {
+          // for(var index in this.postForm.itinerary) {
+          //   if(this.postForm.itinerary[index].day === this.itineraryDialog.data.day) {
+          //     this.postForm.itinerary[index] = Object.assign({}, this.itineraryDialog.data)
+          //     break
+          //   }
+          // }
+          // this.tableKey ++
+          for (const v of this.postForm.itinerary) {
+            if (v.day === this.itineraryDialog.data.day) {
+              const index = this.postForm.itinerary.indexOf(v)
+              this.postForm.itinerary.splice(index, 1, this.itineraryDialog.data)
+              break
+            }
+          }
           this.itineraryDialog.show = false
         }
       })
+    },
+    handleDuration() {
+      if(this.postForm.start_time && this.postForm.end_time) {
+        var start_time = moment(this.postForm.start_time, 'YYYY-MM-DD')
+        var end_time = moment(this.postForm.end_time, 'YYYY-MM-DD')
+        this.duration = moment.duration(end_time.diff(start_time))
+
+        if(!this.isEdit) {
+          this.postForm.itinerary = []
+
+          for(var i = 0; i < this.duration.days() + 1; i++){
+            var nextDay = moment(start_time).add(i, 'days')
+            this.postForm.itinerary.push({
+              day: moment(nextDay).format('YYYY-MM-DD'),
+              itinerary: undefined,
+              vehicle_charge: undefined,
+              guide_charge: undefined,
+              remark: undefined
+            });
+          }
+        }
+      }
+    },
+    handleItineraryChange(value) {
+      for(var itinerary of this.vehicle.model.price) {
+        if(itinerary.itiner.name === value) {
+          this.itineraryDialog.data.vehicle_charge = itinerary.gross_price
+          console.log(this.guide)
+          if(this.guide) {
+            if(itinerary.itiner.is_fullday) {
+              this.itineraryDialog.data.guide_charge = 400.0
+            } else {
+              this.itineraryDialog.data.guide_charge = 200.0
+            }
+          }
+          break;
+        }
+      }
     }
   }
 }
