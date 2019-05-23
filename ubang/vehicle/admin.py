@@ -8,8 +8,6 @@ class ModelPriceInlie(admin.TabularInline):
     model = ModelPrice
     extra = 0
 
-    raw_id_fields = ('itiner',)
-
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
     pass
@@ -27,15 +25,6 @@ class ModelAdmin(admin.ModelAdmin):
     list_display_links = list_display
 
     raw_id_fields = ('brand',)
-
-class OrderTimeListFilter(admin.DateFieldListFilter):
-    
-    def queryset(self, request, queryset):
-        try:
-            return queryset.exclude(**self.used_parameters)
-            # return queryset.filter(**self.used_parameters)
-        except (ValueError, ValidationError) as e:
-            raise IncorrectLookupParameters(e)
 
 @admin.register(Vehicle)
 class VehicleAdmin(admin.ModelAdmin):
@@ -55,11 +44,7 @@ class VehicleAdmin(admin.ModelAdmin):
     readonly_fields = ('brand', 'type', 'category', 'passengers')
 
     list_filter = (
-        'is_actived', 'model__brand', 'model__type', 'model__category', 
-        ('order__start_time', OrderTimeListFilter),
-        ('order__end_time', OrderTimeListFilter),
-        'task__day',
-        'task__is_freedom_day'
+        'is_actived', 'model__brand', 'model__type', 'model__category'
     )
 
     def brand(self, obj):

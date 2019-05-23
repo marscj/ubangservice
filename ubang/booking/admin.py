@@ -15,8 +15,6 @@ class BookingInline(admin.TabularInline):
     extra = 0 
     fk_name = 'order'
 
-    fields = '__all__'
-
     readonly_fields = (
         'bookingId',
     )
