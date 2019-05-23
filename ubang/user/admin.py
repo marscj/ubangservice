@@ -41,7 +41,7 @@ class CustomerUserAdmin(UserAdmin):
             'fields': ('username', 'password')}
         ),
         (_('Personal info'), {
-            'fields': ('company', 'is_actived', 'is_driver', 'is_tourguide', 'name', 'phone', 'wechart', 'email', 'gender', 'country', 'avatar', 'introduction')
+            'fields': ('company', 'is_actived', 'is_driver', 'is_tourguide', 'name', 'phone', 'wechart', 'email', 'gender', 'country', 'avatar', 'average_score', 'total_score', 'introduction')
         }),
         (_('Permissions'), {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'user_permissions'),
@@ -59,6 +59,10 @@ class CustomerUserAdmin(UserAdmin):
         'company', 'gender', 'is_driver', 'is_tourguide', 'is_staff', 'is_actived',
     )
 
+    readonly_fields = (
+        'average_score', 'total_score'
+    )
+
     search_fields = (
         'phone', 'email', 'wechart'
     )
@@ -67,6 +71,10 @@ class CustomerUserAdmin(UserAdmin):
         'is_actived', 'is_driver', 'is_tourguide'
     )
 
-    filter_horizontal = ('user_permissions',)
+    filter_horizontal = (
+        'user_permissions',
+    )
 
-    raw_id_fields = ('company',)
+    raw_id_fields = (
+        'company',
+    )

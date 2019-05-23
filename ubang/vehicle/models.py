@@ -37,10 +37,10 @@ class Model(models.Model):
     name = models.CharField(max_length=64, unique=True)
 
     # 类型
-    type = models.IntegerField(default=VehicleType.Car, choices=VehicleType.CHOICES)
+    type = models.CharField(default=VehicleType.Car, max_length=64, choices=VehicleType.CHOICES)
 
     # 分类
-    category = models.IntegerField(default=CarCategory.Mini, choices=VehicleCategory.CHOICES)
+    category = models.CharField(default=CarCategory.Mini, max_length=64, choices=VehicleCategory.CHOICES)
 
     # 自动挡
     is_automatic = models.BooleanField(default=True)
@@ -93,6 +93,12 @@ class Vehicle(models.Model):
 
     # 司机
     driver = models.OneToOneField(CustomUser, related_name='car', on_delete=models.SET_NULL, blank=True, null=True)
+
+    # 平均分
+    average_score = models.DecimalField(default=5.0,max_digits=10, decimal_places=2)
+
+    # 总分
+    total_score = models.DecimalField(default=0.0,max_digits=10, decimal_places=2)
 
     objects = VehicleQuerySet.as_manager()
 

@@ -41,6 +41,12 @@ class Booking(models.Model):
     # 有效期
     expiry_date = models.DateTimeField(default=now)
 
+    # 创建时间
+    create_at = models.DateTimeField(auto_now_add=True)
+
+    # 修改时间
+    change_at = models.DateTimeField(auto_now=True)
+
     # 状态
     status = models.CharField(max_length=16, default=BookingStatus.Created, choices=BookingStatus.CHOICES)
         

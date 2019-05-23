@@ -9,19 +9,19 @@ from ubang.company.serializers import CompanySerializer, CompanyListSerializer
 from ubang.vehicle.serializers import VehicleSerializer, VehicleListSerializer, ModelPriceSerializer
 from ubang.order.serializers import OrderSerializer, OrderListSerializer
 
-class LogEntrySerializer(serializers.ModelSerializer):
+# class LogEntrySerializer(serializers.ModelSerializer):
     
-    user = UserListSerializer(required=False, allow_null=True)
-    message = serializers.SerializerMethodField()
+#     user = UserListSerializer(required=False, allow_null=True)
+#     message = serializers.SerializerMethodField()
     
-    class Meta:
-        model = LogEntry
-        fields = ( 
-            'user', 'action_time', 'message'
-        )
+#     class Meta:
+#         model = LogEntry
+#         fields = ( 
+#             'user', 'action_time', 'message'
+#         )
 
-    def get_message(self, obj):
-        return obj.__str__()
+#     def get_message(self, obj):
+#         return obj.__str__()
 
 class ItinerarySerializer(serializers.ModelSerializer):
 
@@ -50,7 +50,7 @@ class BookingSerializer(serializers.ModelSerializer):
 
     order = OrderListSerializer(required=False, allow_null=True)
 
-    history = serializers.SerializerMethodField()
+    # history = serializers.SerializerMethodField()
 
     itinerary = ItinerarySerializer(required=False, allow_null=True, many=True)
 
@@ -58,9 +58,9 @@ class BookingSerializer(serializers.ModelSerializer):
         model = Booking
         fields = '__all__'
     
-    def get_history(self, obj):
-        serializer = LogEntrySerializer(LogEntry.objects.filter(object_id=obj.id), many=True)
-        return serializer.data
+    # def get_history(self, obj):
+    #     serializer = LogEntrySerializer(LogEntry.objects.filter(object_id=obj.id), many=True)
+    #     return serializer.data
 
     def create(self, validated_data):
         itinerary_data = validated_data.pop('itinerary')        
