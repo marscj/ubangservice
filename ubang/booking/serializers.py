@@ -25,7 +25,7 @@ class LogEntrySerializer(serializers.ModelSerializer):
 
 class ItinerarySerializer(serializers.ModelSerializer):
 
-    booking = serializers.PrimaryKeyRelatedField(read_only=True, required=False, allow_null=True)
+    booking = serializers.PrimaryKeyRelatedField(required=False, allow_null=True, read_only=True)
 
     class Meta:
         model = Itinerary
@@ -52,7 +52,6 @@ class BookingSerializer(serializers.ModelSerializer):
 
     history = serializers.SerializerMethodField()
 
-    # itinerary = serializers.SerializerMethodField()
     itinerary = ItinerarySerializer(required=False, allow_null=True, many=True)
 
     class Meta:
@@ -63,13 +62,8 @@ class BookingSerializer(serializers.ModelSerializer):
         serializer = LogEntrySerializer(LogEntry.objects.filter(object_id=obj.id), many=True)
         return serializer.data
 
-    # def get_itinerary(self, obj):
-    #     serializer = ItinerarySerializer(Itinerary.objects.filter(booking=obj), many=True)
-    #     return serializer.data
-
     def create(self, validated_data):
-        itinerary_data = validated_data.pop('itinerary')
-        print(itinerary_data)
+        itinerary_data = validated_data.pop('itinerary')        
         booking = Booking.objects.create(**validated_data)
         for data in itinerary_data:
             Itinerary.objects.create(booking=booking, **data)
@@ -83,9 +77,14 @@ class BookingSerializer(serializers.ModelSerializer):
 
         for itiner in itinerary_data:
             iti = itinerary.pop(0)
+
             iti.day = itiner.get('day', iti.day)
             iti.itinerary = itiner.get('itinerary', iti.itinerary)
-            iti.charge = itiner.get('charge', iti.charge)
+            iti.full_day = itiner.get('full_day', iti.full_day)
+            iti.freedom_day = itiner.get('freedom_day', iti.freedom_day)
+            iti.vehicle_cost_charge = itiner.get('vehicle_cost_charge', iti.vehicle_cost_charge)
+            iti.vehicle_gross_charge = itiner.get('vehicle_gross_charge', iti.vehicle_gross_charge)
+            iti.guide_charge = itiner.get('guide_charge', iti.guide_charge)
             iti.remark = itiner.get('remark', iti.remark)
             iti.save()
 

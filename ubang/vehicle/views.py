@@ -19,8 +19,7 @@ class VehicleView(ModelViewSet):
             return VehicleSerializer
 
     def get_queryset(self):
-
-        return Vehicle.objects.all()
+        return Vehicle.objects.filter(company__isnull=False)
 
     def list(self, request):
         try:

@@ -58,7 +58,7 @@ class UserInfo(APIView):
 class UserView(ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer
-    queryset = CustomUser.objects.all()
+    queryset = CustomUser.objects.filter(company__isnull=False)
     
     filterset_fields = ('is_driver', 'is_tourguide', 'is_actived')
     ordering_fields = ('id', 'username', 'is_driver', 'is_tourguide', 'is_actived')

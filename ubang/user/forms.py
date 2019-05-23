@@ -9,7 +9,6 @@ class CustomUserCreationForm(forms.UserCreationForm):
     
     phone = PhoneNumberField(
         required=False,
-        initial='+971',
         help_text='+971 XXX XXXXXXX'
     )
 

@@ -92,27 +92,36 @@
                     <span>{{ row.day }}</span>
                   </template>
                 </el-table-column>
+                <el-table-column label="Fullday" width="80px" align="center" class-name="small-padding fixed-width">
+                  <template slot-scope="{row}">
+                    <el-checkbox v-model="row.full_day" disabled/>
+                  </template>
+                </el-table-column>
+                <el-table-column label="Freedomday" width="100px" align="center" class-name="small-padding fixed-width">
+                  <template slot-scope="{row}">
+                    <el-checkbox v-model="row.freedom_day" disabled/>
+                  </template>
+                </el-table-column>
                 <el-table-column width="300px" label="Itinerary" align="center">
                   <template slot-scope="{row}">
                     <span>{{ row.itinerary }}</span>
                   </template>                    
                 </el-table-column>
-                <el-table-column width="130px" label="Vehicle Charge" align="center">
+                <el-table-column width="140px" label="Vehicle Charge" align="center">
                   <template slot-scope="{row}">
-                    <span v-if="row.vehicle_charge">{{ row.vehicle_charge }} (AED)</span>
+                    <span v-if="row.vehicle_gross_charge">{{ row.vehicle_gross_charge }} (AED)</span>
                   </template>
                 </el-table-column>
-                <el-table-column width="120px" label="Guide Charge" align="center">
+                <el-table-column width="140px" label="Guide Charge" align="center">
                   <template slot-scope="{row}">
                     <span v-if="row.guide_charge">{{ row.guide_charge }} (AED)</span>
                   </template>
-                </el-table-column>
+                </el-table-column>                
                 <el-table-column min-width="300px" label="Remark" align="center">
                   <template slot-scope="{row}">
                     <span>{{ row.remark }}</span>
                   </template>
-                </el-table-column>
-
+                </el-table-column> 
                 <el-table-column label="Actions" align="center" width="100px" class-name="small-padding fixed-width">
                   <template slot-scope="{row}">
                     <el-button type="primary" size="mini" @click="handleItinerary(row)">
@@ -279,16 +288,19 @@
       </el-table>
     </el-dialog>
     <el-dialog title="Edit Itinerary" :visible.sync="itineraryDialog.show">
-      <el-form ref="itineraryForm" :model="itineraryDialog.data" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
+      <el-form ref="itineraryForm" :model="itineraryDialog.data" :rules="itineraryDialog.rules" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
         <el-form-item label="Day" prop="day" :rules="{ required: true, message: 'This fields is required', trigger: 'change' }">
           <el-date-picker v-model="itineraryDialog.data.day" type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd" placeholder="Select date" clearable disabled/>
+        </el-form-item> 
+        <el-form-item label="Freedom Day" prop="freedom">
+          <el-checkbox v-model="itineraryDialog.data.freedom_day"/>
         </el-form-item>
-        <el-form-item v-if="vehicle" label="Itinerary" prop="itinerary" :rules="{ required: true, message: 'This fields is required', trigger: 'change' }">
-          <el-select v-model="itineraryDialog.data.itinerary" placeholder="Select Itinerary" @change="handleItineraryChange">
+        <el-form-item v-if="vehicle" label="Itinerary" prop="itinerary">
+          <el-select v-model="itineraryDialog.data.itinerary" placeholder="Select Itinerary" @change="handleItineraryChange" :disabled="itineraryDialog.data.freedom_day">
             <el-option v-for="item in vehicle.model.price"
               :key="item.id"
-              :label="item.itiner.name"
-              :value="item.itiner.name">
+              :label="item.itinerary"
+              :value="item.itinerary">
             </el-option>
           </el-select>
         </el-form-item>        
@@ -345,6 +357,21 @@ export default {
   },
   mounted(){},
   data() {
+    const validateItinerary = (rule, value, callback) => {
+      if (value === '' || value === undefined) {
+        if(!this.itineraryDialog.data.freedom_day) {
+          this.$message({
+            message: 'This fields is required',
+            type: 'error'
+          })
+          callback(new Error('This fields is required'))
+        } else {
+          callback()
+        }
+      } else {
+        callback()
+      }
+    }
     return {
       tableKey: 0,
       postForm: Object.assign({}, defaultForm),
@@ -366,7 +393,7 @@ export default {
         vehicle_id: [
           { required: true, message: 'This fields is required', trigger: 'change' }
         ],
-      },
+      },      
       tempRoute: {},
       relatedKey: {
         vehicle: undefined,
@@ -401,14 +428,20 @@ export default {
         data: {
           day: undefined,
           itinerary: undefined,
-          remark: undefined,
-          vehicle_charge: undefined,
-          guide_charge: undefined
+          full_day: undefined,
+          freedom_day: undefined,
+          vehicle_cost_charge: undefined,
+          vehicle_gross_charge: undefined,
+          guide_charge: undefined,
+          remark:undefined
+        },
+        rules: {
+          itinerary: [{ validator: validateItinerary }]
         }
       }
     }
   },
-  computed: {
+  computed: {    
     vehicle: {
       get() {
         if(this.relatedKey.vehicle) {
@@ -560,8 +593,7 @@ export default {
             this.loading = false
           }).catch(error => {
             this.loading = false
-          })
-          
+          })          
         } else {
           return false
         }
@@ -608,9 +640,12 @@ export default {
         this.itineraryDialog.data = {
           day: undefined,
           itinerary: undefined,
-          remark: undefined,
-          vehicle_charge: undefined,
-          guide_charge: undefined
+          full_day: undefined,
+          freedom_day: undefined,
+          vehicle_cost_charge: undefined,
+          vehicle_gross_charge: undefined,
+          guide_charge: undefined,
+          remark:undefined
         }
       }      
     },
@@ -630,6 +665,14 @@ export default {
       this.guide = Object.assign({}, row)
     },
     updateItineraryData() {
+      if(this.itineraryDialog.data.freedom_day) {
+        this.itineraryDialog.data.full_day = true
+        this.itineraryDialog.data.itinerary = 'Freedom Day'
+        this.itineraryDialog.data.vehicle_cost_charge = 0.0
+        this.itineraryDialog.data.vehicle_gross_charge = 0.0
+        this.itineraryDialog.data.guide_charge = 0.0
+      }
+
       this.$refs['itineraryForm'].validate((valid) => {
         if(valid) {
           for (const v of this.postForm.itinerary) {
@@ -657,29 +700,33 @@ export default {
             this.postForm.itinerary.push({
               day: moment(nextDay).format('YYYY-MM-DD'),
               itinerary: undefined,
-              vehicle_charge: undefined,
+              full_day: undefined,
+              freedom_day: undefined,
+              vehicle_cost_charge: undefined,
+              vehicle_gross_charge: undefined,
               guide_charge: undefined,
-              remark: undefined
+              remark:undefined
             });
           }
         }
       }
     },
     handleItineraryChange(value) {
-      for(var itinerary of this.vehicle.model.price) {
-        if(itinerary.itiner.name === value) {
-          this.itineraryDialog.data.vehicle_charge = itinerary.gross_price
-          console.log(this.guide)
+      for(var itinerary of this.vehicle.model.price) {        
+        if(itinerary.itinerary === value) {
+          this.itineraryDialog.data.vehicle_cost_charge = itinerary.cost_price
+          this.itineraryDialog.data.vehicle_gross_charge = itinerary.gross_price
+
           if(this.guide) {
-            if(itinerary.itiner.is_fullday) {
+            if(itinerary.fullday) {
               this.itineraryDialog.data.guide_charge = 400.0
             } else {
               this.itineraryDialog.data.guide_charge = 200.0
             }
-          }
+          }         
           break;
         }
-      }
+      }    
     }
   }
 }
