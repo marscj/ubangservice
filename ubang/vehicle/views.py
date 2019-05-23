@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Brand, Model, Vehicle, Itinerary
+from .models import Brand, Model, Vehicle, ModelPrice
 from .serializers import VehicleSerializer, ModelSerializer
 
 class VehicleView(ModelViewSet):

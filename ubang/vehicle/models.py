@@ -105,12 +105,19 @@ class Vehicle(models.Model):
 
 class ModelPrice(models.Model):
     
+    # 行程
     itinerary = models.CharField(max_length=128, unique=True)
+
+    # 全天
     is_fullday = models.BooleanField(default=False)
 
+    # 价格
     cost_price = models.DecimalField(default=600.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
-    gross_price = models.DecimalField(default=800.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
     
+    # 价格
+    gross_price = models.DecimalField(default=800.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
+
+    # 车型
     model = models.ForeignKey('Model', related_name='price', on_delete=models.SET_NULL, null=True)
 
     class Meta:
@@ -118,4 +125,4 @@ class ModelPrice(models.Model):
         verbose_name_plural = _("Model Prices")
 
     def __str__(self):
-        return str(id)
+        return str(itinerary)

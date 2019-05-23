@@ -20,17 +20,17 @@ class Booking(models.Model):
     
     bookingId = models.CharField(max_length=64, editable=False)
 
-    # 联系人姓名
-    contact_name = models.CharField(max_length=64)
-
-    # 联系人电话
-    contact_phone = PhoneNumberField()
-
     # 开始时间
     start_time = models.DateTimeField()
 
     # 结束时间
     end_time = models.DateTimeField()
+
+    # 联系人姓名
+    contact_name = models.CharField(max_length=64)
+
+    # 联系人电话
+    contact_phone = PhoneNumberField()
 
     # 送车地址
     pick_up_addr = models.CharField(max_length=128, blank=True, null=True, verbose_name='Pick up address')
@@ -44,9 +44,6 @@ class Booking(models.Model):
     # 状态
     status = models.CharField(max_length=16, default=BookingStatus.Created, choices=BookingStatus.CHOICES)
         
-    # 备注
-    remark = models.TextField(max_length=256, blank=True, null=True)
-
     # 客户
     create_by = models.ForeignKey(CustomUser, related_name='booking_customer', on_delete=models.SET_NULL, null=True, verbose_name = 'Customer', editable=False) 
 
@@ -61,6 +58,9 @@ class Booking(models.Model):
 
     # 订单
     order = models.ForeignKey(Order, related_name='booking', on_delete=models.CASCADE, blank=True, null=True)
+
+    # 备注
+    remark = models.TextField(max_length=256, blank=True, null=True)
 
     objects = BookingQuerySet.as_manager()
 
@@ -94,10 +94,11 @@ class Itinerary(models.Model):
     # 导游价格
     guide_charge = models.DecimalField(default=400.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
 
+    # 备注
+    remark = models.CharField(max_length=256, blank=True, null=True)
+
     # 订单
     booking = models.ForeignKey(Booking, related_name='itinerary', on_delete=models.CASCADE)
-
-    remark = models.CharField(max_length=256, blank=True, null=True)
     
     class Meta:
         verbose_name = _("Itinerary")

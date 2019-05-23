@@ -15,9 +15,7 @@ class BookingInline(admin.TabularInline):
     extra = 0 
     fk_name = 'order'
 
-    exclude = (
-        'pick_up_addr', 'drop_off_addr', 'remark', 
-    )
+    fields = '__all__'
 
     readonly_fields = (
         'bookingId',
@@ -35,7 +33,7 @@ class ItineraryInline(admin.TabularInline):
     extra = 0
     formset = ItineraryInlineFormSet
 
-    fields = ('day', 'itinerary', 'remark')
+    fields = ('day', 'itinerary', 'full_day', 'freedom_day', 'vehicle_cost_charge', 'vehicle_gross_charge', 'guide_charge', 'remark')
     
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
@@ -44,75 +42,21 @@ class BookingAdmin(admin.ModelAdmin):
         ItineraryInline,
     )
 
-    list_display = (
-        'bookingId', 'start_time', 'end_time', 'vehicle', 'guide', 'contact_name', 'contact_phone', 'itinerary'
+    fields = (
+        'bookingId', 'start_time', 'end_time', 'contact_name', 'contact_phone', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 
+        'expiry_date', 'status',  'create_by', 'company_by', 'order'
     )
+
+    readonly_fields = (
+        'bookingId',
+    )
+
+    raw_id_fields = (
+        'create_by', 'company_by', 'vehicle', 'guide', 'order'
+    )
+
+    list_display = fields
     
     def itinerary(self, obj):
         return mark_safe("<br>".join(['%s %s'% (itinerary.day,  itinerary.itinerary or '') for itinerary in obj.itinerary.all()]))
-
-    # def change_view(self, request, object_id, form_url='', extra_context=None):
-    #     obj = Order.objects.get(pk=object_id)
-    #     extra_context = {
-    #         'show_confirm': obj.status == OrderStatus.Draft, 
-    #         'show_cancel': obj.status == OrderStatus.Confirm
-    #     }
-    #     return super().change_view(request, object_id, form_url, extra_context)
-
-    # def get_urls(self):
-    #     from django.urls import path
-
-    #     def wrap(view):
-    #         def wrapper(*args, **kwargs):
-    #             return self.admin_site.admin_view(view)(*args, **kwargs)
-    #         wrapper.model_admin = self
-    #         return update_wrapper(wrapper, view)
-
-    #     info = self.model._meta.app_label, self.model._meta.model_name
-
-    #     urlpatterns = [
-    #         path('<path:object_id>/confirm/', wrap(self.confirm_view), name='%s_%s_confirm' % info),
-    #     ]
-
-    #     urls = urlpatterns + super().get_urls()
-    #     return urls
-    
-    # def confirm_view(self, request, object_id, form_url='',extra_context=None):
-        
-    #     opts = self.model._meta
-    #     obj = Order.objects.get(pk=object_id)
-    
-    #     if request.POST:
-    #         return self.response_confirm(request, obj)
-        
-    #     context = {
-    #         'opts': opts, 
-    #         'object': obj,
-    #         'show_confirm': obj.status == OrderStatus.Draft, 
-    #         'show_cancel': obj.status == OrderStatus.Confirm
-    #     }
-    #     return render(request, self.confirm_template, context)
-
-    # def response_confirm(self, request, obj):
-
-    #     opts = self.model._meta
-    #     preserved_filters = self.get_preserved_filters(request)
-
-    #     if 'confirm' in request.POST:
-    #         obj.confirm()
-    #         list(messages.get_messages(request))
-    #         self.message_user(request, 'The Order %s was confirmed' % obj.orderId)
-            
-    #     elif 'cancel' in request.POST:
-    #         obj.cancel()
-    #         list(messages.get_messages(request))
-    #         self.message_user(request, 'The Order %s was cancelled' % obj.orderId, messages.WARNING)
-
-    #     redirect_url = reverse('admin:%s_%s_change' %
-    #                                (opts.app_label, opts.model_name),
-    #                                args=(obj.pk,),
-    #                                current_app=self.admin_site.name)
-
-    #     redirect_url = add_preserved_filters({'preserved_filters': preserved_filters, 'opts': opts}, redirect_url)
-    #     return HttpResponseRedirect(redirect_url)
 
