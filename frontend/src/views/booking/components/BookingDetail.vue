@@ -632,13 +632,6 @@ export default {
     updateItineraryData() {
       this.$refs['itineraryForm'].validate((valid) => {
         if(valid) {
-          // for(var index in this.postForm.itinerary) {
-          //   if(this.postForm.itinerary[index].day === this.itineraryDialog.data.day) {
-          //     this.postForm.itinerary[index] = Object.assign({}, this.itineraryDialog.data)
-          //     break
-          //   }
-          // }
-          // this.tableKey ++
           for (const v of this.postForm.itinerary) {
             if (v.day === this.itineraryDialog.data.day) {
               const index = this.postForm.itinerary.indexOf(v)

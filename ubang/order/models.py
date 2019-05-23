@@ -15,7 +15,6 @@ from datetime import datetime, date
 from ubang.user.models import CustomUser
 from ubang.company.models import Company
 from ubang.vehicle.models import Vehicle
-from ubang.itinerary.models import Itinerary
 from ubang.discount.models import Discount
 from .import OrderStatus
 
@@ -83,7 +82,7 @@ class Task(models.Model):
     vehicle = models.ForeignKey(Vehicle, related_name='task', on_delete=models.SET_NULL, blank=True, null=True)
 
     # 内容
-    itinerary = models.ForeignKey(Itinerary, related_name='task', on_delete=models.SET_NULL, blank=True, null=True)
+    itinerary = itinerary = models.CharField(max_length=128)
 
     # 订单
     order = models.ForeignKey(Order, related_name='task', on_delete=models.CASCADE)

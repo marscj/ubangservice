@@ -8,7 +8,6 @@ from datetime import datetime, date
 
 from ubang.company.models import Company
 from ubang.user.models import CustomUser
-from ubang.itinerary.models import Itinerary
 
 from .import BusCategory, CarCategory, VehicleCategory, VehicleType
 
@@ -106,10 +105,12 @@ class Vehicle(models.Model):
 
 class ModelPrice(models.Model):
     
+    itinerary = models.CharField(max_length=128, unique=True)
+    is_fullday = models.BooleanField(default=False)
+
     cost_price = models.DecimalField(default=600.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
     gross_price = models.DecimalField(default=800.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
-
-    itiner = models.ForeignKey(Itinerary, related_name='price', on_delete=models.CASCADE)
+    
     model = models.ForeignKey('Model', related_name='price', on_delete=models.SET_NULL, null=True)
 
     class Meta:

@@ -78,10 +78,20 @@ class Itinerary(models.Model):
 
     # 行程
     itinerary = models.CharField(max_length=128)
-    
-    # 价格
-    vehicle_charge = models.DecimalField(default=800.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
 
+    # 全天
+    full_day = models.BooleanField(default=False)
+
+    # 自由日
+    freedom_day = models.BooleanField(default=False)
+
+    # 车辆价格
+    vehicle_cost_charge = models.DecimalField(default=600.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
+    
+    # 车辆价格
+    vehicle_gross_charge = models.DecimalField(default=800.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
+
+    # 导游价格
     guide_charge = models.DecimalField(default=400.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
 
     # 订单

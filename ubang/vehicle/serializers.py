@@ -3,11 +3,8 @@ from rest_framework import serializers
 from .models import Vehicle, Model, Brand, ModelPrice
 from ubang.company.serializers import CompanySerializer
 from ubang.user.serializers import UserSerializer
-from ubang.itinerary.serializers import ItinerarySerializer
 
 class ModelPriceSerializer(serializers.ModelSerializer):
-
-    itiner = ItinerarySerializer()
 
     class Meta:
         model = ModelPrice

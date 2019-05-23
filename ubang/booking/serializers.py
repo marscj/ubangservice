@@ -25,6 +25,8 @@ class LogEntrySerializer(serializers.ModelSerializer):
 
 class ItinerarySerializer(serializers.ModelSerializer):
 
+    booking = serializers.PrimaryKeyRelatedField(read_only=True, required=False, allow_null=True)
+
     class Meta:
         model = Itinerary
         fields = '__all__'
@@ -50,7 +52,8 @@ class BookingSerializer(serializers.ModelSerializer):
 
     history = serializers.SerializerMethodField()
 
-    itinerary = serializers.SerializerMethodField()
+    # itinerary = serializers.SerializerMethodField()
+    itinerary = ItinerarySerializer(required=False, allow_null=True, many=True)
 
     class Meta:
         model = Booking
@@ -60,12 +63,13 @@ class BookingSerializer(serializers.ModelSerializer):
         serializer = LogEntrySerializer(LogEntry.objects.filter(object_id=obj.id), many=True)
         return serializer.data
 
-    def get_itinerary(self, obj):
-        serializer = ItinerarySerializer(Itinerary.objects.filter(booking=obj), many=True)
-        return serializer.data
+    # def get_itinerary(self, obj):
+    #     serializer = ItinerarySerializer(Itinerary.objects.filter(booking=obj), many=True)
+    #     return serializer.data
 
     def create(self, validated_data):
         itinerary_data = validated_data.pop('itinerary')
+        print(itinerary_data)
         booking = Booking.objects.create(**validated_data)
         for data in itinerary_data:
             Itinerary.objects.create(booking=booking, **data)
