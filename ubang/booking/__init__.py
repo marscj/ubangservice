@@ -4,9 +4,11 @@ class BookingStatus:
     Created = 'Created'
     Cancel = 'Cancel'
     Delete = 'Delete'
+    Complete = 'Complete'
 
     CHOICES = [
         (Created, 'Created'),
         (Cancel, 'Cancel'),
-        (Delete, 'Delete')
+        (Delete, 'Delete'),
+        (Complete, 'Complete'),
     ]

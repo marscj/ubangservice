@@ -141,8 +141,48 @@
             </div>
           </el-card>
         </div>
-        <div >
-
+        <div v-if="isEdit" class="comment-container">
+          <el-card >
+            <div slot="header">
+              <span>Comment</span>
+            </div>
+            <div>
+              <el-row>
+                <el-col :span="5">
+                  <el-form-item label="Vehicle Score:" >
+                      <el-rate
+                        v-model="postForm.vehicle_score"
+                        :max="5"
+                        :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+                        :low-threshold="1"
+                        :high-threshold="5"
+                        style="margin-top:8px;"
+                      />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                  <el-form-item label="Guide Score:">
+                      <el-rate
+                        v-model="postForm.guide_score"
+                        :max="5"
+                        :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+                        :low-threshold="1"
+                        :high-threshold="5"
+                        style="margin-top:8px;"
+                      />
+                    </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col>
+                  <el-form-item label="Comment:">
+                    <el-input v-model="postForm.comment" :autosize="{ minRows: 4, maxRows: 4}" type="textarea"></el-input>  
+                  </el-form-item>
+                </el-col>
+              </el-row>
+                            
+            </div>        
+          </el-card>          
         </div>
         <!-- <div class="log-container">
           <el-card >
@@ -785,6 +825,12 @@ export default {
     }
 
     .itinerary-container {
+      position: relative;
+      @include clearfix;
+      padding-bottom: 20px;
+    }
+
+    .comment-container {
       position: relative;
       @include clearfix;
       padding-bottom: 20px;

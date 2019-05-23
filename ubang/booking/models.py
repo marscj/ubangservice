@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 from django.conf import settings
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -67,6 +67,15 @@ class Booking(models.Model):
 
     # 备注
     remark = models.TextField(max_length=256, blank=True, null=True)
+
+    # 车辆得分
+    vehicle_score = models.FloatField(default=5.0, validators=[MinValueValidator(1.0), MaxValueValidator(5.0)])
+
+    # 导游得分
+    guide_score = models.FloatField(default=5.0, validators=[MinValueValidator(1.0), MaxValueValidator(5.0)])
+
+    # 评论
+    comment = models.TextField(max_length=256, blank=True, null=True)
 
     objects = BookingQuerySet.as_manager()
 

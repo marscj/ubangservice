@@ -111,5 +111,6 @@ class BookingListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
         fields = (
-            'id', 'bookingId', 'start_time', 'end_time', 'status', 'create_by', 'company_by', 'contact_name', 'contact_phone', 'pick_up_addr', 'drop_off_addr', 'remark', 'vehicle', 'vehicle_id', 'guide', 'guide_id', 'order'
+            'id', 'bookingId', 'start_time', 'end_time', 'status', 'create_by', 'company_by', 'contact_name', 'contact_phone', 'pick_up_addr', 'drop_off_addr',
+            'remark', 'vehicle', 'vehicle_id', 'guide', 'guide_id', 'order', 'vehicle_score', 'guide_score'
         )
