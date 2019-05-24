@@ -41,7 +41,7 @@ class CustomerUserAdmin(UserAdmin):
             'fields': ('username', 'password')}
         ),
         (_('Personal info'), {
-            'fields': ('company', 'is_actived', 'is_driver', 'is_tourguide', 'name', 'phone', 'wechart', 'email', 'gender', 'country', 'avatar', 'average_score', 'total_score', 'introduction')
+            'fields': ('company', 'is_actived', 'is_driver', 'is_tourguide', 'name', 'phone', 'wechart', 'email', 'gender', 'country', 'avatar', 'score', 'introduction')
         }),
         (_('Permissions'), {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'user_permissions'),
@@ -60,7 +60,7 @@ class CustomerUserAdmin(UserAdmin):
     )
 
     readonly_fields = (
-        'average_score', 'total_score'
+        'score',
     )
 
     search_fields = (

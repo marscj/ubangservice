@@ -40,7 +40,7 @@ class VehicleAdmin(admin.ModelAdmin):
     form = VehicleForm
     
     fields = (
-        'traffic_plate_no', 'model', 'company', 'driver', 'exp_date', 'is_actived', 'average_score', 'total_score'
+        'traffic_plate_no', 'model', 'company', 'driver', 'exp_date', 'is_actived', 'score'
     )
 
     list_display = (
@@ -56,7 +56,7 @@ class VehicleAdmin(admin.ModelAdmin):
     )
 
     readonly_fields = (
-        'average_score', 'total_score'
+        'score',
     )
 
     list_filter = (

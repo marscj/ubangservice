@@ -9,7 +9,6 @@ from datetime import datetime, date
 
 from ubang.company.models import Company
 from ubang.user.models import CustomUser
-from ubang.booking.models import Booking
 
 from .import BusCategory, CarCategory, VehicleCategory, VehicleType
 
@@ -107,6 +106,7 @@ class Vehicle(models.Model):
 
     @property
     def score(self):
+        from ubang.booking.models import Booking
         return Booking.objects.filter(vehicle=self).filter(
            Q(status='Created') | Q(status='Complete')
         ).aggregate(average_score=Avg('vehicle_score'),total_score=Sum('vehicle_score'))

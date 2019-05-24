@@ -8,7 +8,6 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django_countries.fields import CountryField
 
 from ubang.company.models import Company
-from ubang.booking.models import Booking
 from .import Gender
 
 class CustomUser(AbstractUser):
@@ -58,6 +57,7 @@ class CustomUser(AbstractUser):
 
     @property
     def score(self):
+        from ubang.booking.models import Booking
         return Booking.objects.filter(guide=self).filter(
            Q(status='Created') | Q(status='Complete')
         ).aggregate(average_score=Avg('guide_score'),total_score=Sum('guide_score'))
