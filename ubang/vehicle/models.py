@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.exceptions import ObjectDoesNotExist
 
 from datetime import datetime, date
 
@@ -108,6 +109,16 @@ class Vehicle(models.Model):
 
     def __str__(self):
         return self.traffic_plate_no
+
+    @staticmethod
+    def updateScore(pk, avg, total):
+        try:
+            vehicle = Vehicle.objects.get(pk=pk)
+            vehicle.average_score = avg
+            vehicle.total_score = total
+            vehicle.save()
+        except ObjectDoesNotExist:
+            pass
 
 class ModelPrice(models.Model):
     

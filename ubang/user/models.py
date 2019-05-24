@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import ugettext_lazy as _
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ObjectDoesNotExist
 
 from phonenumber_field.modelfields import PhoneNumberField
 from django_countries.fields import CountryField
@@ -59,7 +59,17 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
-        
+
+    @staticmethod
+    def updateScore(pk, avg, total):
+        try:
+            user = CustomUser.objects.get(pk=pk)
+            user.average_score = avg
+            user.total_score = total
+            user.save()
+        except ObjectDoesNotExist:
+            pass
+
 class Role(models.Model):
     name = models.CharField(max_length=64)
     user = models.ManyToManyField(CustomUser, related_name='roles', blank=True)

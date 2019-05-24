@@ -66,7 +66,7 @@ class BookingView(ModelViewSet):
             return Response(context)
 
     def update(self, request, *args, **kwargs):
-        print(request.data)
+        # print(request.data)
         try:
             response = super().update(request, *args, **kwargs)
             context = {
