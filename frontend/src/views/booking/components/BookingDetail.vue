@@ -151,7 +151,7 @@
             </div>
             <div>
               <el-row>
-                <el-col :span="5">
+                <el-col :span="5" v-if="vehicle">
                   <el-form-item label="Vehicle Score:" >
                       <el-rate
                         v-model="postForm.vehicle_score"
@@ -163,7 +163,7 @@
                       />
                     </el-form-item>
                 </el-col>
-                <el-col :span="5">
+                <el-col :span="5" v-if="guide">
                   <el-form-item label="Guide Score:">
                       <el-rate
                         v-model="postForm.guide_score"
@@ -664,7 +664,6 @@ export default {
     handleVehicle(event) {
       this.vehicleDialog.show = true
       this.vehicleDialog.select = false
-      this.vehicleDialog.query.model = undefined
       if(this.vehicleDialog.modelOptions.length === 0){
         this.vehicleDialog.modelLoading = true
         getModels().then(response => {

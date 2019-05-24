@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, Avg, Sum
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -9,6 +9,7 @@ from datetime import datetime, date
 
 from ubang.company.models import Company
 from ubang.user.models import CustomUser
+from ubang.booking.models import Booking
 
 from .import BusCategory, CarCategory, VehicleCategory, VehicleType
 
@@ -95,12 +96,6 @@ class Vehicle(models.Model):
     # 司机
     driver = models.OneToOneField(CustomUser, related_name='car', on_delete=models.SET_NULL, blank=True, null=True)
 
-    # 平均分
-    average_score = models.DecimalField(default=5.0,max_digits=10, decimal_places=2)
-
-    # 总分
-    total_score = models.DecimalField(default=0.0,max_digits=10, decimal_places=2)
-
     objects = VehicleQuerySet.as_manager()
 
     class Meta:
@@ -109,6 +104,12 @@ class Vehicle(models.Model):
 
     def __str__(self):
         return self.traffic_plate_no
+
+    @property
+    def score(self):
+        return Booking.objects.filter(vehicle=self).filter(
+           Q(status='Created') | Q(status='Complete')
+        ).aggregate(average_score=Avg('vehicle_score'),total_score=Sum('vehicle_score'))
 
     @staticmethod
     def updateScore(pk, avg, total):

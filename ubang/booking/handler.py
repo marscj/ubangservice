@@ -1,4 +1,4 @@
-from django.db.models import Avg, Sum
+from django.db.models import Avg, Sum, Q
 from django.dispatch import receiver
 from django.core.signals import request_finished
 from django.db.models.signals import post_save, pre_save, pre_delete
@@ -29,10 +29,3 @@ def booking_model_post_save(sender, **kwargs):
         order = Order.objects.create(customer=booking.create_by, company=booking.company_by)
         booking.order = order
         booking.save()
-        
-    guide_aggregate = Booking.objects.filter(guide=booking.guide).aggregate(avg=Avg('guide_score'),sum=Sum('guide_score'))
-    CustomUser.updateScore(booking.guide.id, guide_aggregate['avg'], guide_aggregate['sum'])
-    
-    vehicle_aggregate = Booking.objects.filter(vehicle=booking.vehicle).aggregate(avg=Avg('guide_score'),sum=Sum('guide_score'))
-    Vehicle.updateScore(booking.vehicle.id, vehicle_aggregate['avg'], vehicle_aggregate['sum'])
-    
