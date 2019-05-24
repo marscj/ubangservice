@@ -46,7 +46,7 @@
                   <el-input v-model="postForm.drop_off_addr"></el-input>  
                 </el-form-item>
                 <el-form-item label="Remark:">
-                  <el-input v-model="postForm.remark" :autosize="{ minRows: 4, maxRows: 4}" type="textarea"></el-input>  
+                  <el-input v-model="postForm.remark" :autosize="{ minRows: 4, maxRows: 4}" type="textarea" :maxlength="256" :show-word-limit="true"></el-input>  
                 </el-form-item>
               </el-card>
             </el-col>
@@ -92,10 +92,13 @@
               <el-table              
                 :key="tableKey"
                 :data="postForm.itinerary" 
+                border
                 stripe
+                fit
+                highlight-current-row
                 style="width: 100%;"
                 row-key="id">
-                <el-table-column width="120px" label="Day" align="center">
+                <el-table-column width="120px" label="Day" fixed="left" align="center">
                   <template slot-scope="{row}">
                     <span>{{ row.day }}</span>
                   </template>
@@ -130,7 +133,7 @@
                     <span>{{ row.remark }}</span>
                   </template>
                 </el-table-column> 
-                <el-table-column label="Actions" align="center" width="100px" class-name="small-padding fixed-width">
+                <el-table-column label="Actions" align="center" width="100px" fixed="right" class-name="small-padding fixed-width">
                   <template slot-scope="{row}">
                     <el-button type="primary" size="mini" @click="handleItinerary(row)" :disabled="isEdit">
                       Edit
@@ -248,7 +251,7 @@
             <span class="link-type" @click="selectVechicleHandle(row)">{{ row.model.brand.name }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="Model" align="center" width="220px">
+        <el-table-column label="Model" align="center" width="160px">
           <template slot-scope="{row}">
             <span class="link-type" @click="selectVechicleHandle(row)">{{ row.model.name }}</span>
           </template>

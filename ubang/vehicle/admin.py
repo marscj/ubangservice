@@ -78,15 +78,7 @@ class VehicleAdmin(admin.ModelAdmin):
     def passengers(self, obj):
         if obj.model:
             return obj.model.passengers
-
-    def type(self, obj):
-        if obj.model:
-            return VehicleType.CHOICES[obj.model.type][1]
-
-    def category(self, obj):
-        if obj.model:
-            return VehicleCategory.CHOICES[obj.model.category][1]
-
+            
     def model_price(self, obj):
         if obj.model:
             return mark_safe("<br>".join(['%s,cost(%s),gross(%s)'% (price.itinerary, price.cost_price, price.gross_price) for price in obj.model.price.all()]))

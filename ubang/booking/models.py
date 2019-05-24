@@ -120,4 +120,4 @@ class Itinerary(models.Model):
         verbose_name_plural = _("Itinerarys")
 
     def __str__(self):
-        return str(self.id)
+        return self.itinerary
