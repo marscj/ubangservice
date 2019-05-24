@@ -105,21 +105,18 @@ class Vehicle(models.Model):
         return self.traffic_plate_no
 
     @property
-    def score(self):
+    def average_score(self):
         from ubang.booking.models import Booking
-        return Booking.objects.filter(vehicle=self).filter(
+        return round(Booking.objects.filter(vehicle=self).filter(
            Q(status='Created') | Q(status='Complete')
-        ).aggregate(average_score=Avg('vehicle_score'),total_score=Sum('vehicle_score'))
+        ).aggregate(score=Avg('vehicle_score')).get('score') or 0.0, 2) 
 
-    @staticmethod
-    def updateScore(pk, avg, total):
-        try:
-            vehicle = Vehicle.objects.get(pk=pk)
-            vehicle.average_score = avg
-            vehicle.total_score = total
-            vehicle.save()
-        except ObjectDoesNotExist:
-            pass
+    @property
+    def total_score(self):
+        from ubang.booking.models import Booking
+        return round(Booking.objects.filter(vehicle=self).filter(
+           Q(status='Created') | Q(status='Complete')
+        ).aggregate(score=Sum('vehicle_score')).get('score') or 0.0, 2) 
 
 class ModelPrice(models.Model):
     

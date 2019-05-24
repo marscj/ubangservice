@@ -56,11 +56,18 @@ class CustomUser(AbstractUser):
         return self.username
 
     @property
-    def score(self):
+    def average_score(self):
         from ubang.booking.models import Booking
-        return Booking.objects.filter(guide=self).filter(
+        return round(Booking.objects.filter(guide=self).filter(
            Q(status='Created') | Q(status='Complete')
-        ).aggregate(average_score=Avg('guide_score'),total_score=Sum('guide_score'))
+        ).aggregate(score=Avg('guide_score')).get('score') or 0.0, 2) 
+    
+    @property
+    def total_score(self):
+        from ubang.booking.models import Booking
+        return round(Booking.objects.filter(guide=self).filter(
+           Q(status='Created') | Q(status='Complete')
+        ).aggregate(score=Sum('guide_score')).get('score') or 0.0, 2)
 
 class Role(models.Model):
     name = models.CharField(max_length=64)
