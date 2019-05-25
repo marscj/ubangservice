@@ -61,19 +61,39 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
 
-    @property
-    def avg_score(self):
+    @staticmethod
+    def aggregate(user):
         from ubang.booking.models import Booking
-        return round(Booking.objects.filter(guide=self).filter(
-           Q(status='Created') | Q(status='Complete')
-        ).aggregate(score=Avg('guide_score')).get('score') or 0.0, 2) 
+        aggregate = Booking.objects.filter(guide=user).filter(
+            Q(status='Created') | Q(status='Complete')
+        ).aggregate(score=Avg('guide_score'), sum=Sum('guide_score'))
+        return aggregate.get('score') or 0.0, aggregate.get('sum') or 0.0
+
+    @staticmethod
+    def updateScore(pk):
+        from ubang.booking.models import Booking
+        try:
+            user = CustomUser.objects.get(pk=pk)
+            avg, total = CustomUser.aggregate(user)
+            user.avg_score = avg
+            user.total_score = total
+            user.save()
+        except ObjectDoesNotExist as err:
+            print(err)
+
+    # @property
+    # def avg_score(self):
+    #     from ubang.booking.models import Booking
+    #     return round(Booking.objects.filter(guide=self).filter(
+    #        Q(status='Created') | Q(status='Complete')
+    #     ).aggregate(score=Avg('guide_score')).get('score') or 0.0, 2) 
     
-    @property
-    def total_score(self):
-        from ubang.booking.models import Booking
-        return round(Booking.objects.filter(guide=self).filter(
-           Q(status='Created') | Q(status='Complete')
-        ).aggregate(score=Sum('guide_score')).get('score') or 0.0, 2)
+    # @property
+    # def total_score(self):
+    #     from ubang.booking.models import Booking
+    #     return round(Booking.objects.filter(guide=self).filter(
+    #        Q(status='Created') | Q(status='Complete')
+    #     ).aggregate(score=Sum('guide_score')).get('score') or 0.0, 2)
 
 class Role(models.Model):
     name = models.CharField(max_length=64)

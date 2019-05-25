@@ -95,6 +95,12 @@ class Vehicle(models.Model):
     # 司机
     driver = models.OneToOneField(CustomUser, related_name='car', on_delete=models.SET_NULL, blank=True, null=True)
 
+    # 评价分
+    avg_score = models.FloatField(default=0.0)
+
+    # 总分
+    total_score = models.FloatField(default=0.0)
+
     objects = VehicleQuerySet.as_manager()
 
     class Meta:
@@ -104,19 +110,25 @@ class Vehicle(models.Model):
     def __str__(self):
         return self.traffic_plate_no
 
-    @property
-    def avg_score(self):
+    @staticmethod
+    def aggregate(vehicle):
         from ubang.booking.models import Booking
-        return round(Booking.objects.filter(vehicle=self).filter(
-           Q(status='Created') | Q(status='Complete')
-        ).aggregate(score=Avg('vehicle_score')).get('score') or 0.0, 2) 
+        aggregate = Booking.objects.filter(vehicle=vehicle).filter(
+            Q(status='Created') | Q(status='Complete')
+        ).aggregate(score=Avg('vehicle_score'), sum=Sum('vehicle_score'))
+        return aggregate.get('score') or 0.0, aggregate.get('sum') or 0.0
 
-    @property
-    def total_score(self):
+    @staticmethod
+    def updateScore(pk):
         from ubang.booking.models import Booking
-        return round(Booking.objects.filter(vehicle=self).filter(
-           Q(status='Created') | Q(status='Complete')
-        ).aggregate(score=Sum('vehicle_score')).get('score') or 0.0, 2) 
+        try:
+            vehicle = Vehicle.objects.get(pk=pk)
+            avg, total = Vehicle.aggregate(vehicle)
+            vehicle.avg_score = avg
+            vehicle.total_score = total
+            vehicle.save()
+        except ObjectDoesNotExist as err:
+            print(err)
 
 class ModelPrice(models.Model):
     

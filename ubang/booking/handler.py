@@ -29,3 +29,9 @@ def booking_model_post_save(sender, **kwargs):
         order = Order.objects.create(customer=booking.create_by, company=booking.company_by)
         booking.order = order
         booking.save()
+    
+    if booking.guide is not None:
+        CustomUser.updateScore(booking.guide.id)
+    
+    if booking.vehicle is not None:
+        Vehicle.updateScore(booking.vehicle.id)
