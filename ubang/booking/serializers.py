@@ -9,20 +9,6 @@ from ubang.company.serializers import CompanySerializer, CompanyListSerializer
 from ubang.vehicle.serializers import VehicleSerializer, VehicleListSerializer, ModelPriceSerializer
 from ubang.order.serializers import OrderSerializer, OrderListSerializer
 
-# class LogEntrySerializer(serializers.ModelSerializer):
-    
-#     user = UserListSerializer(required=False, allow_null=True)
-#     message = serializers.SerializerMethodField()
-    
-#     class Meta:
-#         model = LogEntry
-#         fields = ( 
-#             'user', 'action_time', 'message'
-#         )
-
-#     def get_message(self, obj):
-#         return obj.__str__()
-
 class ItinerarySerializer(serializers.ModelSerializer):
 
     booking = serializers.PrimaryKeyRelatedField(required=False, allow_null=True, read_only=True)
@@ -42,7 +28,7 @@ class BookingSerializer(serializers.ModelSerializer):
 
     vehicle_id = serializers.IntegerField(write_only=True)
 
-    guide = UserListSerializer(required=False, allow_null=True)
+    guide = UserSerializer(required=False, allow_null=True)
 
     guide_id = serializers.IntegerField(write_only=True, required=False)
 
@@ -50,17 +36,26 @@ class BookingSerializer(serializers.ModelSerializer):
 
     order = OrderListSerializer(required=False, allow_null=True)
 
-    # history = serializers.SerializerMethodField()
-
     itinerary = ItinerarySerializer(required=False, allow_null=True, many=True)
+
+    # expiry_date = serializers.DateTimeField(required=False, read_only=True)
+
+    can_save = serializers.BooleanField(required=False, read_only=True)
+
+    can_cancel = serializers.BooleanField(required=False, read_only=True)
+
+    can_delete = serializers.BooleanField(required=False, read_only=True)
+
+    can_complete = serializers.BooleanField(required=False, read_only=True)
 
     class Meta:
         model = Booking
-        fields = '__all__'
-    
-    # def get_history(self, obj):
-    #     serializer = LogEntrySerializer(LogEntry.objects.filter(object_id=obj.id), many=True)
-    #     return serializer.data
+        fields = (
+            'id', 'bookingId', 'start_time', 'end_time', 'contact_name', 'contact_phone', 'pick_up_addr', 'drop_off_addr',
+            'create_at', 'change_at', 'status', 'create_by', 'company_by', 'vehicle', 'guide', 'vehicle_id', 'guide_id',
+            'order', 'remark', 'vehicle_score', 'guide_score', 'comment', 'can_save', 'can_cancel', 
+            'can_delete', 'can_complete', 'itinerary'
+        )
 
     def create(self, validated_data):
         itinerary_data = validated_data.pop('itinerary')        
@@ -111,6 +106,7 @@ class BookingListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
         fields = (
-            'id', 'bookingId', 'start_time', 'end_time', 'status', 'create_by', 'company_by', 'contact_name', 'contact_phone', 'pick_up_addr', 'drop_off_addr',
-            'remark', 'vehicle', 'vehicle_id', 'guide', 'guide_id', 'order', 'vehicle_score', 'guide_score'
+            'id', 'bookingId', 'start_time', 'end_time', 'status', 'create_by', 'company_by', 'contact_name', 
+            'contact_phone', 'pick_up_addr', 'drop_off_addr','remark', 'vehicle', 'vehicle_id', 'guide', 'guide_id', 
+            'order', 'vehicle_score', 'guide_score', 'expiry_date'
         )

@@ -38,15 +38,15 @@ class BookingAdmin(admin.ModelAdmin):
 
     inlines = (
         ItineraryInline,
-    )
+    ) 
 
     fields = (
         'bookingId', 'start_time', 'end_time', 'contact_name', 'contact_phone', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 
-        'expiry_date', 'status',  'create_by', 'company_by', 'order', 'vehicle_score', 'guide_score'
+        'status',  'create_by', 'company_by', 'order', 'vehicle_score', 'guide_score'
     )
 
     readonly_fields = (
-        'bookingId', 'create_by', 'company_by'
+        'bookingId', 'create_by', 'company_by',
     )
 
     raw_id_fields = (
@@ -55,7 +55,7 @@ class BookingAdmin(admin.ModelAdmin):
 
     list_display = (
         '__str__', 'start_time', 'end_time', 'contact_name', 'contact_phone', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 
-        'expiry_date', 'status',  'create_by', 'company_by', 'order', 'itinerary'
+        'status',  'create_by', 'company_by', 'order', 'itinerary'
     )
     
     def itinerary(self, obj):

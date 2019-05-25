@@ -5,6 +5,9 @@ from django.utils.timezone import now
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+import pytz
+from datetime import datetime, timedelta
+
 from phonenumber_field.modelfields import PhoneNumberField
 
 from .import BookingStatus
@@ -37,9 +40,6 @@ class Booking(models.Model):
 
     # 还车地址
     drop_off_addr = models.CharField(max_length=128, blank=True, null=True, verbose_name='Drop off address')
-
-    # 有效期
-    expiry_date = models.DateTimeField(default=now)
 
     # 创建时间
     create_at = models.DateTimeField(auto_now_add=True)
@@ -85,6 +85,34 @@ class Booking(models.Model):
 
     def __str__(self):
         return self.bookingId
+        
+    @property
+    def expiry_date(self):
+        return self.start_time - timedelta(days=1)
+
+    @property
+    def can_save(self):  
+        if self.status == 'Created':
+            return True
+        return False
+
+    @property
+    def can_cancel(self):
+        if self.status == 'Created' and self.end_time.strftime('%Y-%m-%d %H:%M') > datetime.now(pytz.timezone('Asia/Dubai')).strftime('%Y-%m-%d %H:%M'):
+            return True
+        return False
+
+    @property
+    def can_delete(self):
+        if self.status == 'Cancel':
+            return True
+        return False
+
+    @property
+    def can_complete(self):
+        if self.status == 'Created' and self.end_time.strftime('%Y-%m-%d %H:%M') < datetime.now(pytz.timezone('Asia/Dubai')).strftime('%Y-%m-%d %H:%M'):
+            return True
+        return False
 
 class Itinerary(models.Model):
     
