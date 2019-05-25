@@ -10,8 +10,6 @@ class VehicleView(ModelViewSet):
 
     filterset_fields = ('model', )
 
-    search_fields = ('model__passengers',)
-
     def get_serializer_class(self):
         if self.action == 'list':
             return VehicleSerializer

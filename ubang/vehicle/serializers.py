@@ -45,7 +45,7 @@ class VehicleSerializer(serializers.ModelSerializer):
     
     model = ModelSerializer()
 
-    average_score = serializers.FloatField(required=False, allow_null=True, read_only=True)
+    avg_score = serializers.FloatField(required=False, allow_null=True, read_only=True)
 
     total_score = serializers.FloatField(required=False, allow_null=True, read_only=True)
 

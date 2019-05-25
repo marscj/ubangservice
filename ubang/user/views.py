@@ -6,6 +6,8 @@ from rest_framework.decorators import action
 from rest_framework_jwt.views import ObtainJSONWebToken
 from rest_framework.mixins import ListModelMixin
 
+from rest_framework import filters
+
 from .serializers import UserSerializer
 from .models import CustomUser
 
@@ -61,9 +63,7 @@ class UserView(ModelViewSet):
     queryset = CustomUser.objects.filter(company__isnull=False)
     
     filterset_fields = ('is_driver', 'is_tourguide', 'is_actived')
-    ordering_fields = ('id', 'username', 'is_driver', 'is_tourguide', 'is_actived')
     search_fields = ('username', 'email')
-    ordering = ('id', )
     
     def list(self, request):
         response = super().list(request)

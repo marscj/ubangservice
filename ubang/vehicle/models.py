@@ -105,7 +105,7 @@ class Vehicle(models.Model):
         return self.traffic_plate_no
 
     @property
-    def average_score(self):
+    def avg_score(self):
         from ubang.booking.models import Booking
         return round(Booking.objects.filter(vehicle=self).filter(
            Q(status='Created') | Q(status='Complete')

@@ -5,7 +5,7 @@ from django_countries.serializer_fields import CountryField
 from phonenumber_field.serializerfields import PhoneNumberField
 
 from .models import CustomUser, Role
-from ubang.company.serializers import CompanySerializer
+from ubang.company.serializers import CompanySerializer, CompanyListSerializer
 
 class PermissionSerializer(serializers.ModelSerializer):
 
@@ -27,13 +27,12 @@ class UserSerializer(serializers.ModelSerializer):
 
     roles = serializers.SerializerMethodField()
 
-    company = CompanySerializer(required=False, allow_null=True)
-    # company = CompanySerializer()
+    company = CompanyListSerializer(required=False, allow_null=True)
 
     class Meta:
         model = CustomUser
         fields = (
-            'id', 'username', 'name', 'phone', 'email', 'country', 'company', 'roles', 'is_driver', 'is_tourguide', 'is_actived', 'introduction', 'average_score', 'total_score'
+            'id', 'username', 'name', 'phone', 'email', 'country', 'company', 'roles', 'is_driver', 'is_tourguide', 'is_actived', 'introduction', 'avg_score', 'total_score'
         )
 
     def get_roles(self, obj):

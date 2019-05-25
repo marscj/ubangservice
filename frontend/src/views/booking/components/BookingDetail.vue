@@ -278,7 +278,7 @@
         </el-table-column>
         <el-table-column label="Average Score" width="130px" align="center">
           <template slot-scope="{row}">
-            <span class="link-type" @click="selectVechicleHandle(row)">{{ row.average_score }}</span>
+            <span class="link-type" @click="selectVechicleHandle(row)">{{ row.avg_score }}</span>
           </template>
         </el-table-column>
         <el-table-column label="Total Score" width="130px" align="center">
@@ -326,7 +326,7 @@
         </el-table-column>
         <el-table-column label="Average Score" width="130px" align="center">
           <template slot-scope="{row}">
-            <span class="link-type" @click="selectGuideHandle(row)">{{ row.average_score }}</span>
+            <span class="link-type" @click="selectGuideHandle(row)">{{ row.avg_score }}</span>
           </template>
         </el-table-column>
         <el-table-column label="Total Score" width="130px" align="center">

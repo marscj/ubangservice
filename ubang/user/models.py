@@ -45,6 +45,12 @@ class CustomUser(AbstractUser):
     # 介绍
     introduction = models.TextField(max_length=256, blank=True, null=True)
 
+    # 平均分
+    avg_score = models.FloatField(default=0.0)
+
+    # 总分
+    total_score = models.FloatField(default=0.0)
+
     # 公司
     company = models.ForeignKey(Company, related_name='user', on_delete=models.SET_NULL, blank=True,null=True)
 
@@ -56,7 +62,7 @@ class CustomUser(AbstractUser):
         return self.username
 
     @property
-    def average_score(self):
+    def avg_score(self):
         from ubang.booking.models import Booking
         return round(Booking.objects.filter(guide=self).filter(
            Q(status='Created') | Q(status='Complete')
