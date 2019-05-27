@@ -7,7 +7,10 @@ import BookingDetail from './components/BookingDetail'
 
 export default {
   name: 'CreateForm',
-  components: { BookingDetail }
+  components: { BookingDetail },
+  mounted() {
+    console.log('#####', 'create')
+  }
 }
 </script>
 

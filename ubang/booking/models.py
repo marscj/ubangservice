@@ -92,25 +92,25 @@ class Booking(models.Model):
 
     @property
     def can_save(self):  
-        if self.status == 'Created' and self.end_time.strftime('%Y-%m-%d %H:%M') > datetime.now(pytz.timezone('Asia/Dubai')).strftime('%Y-%m-%d %H:%M'):
+        if self.status == BookingStatus.Created or self.status == BookingStatus.Process or self.status == BookingStatus.Complete:
             return True
         return False
 
     @property
     def can_cancel(self):
-        if self.status == 'Created' and self.end_time.strftime('%Y-%m-%d %H:%M') > datetime.now(pytz.timezone('Asia/Dubai')).strftime('%Y-%m-%d %H:%M'):
+        if self.status == BookingStatus.Created or self.status == BookingStatus.Process:
             return True
         return False
 
     @property
     def can_delete(self):
-        if self.status == 'Cancel':
+        if self.status == BookingStatus.Cancel:
             return True
         return False
 
     @property
-    def can_complete(self):
-        if self.status == 'Created' and self.end_time.strftime('%Y-%m-%d %H:%M') < datetime.now(pytz.timezone('Asia/Dubai')).strftime('%Y-%m-%d %H:%M'):
+    def can_comment(self):
+        if self.status == BookingStatus.Complete:
             return True
         return False
 

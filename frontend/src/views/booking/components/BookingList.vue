@@ -2,8 +2,8 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input v-model="listQuery.search" placeholder="id name phone" style="width: 240px" class="filter-item" @keyup.enter.native="handleFilter" />
-      <el-date-picker v-model="listQuery.start_time" class="filter-item" type="datetime" value-format="yyyy-MM-dd HH:mm" format="yyyy-MM-dd HH:mm" placeholder="Start Time:" />
-      <el-date-picker v-model="listQuery.end_time" class="filter-item" type="datetime" value-format="yyyy-MM-dd HH:mm" format="yyyy-MM-dd HH:mm" placeholder="End Time:" />
+      <el-date-picker v-model="listQuery.start_time" class="filter-item" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="Start Time:" />
+      <el-date-picker v-model="listQuery.end_time" class="filter-item" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="End Time:" />
       <el-select v-model="listQuery.status" class="filter-item" placeholder="Status" clearable @change="handleFilter">
         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </el-select>
@@ -35,14 +35,14 @@
       <el-table-column label="Start Time" width="160px" align="center">
         <template slot-scope="{row}">
           <router-link :to="'/booking/edit/'+row.id" class="link-type">
-            <span>{{ row.start_time }}</span>
+            <span>{{ row.start_time | moment("YYYY-MM-DD HH:mm") }}</span>
           </router-link>
         </template>
       </el-table-column>
       <el-table-column label="End Time" width="160px" align="center">
         <template slot-scope="{row}">
           <router-link :to="'/booking/edit/'+row.id" class="link-type">
-            <span>{{ row.end_time }}</span>
+            <span>{{ row.end_time | moment("YYYY-MM-DD HH:mm") }}</span>
           </router-link>
         </template>
       </el-table-column>

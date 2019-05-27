@@ -1,20 +1,17 @@
 <template>
   <div class="createPost-container" >
-    <sticky v-if="postForm.can_delete || postForm.can_cancel || postForm.can_complete || postForm.can_save" :z-index="10" :class-name="'sub-navbar ' + postForm.status" v-loading="loading">
+    <sticky v-if="postForm.can_delete || postForm.can_cancel || postForm.can_save" :z-index="10" :class-name="'sub-navbar ' + postForm.status" v-loading="loading">
       <el-button v-if="postForm.can_delete" style="margin-left: 10px;" @click="deleteFormConfirm" type="danger" >
         Delete
       </el-button>
       <el-button v-if="postForm.can_cancel" style="margin-left: 10px;" @click="cancelFormConfirm" type="warning" >
         Cancel
       </el-button>
-      <el-button v-if="postForm.can_complete" style="margin-left: 10px;" @click="completeDialog.show=true" type="success" >
-        Complete
-      </el-button>
       <el-button v-if="postForm.can_save" style="margin-left: 10px;" type="success" @click="updateForm">
         Save
       </el-button>
     </sticky>
-    <sticky v-else-if="!myEdit" :z-index="10" :class-name="'sub-navbar ' + postForm.status">
+    <sticky v-else-if="!isEdit" :z-index="10" :class-name="'sub-navbar ' + postForm.status">
       <el-button style="margin-left: 10px;" type="success" @click="createForm(true)">
         Create
       </el-button>
@@ -26,32 +23,32 @@
             <el-col :span="16">
               <el-card>
                 <el-form-item label="Start time:" prop="start_time" >
-                  <el-date-picker v-model="postForm.start_time" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="Select date and time" clearable @change="handleDuration" :disabled="myEdit"/>
+                  <el-date-picker v-model="postForm.start_time" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="Select date and time" clearable @change="handleDuration" :disabled="isEdit"/>
                 </el-form-item>
                 <el-form-item label="End time:" prop="end_time" >
-                  <el-date-picker v-model="postForm.end_time" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="Select date and time" clearable @change="handleDuration" :disabled="myEdit"/>
+                  <el-date-picker v-model="postForm.end_time" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="Select date and time" clearable @change="handleDuration" :disabled="isEdit"/>
                 </el-form-item>
                 <el-form-item label="Contact name:" prop="contact_name" style="width: 300px;" >
-                  <el-input v-model="postForm.contact_name" :disabled="!postForm.can_save && myEdit"></el-input>
+                  <el-input v-model="postForm.contact_name" :disabled="!postForm.can_save && isEdit"></el-input>
                 </el-form-item>
                 <el-form-item label="Contact phone:" prop="contact_phone" style="width: 300px;" >
-                  <el-input v-model="postForm.contact_phone" :disabled="!postForm.can_save && myEdit"></el-input>
+                  <el-input v-model="postForm.contact_phone" :disabled="!postForm.can_save && isEdit"></el-input>
                 </el-form-item>
                 <el-form-item v-if="postForm.start_time && postForm.end_time" label="Vehicle:" prop="vehicle_id" style="width: 300px;" >
-                  <el-input v-if="vehicle" v-model="vehicle.traffic_plate_no" @focus="handleVehicle" suffix-icon="el-icon-search" readonly :disabled="myEdit"></el-input>
+                  <el-input v-if="vehicle" v-model="vehicle.traffic_plate_no" @focus="handleVehicle" suffix-icon="el-icon-search" readonly :disabled="isEdit"></el-input>
                   <el-input v-else v-model="vehicle" @focus="handleVehicle" suffix-icon="el-icon-search" readonly></el-input>
                 </el-form-item>
                 <el-form-item v-if="postForm.start_time && postForm.end_time" label="Guide:" prop="guide_id" style="width: 300px;">
-                  <el-input v-model="guide" @focus="handleGuide" suffix-icon="el-icon-search" readonly :disabled="myEdit"></el-input>
+                  <el-input v-model="guide" @focus="handleGuide" suffix-icon="el-icon-search" readonly :disabled="isEdit"></el-input>
                 </el-form-item>
                 <el-form-item label="Pick up address:">
-                  <el-input v-model="postForm.pick_up_addr" :disabled="!postForm.can_save && myEdit"></el-input>  
+                  <el-input v-model="postForm.pick_up_addr" :disabled="!postForm.can_save && isEdit"></el-input>  
                 </el-form-item>
                 <el-form-item label="Drop off address:">
-                  <el-input v-model="postForm.drop_off_addr" :disabled="!postForm.can_save && myEdit"></el-input>  
+                  <el-input v-model="postForm.drop_off_addr" :disabled="!postForm.can_save && isEdit"></el-input>  
                 </el-form-item>
                 <el-form-item label="Remark:" >
-                  <el-input v-model="postForm.remark" :autosize="{ minRows: 4, maxRows: 4}" type="textarea" :maxlength="256" :show-word-limit="true" :disabled="!postForm.can_save && myEdit"></el-input>  
+                  <el-input v-model="postForm.remark" :autosize="{ minRows: 4, maxRows: 4}" type="textarea" :maxlength="256" :show-word-limit="true" :disabled="!postForm.can_save && isEdit"></el-input>  
                 </el-form-item>
               </el-card>
             </el-col>
@@ -70,13 +67,11 @@
                 <el-form-item label="Company:">
                   <el-input v-model="company" disabled></el-input>
                 </el-form-item>
-                <el-form-item label="Create at:">
-                  <el-input v-model="postForm.create_at" v-if="postForm.create_at" disabled></el-input>
-                  <el-input v-else disabled></el-input>
+                <el-form-item v-if="postForm.create_at" label="Create at:">
+                  <span>{{postForm.create_at | moment('YYYY-MM-DD HH:mm')}}</span>
                 </el-form-item>
-                <el-form-item label="Change at:">
-                  <el-input v-model="postForm.change_at" v-if="postForm.change_at" disabled></el-input>
-                  <el-input v-else disabled></el-input>
+                <el-form-item v-if="postForm.change_at" label="Change at:">
+                  <span>{{postForm.change_at | moment('YYYY-MM-DD HH:mm')}}</span>
                 </el-form-item>
               </el-card>
             </el-col>
@@ -138,7 +133,7 @@
                 </el-table-column> 
                 <el-table-column label="Actions" align="center" width="100px" fixed="right" class-name="small-padding fixed-width">
                   <template slot-scope="{row}">
-                    <el-button type="primary" size="mini" @click="handleItinerary(row)" :disabled="myEdit">
+                    <el-button type="primary" size="mini" @click="handleItinerary(row)" :disabled="isEdit">
                       Edit
                     </el-button>
                   </template>
@@ -147,7 +142,7 @@
             </div>
           </el-card>
         </div>
-        <div v-if="myEdit && postForm.status==='Complete'" class="comment-container">
+        <div v-if="isEdit && postForm.can_comment" class="comment-container">
           <el-card >
             <div slot="header">
               <span>Comment</span>
@@ -162,8 +157,7 @@
                       :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
                       :low-threshold="1"
                       :high-threshold="5"
-                      style="margin-top:8px;"
-                      disabled/>
+                      style="margin-top:8px;"/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="5" v-if="guide">
@@ -174,15 +168,14 @@
                       :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
                       :low-threshold="1"
                       :high-threshold="5"
-                      style="margin-top:8px;"
-                      disabled/>
+                      style="margin-top:8px;"/>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row>
                 <el-col>
                   <el-form-item label="Comment:" >
-                    <el-input v-model="postForm.comment" :autosize="{ minRows: 4, maxRows: 4}" type="textarea" :maxlength="256" disabled></el-input>  
+                    <el-input v-model="postForm.comment" :autosize="{ minRows: 4, maxRows: 4}" type="textarea" :maxlength="256"></el-input>  
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -345,10 +338,10 @@
     <el-dialog :title="createDialog.title" :visible.sync="createDialog.show" width="800px">
       <el-form label-position="left" label-width="120px" style="width: 400px; margin-left:20px;">
         <el-form-item label="Start Time:" prop="start_time">
-          <el-input v-model="postForm.start_time" readonly></el-input>
+          <el-date-picker v-model="postForm.start_time" type="datetime" format="yyyy-MM-dd HH:mm" readonly/>
         </el-form-item>
         <el-form-item label="End Time:" prop="end_time">
-          <el-input v-model="postForm.end_time" readonly></el-input>
+          <el-date-picker v-model="postForm.end_time" type="datetime" format="yyyy-MM-dd HH:mm" readonly/>
         </el-form-item>
         <el-form-item v-if="vehicle" label="Vehicle:" prop="vehicle_id">
           <el-input v-model="vehicle.traffic_plate_no" readonly></el-input>
@@ -378,39 +371,6 @@
         </el-button>
       </div>
     </el-dialog>
-    <el-dialog
-      :title="completeDialog.title"
-      :visible.sync="completeDialog.show"
-      width="800px">
-
-      <el-form :model="postForm.itinerary" label-position="left" label-width="120px" style="width: 600px; margin-left:20px;">
-        <el-form-item label="Vehicle Score:">
-          <el-rate
-            v-model="postForm.vehicle_score"
-            :max="5"
-            :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
-            :low-threshold="1"
-            :high-threshold="5"
-            style="margin-top:8px;"/>
-        </el-form-item>
-        <el-form-item label="Guide Score:">
-          <el-rate
-            v-model="postForm.guide_score"
-            :max="5"
-            :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
-            :low-threshold="1"
-            :high-threshold="5"
-            style="margin-top:8px;"/>
-        </el-form-item>
-        <el-form-item label="Comment:" >
-          <el-input v-model="postForm.comment" :autosize="{ minRows: 4, maxRows: 4}" :maxlength="256" type="textarea" ></el-input>  
-        </el-form-item>
-      </el-form>
-      <span slot="footer">
-        <el-button @click="completeDialog.show=false">Cancel</el-button>
-        <el-button type="primary" @click="completeForm">Complete</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 
@@ -420,7 +380,6 @@ import { validURL } from '@/utils/validate'
 import { getBooking, updateBooking, createBooking } from '@/api/booking'
 import { getModels, getVehicles } from '@/api/vehicle'
 import { getUsers } from '@/api/user'
-var moment = require("moment");
 
 const defaultForm = {
   id: undefined,
@@ -464,7 +423,6 @@ export default {
     }
     return {
       tableKey: 0,
-      myEdit: this.isEdit,
       postForm: Object.assign({}, defaultForm),
       loading: false,
       duration: undefined,
@@ -502,7 +460,7 @@ export default {
           is_actived: true
         },
         modelOptions: [],
-        vehicleList: undefined,
+        vehicleList: [],
         modelLoading: false,
         vehicleLoading: false,
       },
@@ -535,10 +493,6 @@ export default {
       createDialog: {
         show: false,
         title: 'Please check the information again.',
-      },
-      completeDialog: {
-        show: false,
-        title: 'Please rate our services.'
       }
     }
   },
@@ -632,7 +586,7 @@ export default {
     }    
   },
   created() {
-    if (this.myEdit) {
+    if (this.isEdit) {
       const id = this.$route.params && this.$route.params.id
       this.fetchData(id)
     } else {
@@ -655,8 +609,6 @@ export default {
       getBooking(id).then(response => {
         this.setData(response.data)
         this.setTagsViewTitle()
-      }).catch(err => {
-        
       })
     },
     setTagsViewTitle() {
@@ -675,10 +627,14 @@ export default {
             this.postForm.status = 'Created'
             createBooking(this.postForm).then(response => {
               var id = response.data['id']
-              this.myEdit = true
-              this.setData(response.data)
-              this.setTagsViewTitle()
               this.loading = false
+              this.$store.dispatch('tagsView/delView', this.$route).then(() => {
+                this.$nextTick(() => {
+                  this.$router.replace({
+                    path: '/booking/edit/' + id
+                  })
+                })
+              })
             }).catch(err => {
               this.loading = false
             })
@@ -725,10 +681,6 @@ export default {
         this.loading = false
       })   
     },
-    completeForm() {
-      this.completeDialog.show = false
-      this.updateStatus('Complete')
-    },
     cancelFormConfirm() {
       this.$confirm('Are you sure to cancel the booking?', 'Prompt', {
           confirmButtonText: 'Confirm',
@@ -750,6 +702,11 @@ export default {
     handleVehicle(event) {
       this.vehicleDialog.show = true
       this.vehicleDialog.select = false
+      this.vehicleDialog.query.model = undefined
+      this.vehicleDialog.vehicleList = []
+      this.vehicleDialog.modelLoading = false
+      this.vehicleDialog.vehicleLoading = false
+
       if(this.vehicleDialog.modelOptions.length === 0){
         this.vehicleDialog.modelLoading = true
         getModels().then(response => {
@@ -875,17 +832,17 @@ export default {
     },
     handleDuration() {
       if(this.postForm.start_time && this.postForm.end_time) {
-        var start_time = moment(this.postForm.start_time, 'YYYY-MM-DD')
-        var end_time = moment(this.postForm.end_time, 'YYYY-MM-DD')
-        this.duration = moment.duration(end_time.diff(start_time))
+        var start_time = this.$moment(this.postForm.start_time, 'YYYY-MM-DD')
+        var end_time = this.$moment(this.postForm.end_time, 'YYYY-MM-DD')
+        this.duration = this.$moment.duration(end_time.diff(start_time))
 
-        if(!this.myEdit) {
+        if(!this.isEdit) {
           this.postForm.itinerary = []
 
           for(var i = 0; i < this.duration.days() + 1; i++){
-            var nextDay = moment(start_time).add(i, 'days')
+            var nextDay = this.$moment(start_time).add(i, 'days')
             this.postForm.itinerary.push({
-              day: moment(nextDay).format('YYYY-MM-DD'),
+              day: this.$moment(nextDay).format('YYYY-MM-DD'),
               itinerary: '',
               full_day: true,
               freedom_day: false,

@@ -71,10 +71,10 @@ MIDDLEWARE = [
 ]
 
 REST_FRAMEWORK = {
-    'TIME_FORMAT': '%H:%M',
-    'TIME_INPUT_FORMATS': ('%H:%M',),
-    'DATETIME_FORMAT': '%Y-%m-%d %H:%M',
-    'DATETIME_INPUT_FORMATS': ('%Y-%m-%d %H:%M',),
+    # 'TIME_FORMAT': '%H:%M',
+    # 'TIME_INPUT_FORMATS': ('%H:%M',),
+    # 'DATETIME_FORMAT': '%Y-%m-%d %H:%M',
+    # 'DATETIME_INPUT_FORMATS': ('%Y-%m-%d %H:%M',),
     'ORDERING_PARAM': 'sort',
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -161,8 +161,7 @@ USE_I18N = True
 
 USE_L10N = False
 
-USE_TZ = True    
-# USE_TZ = False       
+USE_TZ = True
 
 TIME_INPUT_FORMATS = [
     '%H:%M'

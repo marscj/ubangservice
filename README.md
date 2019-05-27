@@ -32,6 +32,10 @@ $ redis-server
 检查
 $ redis-cli ping  
 
+celery配置
+启动任务队列
+$ celery -A ubangservice worker -l info 
+
 命令
 $ uwsgi --ini uwsgi.ini
 $ sudo nginx -s stop

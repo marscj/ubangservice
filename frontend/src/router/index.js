@@ -7,7 +7,17 @@ Vue.use(Router)
 import Layout from '@/layout'
 
 export const constantRoutes = [
-
+  {
+    path: '/redirect',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '/redirect/:path*',
+        component: () => import('@/views/redirect/index')
+      }
+    ]
+  },
   {
     path: '/',
     component: () => import('@/views/index/index'),
@@ -17,6 +27,12 @@ export const constantRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/index'),
+    hidden: true
+  },
+
+  {
+    path: '/404',
+    component: () => import('@/views/404'),
     hidden: true
   },
 
@@ -36,6 +52,7 @@ export const constantRoutes = [
     path: '/booking',
     component: Layout,
     redirect: '/booking/index',
+    name: 'Booking',
     meta: {
       title: 'Booking',
       icon: 'lock'
@@ -45,13 +62,13 @@ export const constantRoutes = [
         path: 'index',
         name: 'Booking',
         component: () => import('@/views/booking/index'),
-        meta: { title: 'Booking List', noCache: true }
+        meta: { title: 'Booking List' }
       },
       {
         path: 'self',
-        name: 'My Booking',
+        name: 'MyBooking',
         component: () => import('@/views/booking/self'),
-        meta: { title: 'My Booking', noCache: true }
+        meta: { title: 'My Booking' }
       },
       {
         path: 'edit/:id(\\d+)',
@@ -64,7 +81,7 @@ export const constantRoutes = [
         path: 'create',
         component: () => import('@/views/booking/create'),
         name: 'CreateBooking',
-        meta: { title: 'Create Booking', noCache: true, activeMenu: '/booking/list' },
+        meta: { title: 'Create Booking', activeMenu: '/booking/list' },
         hidden: true
       }
     ]
@@ -114,12 +131,6 @@ export const constantRoutes = [
       component: () => import('@/views/permission/index'),
       meta: { title: 'Permission' }
     }]
-  },
-
-  {
-    path: '/404',
-    component: () => import('@/views/404'),
-    hidden: true
   }
 ]
 

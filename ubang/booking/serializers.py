@@ -46,7 +46,7 @@ class BookingSerializer(serializers.ModelSerializer):
 
     can_delete = serializers.BooleanField(required=False, read_only=True)
 
-    can_complete = serializers.BooleanField(required=False, read_only=True)
+    can_comment = serializers.BooleanField(required=False, read_only=True)
 
     class Meta:
         model = Booking
@@ -54,7 +54,7 @@ class BookingSerializer(serializers.ModelSerializer):
             'id', 'bookingId', 'start_time', 'end_time', 'contact_name', 'contact_phone', 'pick_up_addr', 'drop_off_addr',
             'create_at', 'change_at', 'status', 'create_by', 'company_by', 'vehicle', 'guide', 'vehicle_id', 'guide_id',
             'order', 'remark', 'vehicle_score', 'guide_score', 'comment', 'can_save', 'can_cancel', 
-            'can_delete', 'can_complete', 'itinerary'
+            'can_delete', 'can_comment', 'itinerary'
         )
 
     def create(self, validated_data):
