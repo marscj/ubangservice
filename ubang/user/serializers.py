@@ -27,7 +27,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     roles = serializers.SerializerMethodField()
 
-    company = CompanyListSerializer(required=False, allow_null=True)
+    company = CompanySerializer(required=False, allow_null=True)
 
     class Meta:
         model = CustomUser

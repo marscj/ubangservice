@@ -92,7 +92,7 @@ class Booking(models.Model):
 
     @property
     def can_save(self):  
-        if self.status == 'Created':
+        if self.status == 'Created' and self.end_time.strftime('%Y-%m-%d %H:%M') > datetime.now(pytz.timezone('Asia/Dubai')).strftime('%Y-%m-%d %H:%M'):
             return True
         return False
 

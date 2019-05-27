@@ -12,6 +12,7 @@ from .models import Booking
 from ubang.order.models import Order
 from ubang.user.models import CustomUser
 from ubang.vehicle.models import Vehicle
+from .tasks import hello
 
 @receiver(pre_save, sender=Booking)
 def booking_model_pre_save(sender, **kwargs):
@@ -28,7 +29,12 @@ def booking_model_post_save(sender, **kwargs):
         order = Order.objects.create(customer=booking.create_by, company=booking.company_by)
         booking.order = order
         booking.save()
-    
+
+        hello.apply_async([booking.end_time], eta=booking.end_time)
+        hello.apply_async([booking.start_time], eta=booking.start_time)
+        hello.apply_async(['after 5'], eta=datetime.now() + timedelta(seconds=5))
+        hello.apply_async(['now'])
+
     if booking.guide is not None:
         CustomUser.updateScore(booking.guide.id)
     

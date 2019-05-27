@@ -49,6 +49,8 @@ class VehicleSerializer(serializers.ModelSerializer):
 
     total_score = serializers.FloatField(required=False, allow_null=True, read_only=True)
 
+    company = CompanySerializer()
+
     class Meta:
         model = Vehicle
         fields = '__all__'

@@ -1,21 +1,21 @@
 <template>
   <div class="createPost-container" >
-    <sticky v-if="myEdit" :z-index="10" :class-name="'sub-navbar ' + postForm.status" v-loading="loading">
-      <el-button v-if="postForm.can_delete" style="margin-left: 10px;" type="danger" >
+    <sticky v-if="postForm.can_delete || postForm.can_cancel || postForm.can_complete || postForm.can_save" :z-index="10" :class-name="'sub-navbar ' + postForm.status" v-loading="loading">
+      <el-button v-if="postForm.can_delete" style="margin-left: 10px;" @click="deleteFormConfirm" type="danger" >
         Delete
       </el-button>
-      <el-button v-if="postForm.can_cancel" style="margin-left: 10px;" type="warning" >
+      <el-button v-if="postForm.can_cancel" style="margin-left: 10px;" @click="cancelFormConfirm" type="warning" >
         Cancel
       </el-button>
-      <el-button v-if="postForm.can_complete" style="margin-left: 10px;" type="success" >
+      <el-button v-if="postForm.can_complete" style="margin-left: 10px;" @click="completeDialog.show=true" type="success" >
         Complete
       </el-button>
       <el-button v-if="postForm.can_save" style="margin-left: 10px;" type="success" @click="updateForm">
         Save
       </el-button>
     </sticky>
-    <sticky v-else :z-index="10" :class-name="'sub-navbar ' + postForm.status" v-loading="loading">
-      <el-button style="margin-left: 10px;" type="success" @click="createForm">
+    <sticky v-else-if="!myEdit" :z-index="10" :class-name="'sub-navbar ' + postForm.status">
+      <el-button style="margin-left: 10px;" type="success" @click="createForm(true)">
         Create
       </el-button>
     </sticky>
@@ -26,16 +26,16 @@
             <el-col :span="16">
               <el-card>
                 <el-form-item label="Start time:" prop="start_time" >
-                  <el-date-picker v-model="postForm.start_time" type="datetime" value-format="yyyy-MM-dd HH:mm" format="yyyy-MM-dd HH:mm" placeholder="Select date and time" clearable @change="handleDuration" :disabled="myEdit"/>
+                  <el-date-picker v-model="postForm.start_time" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="Select date and time" clearable @change="handleDuration" :disabled="myEdit"/>
                 </el-form-item>
                 <el-form-item label="End time:" prop="end_time" >
-                  <el-date-picker v-model="postForm.end_time" type="datetime" value-format="yyyy-MM-dd HH:mm" format="yyyy-MM-dd HH:mm" placeholder="Select date and time" clearable @change="handleDuration" :disabled="myEdit"/>
+                  <el-date-picker v-model="postForm.end_time" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="Select date and time" clearable @change="handleDuration" :disabled="myEdit"/>
                 </el-form-item>
                 <el-form-item label="Contact name:" prop="contact_name" style="width: 300px;" >
-                  <el-input v-model="postForm.contact_name" placeholder=""></el-input>
+                  <el-input v-model="postForm.contact_name" :disabled="!postForm.can_save && myEdit"></el-input>
                 </el-form-item>
                 <el-form-item label="Contact phone:" prop="contact_phone" style="width: 300px;" >
-                  <el-input v-model="postForm.contact_phone"></el-input>
+                  <el-input v-model="postForm.contact_phone" :disabled="!postForm.can_save && myEdit"></el-input>
                 </el-form-item>
                 <el-form-item v-if="postForm.start_time && postForm.end_time" label="Vehicle:" prop="vehicle_id" style="width: 300px;" >
                   <el-input v-if="vehicle" v-model="vehicle.traffic_plate_no" @focus="handleVehicle" suffix-icon="el-icon-search" readonly :disabled="myEdit"></el-input>
@@ -45,13 +45,13 @@
                   <el-input v-model="guide" @focus="handleGuide" suffix-icon="el-icon-search" readonly :disabled="myEdit"></el-input>
                 </el-form-item>
                 <el-form-item label="Pick up address:">
-                  <el-input v-model="postForm.pick_up_addr"></el-input>  
+                  <el-input v-model="postForm.pick_up_addr" :disabled="!postForm.can_save && myEdit"></el-input>  
                 </el-form-item>
                 <el-form-item label="Drop off address:">
-                  <el-input v-model="postForm.drop_off_addr"></el-input>  
+                  <el-input v-model="postForm.drop_off_addr" :disabled="!postForm.can_save && myEdit"></el-input>  
                 </el-form-item>
-                <el-form-item label="Remark:">
-                  <el-input v-model="postForm.remark" :autosize="{ minRows: 4, maxRows: 4}" type="textarea" :maxlength="256" :show-word-limit="true"></el-input>  
+                <el-form-item label="Remark:" >
+                  <el-input v-model="postForm.remark" :autosize="{ minRows: 4, maxRows: 4}" type="textarea" :maxlength="256" :show-word-limit="true" :disabled="!postForm.can_save && myEdit"></el-input>  
                 </el-form-item>
               </el-card>
             </el-col>
@@ -96,6 +96,8 @@
                 border
                 stripe
                 fit
+                :summary-method="getSummaries"
+                show-summary
                 highlight-current-row
                 style="width: 100%;"
                 row-key="id">
@@ -119,14 +121,14 @@
                     <span>{{ row.itinerary }}</span>
                   </template>                    
                 </el-table-column>
-                <el-table-column width="140px" label="Vehicle Charge" align="center">
-                  <template slot-scope="{row}">
-                    <span v-if="row.vehicle_gross_charge">{{ row.vehicle_gross_charge }} (AED)</span>
+                <el-table-column width="140px" label="Vehicle Charge" prop="vehicle_gross_charge" align="center">
+                  <template slot-scope="{row}">  
+                    <span v-if="row.vehicle_gross_charge">{{ row.vehicle_gross_charge }} AED</span>
                   </template>
                 </el-table-column>
-                <el-table-column width="140px" label="Guide Charge" align="center">
+                <el-table-column width="140px" label="Guide Charge" prop="guide_charge" align="center">
                   <template slot-scope="{row}">
-                    <span v-if="row.guide_charge">{{ row.guide_charge }} (AED)</span>
+                    <span v-if="row.guide_charge">{{ row.guide_charge }} AED</span>
                   </template>
                 </el-table-column>                
                 <el-table-column min-width="300px" label="Remark" align="center">
@@ -154,39 +156,36 @@
               <el-row>
                 <el-col :span="5" v-if="vehicle">
                   <el-form-item label="Vehicle Score:">
-                      <el-rate
-                        v-model="postForm.vehicle_score"
-                        :max="5"
-                        :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
-                        :low-threshold="1"
-                        :high-threshold="5"
-                        style="margin-top:8px;"
-                        disabled
-                      />
-                    </el-form-item>
+                    <el-rate
+                      v-model="postForm.vehicle_score"
+                      :max="5"
+                      :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+                      :low-threshold="1"
+                      :high-threshold="5"
+                      style="margin-top:8px;"
+                      disabled/>
+                  </el-form-item>
                 </el-col>
                 <el-col :span="5" v-if="guide">
                   <el-form-item label="Guide Score:">
-                      <el-rate
-                        v-model="postForm.guide_score"
-                        :max="5"
-                        :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
-                        :low-threshold="1"
-                        :high-threshold="5"
-                        style="margin-top:8px;"
-                        disabled
-                      />
-                    </el-form-item>
+                    <el-rate
+                      v-model="postForm.guide_score"
+                      :max="5"
+                      :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+                      :low-threshold="1"
+                      :high-threshold="5"
+                      style="margin-top:8px;"
+                      disabled/>
+                  </el-form-item>
                 </el-col>
               </el-row>
               <el-row>
                 <el-col>
                   <el-form-item label="Comment:" >
-                    <el-input v-model="postForm.comment" :autosize="{ minRows: 4, maxRows: 4}" type="textarea" disabled></el-input>  
+                    <el-input v-model="postForm.comment" :autosize="{ minRows: 4, maxRows: 4}" type="textarea" :maxlength="256" disabled></el-input>  
                   </el-form-item>
                 </el-col>
               </el-row>
-                            
             </div>        
           </el-card>          
         </div>
@@ -266,7 +265,6 @@
         </el-table-column>
       </el-table>
     </el-dialog>
-
     <el-dialog title="Select Guide" :visible.sync="guideDialog.show" width="85%" @close="handleGuideClose">
       <el-table :data="guideDialog.list"
       :key="tableKey"
@@ -314,10 +312,10 @@
         </el-table-column>
       </el-table>
     </el-dialog>
-    <el-dialog title="Edit Itinerary" :visible.sync="itineraryDialog.show">
-      <el-form ref="itineraryForm" :model="itineraryDialog.data" :rules="itineraryDialog.rules" label-position="left" label-width="120px" style="width: 400px; margin-left:50px;">
+    <el-dialog title="Edit Itinerary" :visible.sync="itineraryDialog.show" width="800px">
+      <el-form ref="itineraryForm" :model="itineraryDialog.data" :rules="itineraryDialog.rules" label-position="left" label-width="120px" style="width: 400px; margin-left:20px;">
         <el-form-item label="Day" prop="day" :rules="{ required: true, message: 'This fields is required', trigger: 'change' }">
-          <el-date-picker v-model="itineraryDialog.data.day" type="date" value-format="yyyy-MM-dd" format="yyyy-MM-dd" placeholder="Select date" clearable disabled/>
+          <el-date-picker v-model="itineraryDialog.data.day" type="date" format="yyyy-MM-dd" placeholder="Select date" clearable disabled/>
         </el-form-item> 
         <el-form-item label="Freedom Day" prop="freedom">
           <el-checkbox v-model="itineraryDialog.data.freedom_day"/>
@@ -332,7 +330,7 @@
           </el-select>
         </el-form-item>        
         <el-form-item label="remark" prop="remark">
-          <el-input v-model="itineraryDialog.data.remark" :autosize="{ minRows: 2, maxRows: 4}" type="textarea"/>
+          <el-input v-model="itineraryDialog.data.remark" :autosize="{ minRows: 2, maxRows: 4}" :maxlength="256" type="textarea"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -343,8 +341,76 @@
           Confirm
         </el-button>
       </div>
+    </el-dialog> 
+    <el-dialog :title="createDialog.title" :visible.sync="createDialog.show" width="800px">
+      <el-form label-position="left" label-width="120px" style="width: 400px; margin-left:20px;">
+        <el-form-item label="Start Time:" prop="start_time">
+          <el-input v-model="postForm.start_time" readonly></el-input>
+        </el-form-item>
+        <el-form-item label="End Time:" prop="end_time">
+          <el-input v-model="postForm.end_time" readonly></el-input>
+        </el-form-item>
+        <el-form-item v-if="vehicle" label="Vehicle:" prop="vehicle_id">
+          <el-input v-model="vehicle.traffic_plate_no" readonly></el-input>
+        </el-form-item>
+        <el-form-item v-if="guide" label="Guide:" prop="guide_id">
+          <el-input v-model="guide" readonly></el-input>
+        </el-form-item>
+        <el-form-item v-if="vehicle" label="Vehicle Charge:" >
+          <span>{{ vehicle_charge() }} AED</span>
+        </el-form-item>
+        <el-form-item v-if="guide" label="Guide Charge:" >
+          <span>{{ guide_charge() }} AED</span>
+        </el-form-item>
+        <el-form-item label="Discount:" >
+          <span>{{ discount() }} AED</span>
+        </el-form-item>
+        <el-form-item label="Total:" >
+          <span>{{ total() }} AED</span>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="itineraryDialog.show = false">
+          Cancel
+        </el-button>
+        <el-button type="primary" @click="createForm(false)">
+          Create
+        </el-button>
+      </div>
     </el-dialog>
-    
+    <el-dialog
+      :title="completeDialog.title"
+      :visible.sync="completeDialog.show"
+      width="800px">
+
+      <el-form :model="postForm.itinerary" label-position="left" label-width="120px" style="width: 600px; margin-left:20px;">
+        <el-form-item label="Vehicle Score:">
+          <el-rate
+            v-model="postForm.vehicle_score"
+            :max="5"
+            :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+            :low-threshold="1"
+            :high-threshold="5"
+            style="margin-top:8px;"/>
+        </el-form-item>
+        <el-form-item label="Guide Score:">
+          <el-rate
+            v-model="postForm.guide_score"
+            :max="5"
+            :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+            :low-threshold="1"
+            :high-threshold="5"
+            style="margin-top:8px;"/>
+        </el-form-item>
+        <el-form-item label="Comment:" >
+          <el-input v-model="postForm.comment" :autosize="{ minRows: 4, maxRows: 4}" :maxlength="256" type="textarea" ></el-input>  
+        </el-form-item>
+      </el-form>
+      <span slot="footer">
+        <el-button @click="completeDialog.show=false">Cancel</el-button>
+        <el-button type="primary" @click="completeForm">Complete</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -465,6 +531,14 @@ export default {
         rules: {
           itinerary: [{ validator: validateItinerary, trigger: 'change' }]
         }
+      },
+      createDialog: {
+        show: false,
+        title: 'Please check the information again.',
+      },
+      completeDialog: {
+        show: false,
+        title: 'Please rate our services.'
       }
     }
   },
@@ -590,20 +664,25 @@ export default {
       const route = Object.assign({}, this.tempRoute, { title: `${title}-${this.postForm.bookingId}` })
       this.$store.dispatch('tagsView/updateVisitedView', route)
     },
-    createForm() {
+    createForm(show) {
       this.$refs.postForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.postForm.status = 'Created'
-          createBooking(this.postForm).then(response => {
-            var id = response.data['id']
-            this.myEdit = true
-            this.setData(response.data)
-            this.setTagsViewTitle()
-            this.loading = false
-          }).catch(err => {
-            this.loading = false
-          })
+        if (valid && this.valideItinerary()) {
+          if (show){
+            this.createDialog.show = true
+          } else {
+            this.createDialog.show = false
+            this.loading = true
+            this.postForm.status = 'Created'
+            createBooking(this.postForm).then(response => {
+              var id = response.data['id']
+              this.myEdit = true
+              this.setData(response.data)
+              this.setTagsViewTitle()
+              this.loading = false
+            }).catch(err => {
+              this.loading = false
+            })
+          }
         } else {
           return false
         }
@@ -629,6 +708,44 @@ export default {
           return false
         }
       })
+    },
+    updateStatus(status) {
+      this.loading = true
+      this.postForm.status = status
+      updateBooking(this.postForm.id, this.postForm).then(response => {
+        this.setData(response.data)
+        this.$notify({
+          title: 'Success',
+          message: 'Change Successfully',
+          type: 'success',
+          duration: 2000
+        })
+        this.loading = false
+      }).catch(error => {
+        this.loading = false
+      })   
+    },
+    completeForm() {
+      this.completeDialog.show = false
+      this.updateStatus('Complete')
+    },
+    cancelFormConfirm() {
+      this.$confirm('Are you sure to cancel the booking?', 'Prompt', {
+          confirmButtonText: 'Confirm',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }).then(() => {
+          this.updateStatus('Cancel')
+        })
+    },
+    deleteFormConfirm() {
+      this.$confirm('Are you sure to delete the booking?', 'Prompt', {
+          confirmButtonText: 'Confirm',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }).then(() => {
+          this.updateStatus('Delete')
+        })
     },
     handleVehicle(event) {
       this.vehicleDialog.show = true
@@ -692,6 +809,48 @@ export default {
       this.guideDialog.select = true
       this.guide = Object.assign({}, row)
     },
+    valideItinerary() {
+      for(const itinerary of this.postForm.itinerary) {
+        if(itinerary.itinerary === '' || itinerary.itinerary === undefined) {
+          this.$message({
+            message: 'Itinerary information is incomplete',
+            type: 'error'
+          })
+          return false
+        }
+      }
+      return true
+    },
+    guide_charge() {
+      var total = 0.0
+      for(var itinerary of this.postForm.itinerary) {
+        total += Number(itinerary.guide_charge)
+      }
+      return total
+    },
+    vehicle_charge() {
+      var total = 0.0
+      for(var itinerary of this.postForm.itinerary) {
+        total += Number(itinerary.vehicle_gross_charge)
+      }
+      return total
+    },
+    discount() {
+      var total = 0.0
+      var user = this.$store.state.user.user
+      if (user && user.company && user.company.discount) {
+        var discount = Number(user.company.discount.value)
+
+        for(var itinerary of this.postForm.itinerary) {
+          total += Math.abs(itinerary.vehicle_gross_charge - itinerary.vehicle_cost_charge) * discount
+        }
+      }
+
+      return total
+    },
+    total() {
+      return Number(this.vehicle_charge() + this.guide_charge() - this.discount())
+    },
     updateItineraryData() {
       if(this.itineraryDialog.data.freedom_day) {
         this.itineraryDialog.data.full_day = true
@@ -742,11 +901,12 @@ export default {
     handleItineraryChange(value) {
       for(var itinerary of this.vehicle.model.price) {        
         if(itinerary.itinerary === value) {
-          this.itineraryDialog.data.vehicle_cost_charge = itinerary.cost_price
-          this.itineraryDialog.data.vehicle_gross_charge = itinerary.gross_price
+          this.itineraryDialog.data.vehicle_cost_charge = Number(itinerary.cost_price)
+          this.itineraryDialog.data.vehicle_gross_charge = Number(itinerary.gross_price)
+          this.itineraryDialog.data.full_day = itinerary.full_day
 
           if(this.guide) {
-            if(itinerary.fullday) {
+            if(itinerary.full_day) {
               this.itineraryDialog.data.guide_charge = 400.0
             } else {
               this.itineraryDialog.data.guide_charge = 200.0
@@ -755,7 +915,33 @@ export default {
           break;
         }
       }    
-    }
+    },
+    getSummaries(param) {
+        const { columns, data } = param;
+        const sums = [];
+        columns.forEach((column, index) => {
+          if (index === 0) {
+            sums[index] = 'Sum';
+            return;
+          }
+          const values = data.map(item => Number(item[column.property]));
+          if (!values.every(value => isNaN(value))) {
+            sums[index] = values.reduce((prev, curr) => {
+              const value = Number(curr);
+              if (!isNaN(value)) {
+                return prev + curr;
+              } else {
+                return prev;
+              }
+            }, 0);
+            sums[index] += ' AED';
+          } else {
+            sums[index] = 'N/A';
+          }
+        });
+
+        return sums;
+      }
   }
 }
 </script>

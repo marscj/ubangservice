@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
+from __future__ import absolute_import, unicode_literals
 
 import os
 import datetime
@@ -160,8 +161,8 @@ USE_I18N = True
 
 USE_L10N = False
 
-# USE_TZ = True
-USE_TZ = False
+USE_TZ = True    
+# USE_TZ = False       
 
 TIME_INPUT_FORMATS = [
     '%H:%M'
@@ -258,21 +259,16 @@ CREATE_BY_FIELD = 'create_by'
 UPDATE_BY_FIELD = 'update_by'
 COMPANY_BY_FIELD = 'company_by'
 
-# redis
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django_redis.cache.RedisCache",
-#         "LOCATION": "redis://127.0.0.1:6379/1",
-#         "OPTIONS": {
-#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-#         }
-#     }
-# }
-# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-# SESSION_CACHE_ALIAS = "default"
-
 # jwt
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
     'JWT_AUTH_COOKIE': 'jwt_auth_token',
 }
+
+# CELERY STUFF 
+CELERY_BROKER_URL = 'redis://localhost'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379' 
+CELERY_ACCEPT_CONTENT = ['application/json'] 
+CELERY_TASK_SERIALIZER = 'json' 
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE

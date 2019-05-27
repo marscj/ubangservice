@@ -136,7 +136,7 @@ class ModelPrice(models.Model):
     itinerary = models.CharField(max_length=128, unique=True)
 
     # 全天
-    is_fullday = models.BooleanField(default=False)
+    full_day = models.BooleanField(default=False)
 
     # 价格
     cost_price = models.DecimalField(default=600.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])

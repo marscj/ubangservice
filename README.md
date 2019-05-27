@@ -25,8 +25,12 @@ NGINX + UWSGI 部署
 2. sudo apt-get install uwsgi
 3. pip install uwsgi
 
-MYSQL Redis配置
+Redis配置
 1. sudo apt-get install redis-server
+启动
+$ redis-server
+检查
+$ redis-cli ping  
 
 命令
 $ uwsgi --ini uwsgi.ini
