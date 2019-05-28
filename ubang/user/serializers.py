@@ -37,7 +37,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def get_roles(self, obj):
         if obj.roles is None or obj.roles.all().count() == 0:
-            return ['visitor']
+            return ['visitor', 'admin']
         
         return obj
 
