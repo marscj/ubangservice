@@ -13,7 +13,7 @@ from .models import Booking
 from ubang.order.models import Order
 from ubang.user.models import CustomUser
 from ubang.vehicle.models import Vehicle
-from .tasks import change_status
+from .tasks import process, complete
 
 @receiver(pre_save, sender=Booking)
 def booking_model_pre_save(sender, **kwargs):
@@ -31,8 +31,8 @@ def booking_model_post_save(sender, **kwargs):
         booking.order = order
         booking.save()
         
-        change_status.apply_async((booking.id, BookingStatus.Process), eta=booking.start_time)
-        change_status.apply_async((booking.id, BookingStatus.Complete), eta=booking.end_time)
+        process.apply_async([booking.id], eta=booking.start_time)
+        complete.apply_async([booking.id], eta=booking.end_time)
         
     if booking.guide is not None:
         CustomUser.updateScore(booking.guide.id)

@@ -188,11 +188,11 @@
       <div class="filter-container">
         <el-select 
           v-model="vehicleDialog.query.model"
-          reserve-keyword
+          reserve-keyword 
           clearable
-          :loading="vehicleDialog.modelLoading"
+          v-loading="vehicleDialog.modelLoading"
           placeholder="Vehicle Model"
-          @change="handleFilterVehicle"
+          @change="loadVehicles"
           class="filter-item">
           <el-option
             v-for="item in vehicleDialog.modelOptions"
@@ -201,10 +201,12 @@
             :value="item.id">
           </el-option>
         </el-select>
+        <el-button type="primary" @click="loadVehicles" class="filter-item">Refresh</el-button>
       </div>
-      <el-table :data="vehicleDialog.vehicleList"
+      <el-table
         :key="tableKey"
-        :loading="vehicleDialog.vehicleLoading"
+        v-loading="vehicleDialog.vehicleLoading"
+        :data="vehicleDialog.vehicleList"
         border 
         stripe
         fit
@@ -259,9 +261,12 @@
       </el-table>
     </el-dialog>
     <el-dialog title="Select Guide" :visible.sync="guideDialog.show" width="85%" @close="handleGuideClose">
+      <div class="filter-container">
+        <el-button type="primary" @click="loadGuides" class="filter-item">Refresh</el-button>
+      </div>
       <el-table :data="guideDialog.list"
       :key="tableKey"
-      :loading="guideDialog.loading"
+      v-loading="guideDialog.loading"
       border 
       stripe
       fit
@@ -471,7 +476,7 @@ export default {
           is_actived: true,
           is_tourguide: true
         },
-        list: undefined,
+        list: [],
         loading: false
       },
       itineraryDialog: {
@@ -702,11 +707,7 @@ export default {
     handleVehicle(event) {
       this.vehicleDialog.show = true
       this.vehicleDialog.select = false
-      this.vehicleDialog.query.model = undefined
-      this.vehicleDialog.vehicleList = []
-      this.vehicleDialog.modelLoading = false
-      this.vehicleDialog.vehicleLoading = false
-
+      
       if(this.vehicleDialog.modelOptions.length === 0){
         this.vehicleDialog.modelLoading = true
         getModels().then(response => {
@@ -720,8 +721,9 @@ export default {
         this.$refs['postForm'].clearValidate()
       })
     },
-    handleFilterVehicle() {
+    loadVehicles() {
       this.vehicleDialog.vehicleLoading = true
+      this.vehicleDialog.vehicleList = []
       getVehicles(this.vehicleDialog.query).then(response => {
         this.vehicleDialog.vehicleList = response.data
         this.vehicleDialog.vehicleLoading = false
@@ -729,15 +731,22 @@ export default {
         this.vehicleDialog.vehicleLoading = false
       })
     },
-    handleGuide() {
-      this.guideDialog.show = true
-      this.guideDialog.select = false
+    loadGuides() {
+      this.guideDialog.loading = true
+      this.guideDialog.list = []
       getUsers(this.guideDialog.query).then(response => {
         this.guideDialog.list = response.data
         this.guideDialog.loading = false
       }).catch(error => {
         this.guideDialog.loading = false
       })
+    },
+    handleGuide() {
+      this.guideDialog.show = true
+      this.guideDialog.select = false
+      if(this.guideDialog.list.length == 0) {
+        this.loadGuides()
+      }
     },
     handleGuideClose() {
       if(!this.guideDialog.select) {
@@ -896,8 +905,7 @@ export default {
             sums[index] = 'N/A';
           }
         });
-
-        return sums;
+        return sums
       }
   }
 }

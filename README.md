@@ -35,6 +35,8 @@ $ redis-cli ping
 celery配置
 启动任务队列
 $ celery -A ubangservice worker -l info 
+清除任务队列
+$ celery -A ubangservice purge
 
 命令
 $ uwsgi --ini uwsgi.ini
