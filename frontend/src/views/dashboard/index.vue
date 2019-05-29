@@ -31,10 +31,8 @@ export default {
   },
   methods: {
     grouphandle(type) {
-      this.$nextTick(() => {
-        this.$router.replace({
-          path: '/booking/edit/' + id
-        })
+      this.$router.replace({
+        path: '/booking/index'
       })
     }
   }

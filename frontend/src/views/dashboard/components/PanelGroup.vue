@@ -1,69 +1,67 @@
 <template>
   <el-row :gutter="40" class="panel-group">
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="grouphandle('all')">
-        <div class="card-panel-icon-wrapper icon-people">
-          <svg-icon icon-class="peoples" class-name="card-panel-icon" />
-        </div>
-        <div class="card-panel-description">
-          <div class="card-panel-text">
-            All Booking
+      <router-link to="/booking/list">
+        <div class="card-panel">
+          <div class="card-panel-icon-wrapper icon-people">
+            <svg-icon icon-class="peoples" class-name="card-panel-icon" />
           </div>
-          <span class="card-panel-num"> 10002</span>
+          <div class="card-panel-description">
+            <div class="card-panel-text">
+              All Booking
+            </div>
+            <span class="card-panel-num"> 10002</span>
+          </div>
         </div>
-      </div>
+      </router-link>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="grouphandle('moon')">
-        <div class="card-panel-icon-wrapper icon-people">
-          <svg-icon icon-class="peoples" class-name="card-panel-icon" />
-        </div>
-        <div class="card-panel-description">
-          <div class="card-panel-text">
-            All Booking
+      <router-link :to="{ path: '/booking/list/', params:{ type: 'month' } }">
+        <div class="card-panel">
+          <div class="card-panel-icon-wrapper icon-people">
+            <svg-icon icon-class="peoples" class-name="card-panel-icon" />
           </div>
-          <span class="card-panel-num"> 10002</span>
+          <div class="card-panel-description">
+            <div class="card-panel-text">
+              Booking of month
+            </div>
+            <span class="card-panel-num"> 10002</span>
+          </div>
         </div>
-      </div>
+      </router-link>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="grouphandle('my')">
-        <div class="card-panel-icon-wrapper icon-money">
-          <svg-icon icon-class="money" class-name="card-panel-icon" />
-        </div>
-        <div class="card-panel-description">
-          <div class="card-panel-text">
-            My booking
+      <router-link :to="{ path: '/booking/list/', params:{ type: 'my' } }">
+        <div class="card-panel">
+          <div class="card-panel-icon-wrapper icon-money">
+            <svg-icon icon-class="money" class-name="card-panel-icon" />
           </div>
-          <span class="card-panel-num"> 10002</span>
+          <div class="card-panel-description">
+            <div class="card-panel-text">
+              My booking
+            </div>
+            <span class="card-panel-num"> 10002</span>
+          </div>
         </div>
-      </div>
+      </router-link>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="grouphandle('booking')">
-        <div class="card-panel-icon-wrapper icon-shopping">
-          <svg-icon icon-class="shopping" class-name="card-panel-icon" />
-        </div>
-        <div class="card-panel-description">
-          <div class="card-panel-text">
-            Booking
+      <router-link to="/booking/create">
+        <div class="card-panel">
+          <div class="card-panel-icon-wrapper icon-shopping">
+            <svg-icon icon-class="shopping" class-name="card-panel-icon" />
           </div>
-          <span class="card-panel-num"> 10002</span>
+          <div class="card-panel-description">
+            <div class="card-panel-text">
+              Booking
+            </div>
+            <span class="card-panel-num"> 10002</span>
+          </div>
         </div>
-      </div>
+      </router-link>
     </el-col>
   </el-row>
 </template>
-
-<script>
-export default {
-  methods: {
-    grouphandle(type) {
-      this.$emit('handle', type)
-    }
-  }
-}
-</script>
 
 <style lang="scss" scoped>
 .panel-group {

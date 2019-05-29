@@ -51,7 +51,7 @@ export const constantRoutes = [
   {
     path: '/booking',
     component: Layout,
-    redirect: '/booking/index',
+    redirect: '/booking/list',
     name: 'Booking',
     meta: {
       title: 'Booking',
@@ -59,16 +59,11 @@ export const constantRoutes = [
     },
     children: [
       {
-        path: 'index',
+        path: 'list',
         name: 'Booking',
-        component: () => import('@/views/booking/index'),
-        meta: { title: 'Booking List' }
-      },
-      {
-        path: 'self',
-        name: 'MyBooking',
-        component: () => import('@/views/booking/self'),
-        meta: { title: 'My Booking' }
+        component: () => import('@/views/booking/list'),
+        meta: { title: 'Booking List' },
+        hidden: true
       },
       {
         path: 'edit/:id(\\d+)',
@@ -81,63 +76,13 @@ export const constantRoutes = [
         path: 'create',
         component: () => import('@/views/booking/create'),
         name: 'CreateBooking',
-        meta: { title: 'Create Booking', activeMenu: '/booking/list' },
+        meta: { title: 'Add Booking', activeMenu: '/booking/list' },
         hidden: true
       }
     ]
-  },
-
-  {
-    path: '/order',
-    component: Layout,
-    redirect: '/order/index',
-    meta: {
-      title: 'Order',
-      icon: 'lock'
-    },
-    children: [
-      {
-        path: 'index',
-        name: 'Order',
-        component: () => import('@/views/order/index'),
-        meta: { title: 'Order List', noCache: true }
-      },
-      {
-        path: 'self',
-        name: 'My Order',
-        component: () => import('@/views/order/self'),
-        meta: { title: 'My Order', noCache: true }
-      }
-    ]
-  },
-
-  {
-    path: '/permission',
-    component: Layout,
-    redirect: '/permission/user',
-    meta: {
-      title: 'Authorization',
-      icon: 'lock'
-    },
-    children: [{
-      path: 'user',
-      name: 'Users',
-      component: () => import('@/views/user/index'),
-      meta: { title: 'Users' }
-    },
-    {
-      path: 'permission',
-      name: 'Permission',
-      component: () => import('@/views/permission/index'),
-      meta: { title: 'Permission' }
-    }]
   }
 ]
 
-/**
- * asyncRoutes
- * the routes that need to be dynamically loaded based on user roles
- */
 export const asyncRoutes = [
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
