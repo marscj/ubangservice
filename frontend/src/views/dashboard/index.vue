@@ -20,7 +20,7 @@
 import PanelGroup from './components/PanelGroup'
 
 export default {
-  name: 'DashboardAdmin',
+  name: 'dashboard',
   components: {
     PanelGroup,
   },
@@ -31,7 +31,11 @@ export default {
   },
   methods: {
     grouphandle(type) {
-      
+      this.$nextTick(() => {
+        this.$router.replace({
+          path: '/booking/edit/' + id
+        })
+      })
     }
   }
 }
