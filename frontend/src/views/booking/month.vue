@@ -1,5 +1,5 @@
 <template>
-  <booking-list :title="title"/>
+  <booking-list/>
 </template>
 
 <script>

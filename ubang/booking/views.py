@@ -23,6 +23,9 @@ class BookingView(ModelViewSet):
             start_time = self.request.query_params.get('start_time', None)
             end_time = self.request.query_params.get('end_time', None)
 
+            print(start_time)
+            print(end_time)
+
             if start_time:
                 queryset = queryset.filter(start_time__lte=start_time)
             
@@ -66,14 +69,12 @@ class BookingView(ModelViewSet):
             return Response(context)
 
     def update(self, request, *args, **kwargs):
-        # print(request.data)
         try:
             response = super().update(request, *args, **kwargs)
             context = {
                 'code': 20000,
                 'data': response.data
             }
-            # self.log_change(request, Booking.objects.get(pk=response.data['id']))
             return Response(context)
         except (ValueError, Exception) as e:
             context = {
@@ -83,6 +84,7 @@ class BookingView(ModelViewSet):
             return Response(context) 
 
     def create(self, request, *args, **kwargs):
+        print(request.data)
         try:
             response = super().create(request, *args, **kwargs)
             context = {

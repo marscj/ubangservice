@@ -1,5 +1,5 @@
 <template>
-  <booking-list title="My Booking"/>
+  <booking-list/>
 </template>
 
 <script>
