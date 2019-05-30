@@ -106,6 +106,8 @@ import Pagination from '@/components/Pagination'
 
 const Status = [
   { value: 'Created', label: 'Created' },
+  { value: 'Process', label: 'Process' },
+  { value: 'Complete', label: 'Complete' },
   { value: 'Cancel', label: 'Cancel' },
   { value: 'Delete', label: 'Delete' }
 ]
@@ -124,6 +126,7 @@ export default {
         Created: 'success',
         Cancel: 'warning',
         Delete: 'danger',
+        Process: 'primary',
         Complete: 'primary'
       }
       return statusMap[status]

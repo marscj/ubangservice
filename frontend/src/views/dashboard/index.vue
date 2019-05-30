@@ -1,47 +1,37 @@
 <template>
   <div class="dashboard-editor-container">
-    <panel-group @grouphandle="grouphandle"/>
+    <panel-group/>
 
-    <!-- <el-row :gutter="8">
+    <el-row :gutter="8">
+      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
+        <company-panel />
+      </el-col> 
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">
-        <transaction-table />
+        <booking-list />
       </el-col>
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
+      <!-- <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
         <todo-list />
-      </el-col>
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
-        <box-card />
-      </el-col>
-    </el-row> -->
+      </el-col>-->
+    </el-row>
   </div>
 </template>
 
 <script>
 import PanelGroup from './components/PanelGroup'
+import BookingList from './components/BookingList'
+import CompanyPanel from './components/CompanyPanel'
 
 export default {
   name: 'Dashboard',
   components: {
-    PanelGroup,
-  },
-  data() {
-    return {
-      
-    }
-  },
-  methods: {
-    grouphandle(type) {
-      this.$router.replace({
-        path: '/booking/index'
-      })
-    }
+    PanelGroup, BookingList, CompanyPanel
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .dashboard-editor-container {
-  padding: 32px;
+  padding: 16px;
   background-color: rgb(240, 242, 245);
   position: relative;
 }

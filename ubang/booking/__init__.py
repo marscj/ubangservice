@@ -12,6 +12,6 @@ class BookingStatus:
         (Created, 'Created'),
         (Cancel, 'Cancel'),
         (Delete, 'Delete'),
-        (Process, 'Complete'),
+        (Process, 'Process'),
         (Complete, 'Complete')
     ]

@@ -110,3 +110,17 @@ class BookingListSerializer(serializers.ModelSerializer):
             'contact_phone', 'pick_up_addr', 'drop_off_addr','remark', 'vehicle', 'vehicle_id', 'guide', 'guide_id', 
             'order', 'vehicle_score', 'guide_score', 'expiry_date'
         )
+
+class BookingListSimpleSerializer(serializers.ModelSerializer):
+    
+    vehicle = VehicleListSerializer(required=False, allow_null=True)
+
+    order = OrderListSerializer(required=False, allow_null=True)
+
+    create_by = UserListSerializer(required=False, allow_null=True)
+
+    class Meta:
+        model = Booking
+        fields = (
+            'id', 'bookingId', 'start_time', 'end_time', 'status', 'vehicle', 'order', 'create_by'
+        )

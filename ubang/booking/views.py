@@ -1,5 +1,5 @@
-from django.contrib.admin.options import get_content_type_for_model
 from rest_framework.response import Response
+from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 
@@ -7,7 +7,7 @@ from datetime import datetime
 import arrow
 
 from .models import Booking
-from .serializers import BookingSerializer, BookingListSerializer
+from .serializers import BookingSerializer, BookingListSerializer, BookingListSimpleSerializer
 
 class BookingView(ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -33,6 +33,19 @@ class BookingView(ModelViewSet):
             return queryset
         else:
             return Booking.objects.all()
+
+    @action(detail=False, methods=['get'])
+    def dashboard(self, request):
+        queryset = Booking.objects.all().order_by('-id')[:10]
+
+        serializer = BookingListSimpleSerializer(queryset, many=True)
+
+        context = {
+            'code': 20000,
+            'data': serializer.data,
+        }
+        
+        return Response(context)
 
     def list(self, request):
         try:

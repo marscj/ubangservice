@@ -8,6 +8,14 @@ export function getBookings(query) {
   })
 }
 
+export function getDashboard(query) {
+  return request({
+    url: 'booking/bookings/dashboard/',
+    method: 'get',
+    params: query
+  })
+}
+
 export function getBooking(pk) {
   return request({
     url: `booking/bookings/${pk}/`,
