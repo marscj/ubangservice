@@ -6,11 +6,8 @@
 import BookingDetail from './components/BookingDetail'
 
 export default {
-  name: 'EditForm',
-  components: { BookingDetail },
-  mounted() {
-    console.log('#####', 'edit')
-  }
+  name: 'EditBooking',
+  components: { BookingDetail }
 }
 </script>
 

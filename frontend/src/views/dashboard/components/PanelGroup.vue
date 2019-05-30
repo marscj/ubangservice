@@ -1,46 +1,43 @@
 <template>
   <el-row :gutter="40" class="panel-group">
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <router-link to="/booking/list">
+      <router-link to="/booking/all">
         <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-people">
-            <svg-icon icon-class="peoples" class-name="card-panel-icon" />
+          <div class="card-panel-icon-wrapper icon-all">
+            <svg-icon icon-class="order" class-name="card-panel-icon" />
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">
               All Booking
             </div>
-            <span class="card-panel-num"> 10002</span>
           </div>
         </div>
       </router-link>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <router-link :to="{ path: '/booking/list/', params:{ type: 'month' } }">
+      <router-link :to="{ name: 'MonthBooking', query: queryMonth, }">
         <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-people">
-            <svg-icon icon-class="peoples" class-name="card-panel-icon" />
+          <div class="card-panel-icon-wrapper icon-month card-panel-icon">
+            <i class="el-icon-date"></i>
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">
-              Booking of month
+              {{ this.$moment().format('MMM') }} Booking
             </div>
-            <span class="card-panel-num"> 10002</span>
           </div>
         </div>
       </router-link>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <router-link :to="{ path: '/booking/list/', params:{ type: 'my' } }">
+      <router-link :to="{ name: 'MyBooking', query: queryMy }">
         <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-money">
-            <svg-icon icon-class="money" class-name="card-panel-icon" />
+          <div class="card-panel-icon-wrapper icon-my">
+            <svg-icon icon-class="my-order" class-name="card-panel-icon" />
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">
-              My booking
+              My Booking
             </div>
-            <span class="card-panel-num"> 10002</span>
           </div>
         </div>
       </router-link>
@@ -48,20 +45,37 @@
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <router-link to="/booking/create">
         <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-shopping">
-            <svg-icon icon-class="shopping" class-name="card-panel-icon" />
+          <div class="card-panel-icon-wrapper icon-add card-panel-icon">
+            <svg-icon icon-class="add" class-name="card-panel-icon" />
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">
-              Booking
+              Add Booking
             </div>
-            <span class="card-panel-num"> 10002</span>
           </div>
         </div>
       </router-link>
     </el-col>
   </el-row>
 </template>
+
+<script>
+export default {
+  name:'PanelGroup',
+  data() {
+    return {
+      queryMonth: {
+        start_time: this.$moment().startOf('month').format('YYYY-MM-DD HH:mm'),
+        end_time: this.$moment().endOf('month').format('YYYY-MM-DD HH:mm')
+      },
+      queryMy: {
+        creator_by: this.$store.state.user.user.id
+      },
+      monthTitle: 'Booking in ' + this.$moment().format('MMM')
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 .panel-group {
@@ -104,19 +118,19 @@
       }
     }
 
-    .icon-people {
+    .icon-all {
       color: #40c9c6;
     }
 
-    .icon-message {
+    .icon-month {
       color: #36a3f7;
     }
 
-    .icon-money {
+    .icon-my {
       color: #f4516c;
     }
 
-    .icon-shopping {
+    .icon-add {
       color: #34bfa3
     }
 

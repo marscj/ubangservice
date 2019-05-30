@@ -113,9 +113,9 @@ const Status = [
 export default {
   components: { Pagination },
   props: {
-    isSelf: {
-      type: Boolean,
-      default: false
+    title: {
+      type: String,
+      default: 'Booking'
     }
   },
   filters: {
@@ -139,9 +139,10 @@ export default {
         page: 1,
         limit: 20,
         search: undefined,
-        start_time: undefined,
-        end_time: undefined,
-        status: undefined
+        start_time: this.$route.query.start_time || undefined,
+        end_time: this.$route.query.end_time || undefined,
+        status: undefined,
+        create_by: this.$route.query.create_by || undefined
       },
       options: Status
     }

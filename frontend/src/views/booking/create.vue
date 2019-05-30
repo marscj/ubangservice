@@ -6,7 +6,7 @@
 import BookingDetail from './components/BookingDetail'
 
 export default {
-  name: 'CreateForm',
+  name: 'CreateBooking',
   components: { BookingDetail }
 }
 </script>

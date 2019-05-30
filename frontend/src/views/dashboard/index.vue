@@ -20,7 +20,7 @@
 import PanelGroup from './components/PanelGroup'
 
 export default {
-  name: 'dashboard',
+  name: 'Dashboard',
   components: {
     PanelGroup,
   },
