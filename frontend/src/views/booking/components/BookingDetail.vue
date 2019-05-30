@@ -430,7 +430,6 @@ export default {
       tableKey: 0,
       postForm: Object.assign({}, defaultForm),
       loading: false,
-      duration: undefined,
       rules: {
         start_time: [
           { required: true, message: 'This fields is required', trigger: 'change' }
@@ -843,12 +842,12 @@ export default {
       if(this.postForm.start_time && this.postForm.end_time) {
         var start_time = this.$moment(this.postForm.start_time, 'YYYY-MM-DD')
         var end_time = this.$moment(this.postForm.end_time, 'YYYY-MM-DD')
-        this.duration = this.$moment.duration(end_time.diff(start_time))
+        var duration = this.$moment.duration(end_time.diff(start_time))
 
         if(!this.isEdit) {
           this.postForm.itinerary = []
 
-          for(var i = 0; i < this.duration.days() + 1; i++){
+          for(var i = 0; i < Math.floor(duration.asDays()) + 1; i++){
             var nextDay = this.$moment(start_time).add(i, 'days')
             this.postForm.itinerary.push({
               day: this.$moment(nextDay).format('YYYY-MM-DD'),

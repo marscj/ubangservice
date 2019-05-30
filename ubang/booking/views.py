@@ -3,6 +3,9 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 
+from datetime import datetime
+import arrow
+
 from .models import Booking
 from .serializers import BookingSerializer, BookingListSerializer
 
@@ -23,15 +26,10 @@ class BookingView(ModelViewSet):
             start_time = self.request.query_params.get('start_time', None)
             end_time = self.request.query_params.get('end_time', None)
 
-            print(start_time)
-            print(end_time)
-
-            if start_time:
-                queryset = queryset.filter(start_time__lte=start_time)
-            
-            if end_time:
-                queryset = queryset.filter(end_time__gte=end_time)
-
+            if start_time and end_time:
+                _start_time = arrow.get(start_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M:%S')
+                _end_time = arrow.get(end_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M:%S')
+                queryset = queryset.filter(start_time__gte=_start_time).filter(end_time__lte=_end_time)
             return queryset
         else:
             return Booking.objects.all()

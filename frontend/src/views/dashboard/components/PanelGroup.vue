@@ -65,8 +65,8 @@ export default {
   data() {
     return {
       queryMonth: {
-        start_time: this.$moment().startOf('month').format('YYYY-MM-DD HH:mm'),
-        end_time: this.$moment().endOf('month').format('YYYY-MM-DD HH:mm')
+        start_time: this.$moment().startOf('month').format(),
+        end_time: this.$moment().endOf('month').format()
       },
       queryMy: {
         creator_by: this.$store.state.user.user.id
@@ -101,19 +101,19 @@ export default {
         color: #fff;
       }
 
-      .icon-people {
+      .icon-all {
         background: #40c9c6;
       }
 
-      .icon-message {
+      .icon-month {
         background: #36a3f7;
       }
 
-      .icon-money {
+      .icon-my {
         background: #f4516c;
       }
 
-      .icon-shopping {
+      .icon-add {
         background: #34bfa3
       }
     }

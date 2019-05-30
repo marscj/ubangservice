@@ -74,6 +74,9 @@ class VehicleQuerySet(models.QuerySet):
             ( Q(order__start_time__range=(start_time, end_time)) | Q(order__end_time__range=(start_time, end_time)))
         )
 
+    #     Q(start_date__gte=self.start_date, start_date__lt=self.end_date)
+    #    | Q(end_date__gt=self.start_date, end_date__lte=self.end_date)
+
 # 车辆 
 class Vehicle(models.Model):
     
