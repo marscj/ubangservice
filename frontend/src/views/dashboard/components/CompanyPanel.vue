@@ -4,21 +4,29 @@
       <img src="https://wpimg.wallstcn.com/e7d23d71-cf19-4b90-a1cc-f56af8c0903d.png">
     </div>
     <div style="position:relative;">
-      <div style="padding-top:35px;" class="progress-item">
-        <span>Vue</span>
-        <el-progress :percentage="70" />
+      <div style="padding-top:5px;" class="progress-item">
+        <span style="font-size:18px;">{{ company.name }}</span>
       </div>
-      <div class="progress-item">
-        <span>JavaScript</span>
-        <el-progress :percentage="18" />
+      <div style="padding-top:15px;" class="progress-item">
+        <span>Phone:</span> 
+        <span>{{ company.phone }}</span> 
       </div>
-      <div class="progress-item">
-        <span>Css</span>
-        <el-progress :percentage="12" />
+      <div style="padding-top:15px;" class="progress-item">
+        <span>Tel:</span> 
+        <span>{{ company.tel }}</span> 
       </div>
-      <div class="progress-item">
-        <span>ESLint</span>
-        <el-progress :percentage="100" status="success" />
+      <div style="padding-top:15px;" class="progress-item">
+        <span>Email:</span> 
+        <span>{{ company.email }}</span> 
+      </div>
+      <div style="padding-top:15px;" class="progress-item">
+        <span>Address:</span> 
+        <span>{{ company.address }}</span> 
+      </div>
+      <div style="padding-top:15px;" class="progress-item">
+        <span>Discount:</span> 
+        <span v-if="company.discount" >{{ company.discount.name }}</span>
+        <span v-else>None</span>
       </div>
     </div>
   </el-card>
@@ -38,10 +46,7 @@ export default {
   },
   data() {
     return {
-      statisticsData: {
-        article_count: 1024,
-        pageviews_count: 1024
-      }
+      company: this.$store.state.user.user.company
     }
   },
 }
