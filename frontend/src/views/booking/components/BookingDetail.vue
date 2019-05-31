@@ -670,8 +670,21 @@ export default {
           duration: 2000
         })
         this.loading = false
+        
         if(this.postForm.status === 'Delete') {
-          this.$store.dispatch('tagsView/delView', this.$route)
+          var view = this.$route
+          this.$store.dispatch('tagsView/delView', view).then(({ visitedViews }) => {
+            const latestView = visitedViews.slice(-1)[0]
+            if (latestView) {
+              this.$router.push(latestView)
+            } else {
+              if (view.name === 'Dashboard') {
+                this.$router.replace({ path: '/redirect' + view.fullPath })
+              } else {
+                this.$router.push('/')
+              }
+            }
+          })
         }
       }).catch(error => {
         this.loading = false

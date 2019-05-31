@@ -72,7 +72,6 @@ class BookingSerializer(serializers.ModelSerializer):
 
         for itiner in itinerary_data:
             iti = itinerary.pop(0)
-
             iti.day = itiner.get('day', iti.day)
             iti.itinerary = itiner.get('itinerary', iti.itinerary)
             iti.full_day = itiner.get('full_day', iti.full_day)
