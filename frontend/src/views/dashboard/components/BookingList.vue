@@ -43,20 +43,6 @@
           </router-link>
         </template>
       </el-table-column>
-      <!-- <el-table-column label="Create at" width="160px" align="center">
-        <template slot-scope="{row}">
-          <router-link :to="'/booking/edit/'+row.id" class="link-type">
-            <span>{{ row.change_at }}</span>
-          </router-link>
-        </template>
-      </el-table-column>
-      <el-table-column label="Change at" width="160px" align="center">
-        <template slot-scope="{row}">
-          <router-link :to="'/booking/edit/'+row.id" class="link-type">
-            <span>{{ row.change_at }}</span>
-          </router-link>
-        </template>
-      </el-table-column> -->
       <el-table-column label="Creator" min-width="120px" align="center">
         <template slot-scope="{row}">
           <router-link :to="'/booking/edit/'+row.id" class="link-type">
@@ -78,13 +64,6 @@
           </router-link>
         </template>
       </el-table-column>
-      <!-- <el-table-column label="Remark" min_width="240px" align="center">
-        <template slot-scope="{row}">
-          <router-link :to="'/booking/edit/'+row.id" class="link-type">
-            <span v-if="row.remark">{{ row.remark }}</span>
-          </router-link>
-        </template>
-      </el-table-column> -->
       <el-table-column label="Status" width="100px" class-name="status-col" align="center">
         <template slot-scope="{row}">
           <el-tag :type="row.status | typeStatus">
@@ -111,6 +90,24 @@ const Status = [
 
 export default {
   components: { Pagination },
+  props: {
+    tabName: {
+      type: String,
+      default: 'AllBooking'
+    },
+    query: {
+      type: Object,
+      default: {
+        page: 1,
+        limit: 20,
+        search: '',
+        start_time: '',
+        end_time: '',
+        status: '',
+        create_by: undefined
+      }
+    }
+  },
   filters: {
     typeStatus(status) {
       const statusMap = {
@@ -128,19 +125,14 @@ export default {
       total: 0,
       list: null,
       listLoading: true,
-      listQuery: {
-        page: 1,
-        limit: 20,
-        search: undefined,
-        start_time: this.$route.query.start_time || undefined,
-        end_time: this.$route.query.end_time || undefined,
-        status: undefined,
-        create_by: this.$route.query.create_by || undefined
-      },
-      options: Status
+      options: Status,
+      listQuery: Object.assign({}, this.query)
     }
   },
   created() {
+    console.log(this.tabName)
+    console.log(this.query)
+    console.log('###########')
     this.getList()
   },
   methods: {
@@ -162,7 +154,9 @@ export default {
     handleCreate() {
       this.$router.push({ path: '/booking/create/' })
     },
-    sortChange() {}
+    mounted() {
+      console.log(this.tabName)
+    },
   }
 }
 </script>

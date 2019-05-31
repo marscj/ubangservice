@@ -44,40 +44,19 @@ export const constantRoutes = [
       path: 'index',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Home', icon: 'dashboard', affix: true }
+      meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
     }]
   },
 
   {
     path: '/booking',
     component: Layout,
-    redirect: '/booking/all',
+    redirect: '/booking/create',
     name: 'Booking',
     meta: {
-      title: 'Booking',
-      icon: 'lock'
+      title: 'Booking'
     },
     children: [
-      {
-        path: 'all',
-        name: 'AllBooking',
-        component: () => import('@/views/booking/all'),
-        meta: { title: 'All Booking', noCache: true }
-      },
-      {
-        path: 'month',
-        name: 'MonthBooking',
-        component: () => import('@/views/booking/month'),
-        meta: { title: 'Month', noCache: true },
-        hidden: true
-      },
-      {
-        path: 'my',
-        name: 'MyBooking',
-        component: () => import('@/views/booking/my'),
-        meta: { title: 'My Booking', noCache: true },
-        hidden: true
-      },
       {
         path: 'edit/:id(\\d+)',
         component: () => import('@/views/booking/edit'),
