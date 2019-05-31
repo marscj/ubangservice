@@ -1,7 +1,7 @@
 <template>
   <el-card class="box-card-component">
     <div slot="header" class="box-card-header">
-      <img src="https://wpimg.wallstcn.com/e7d23d71-cf19-4b90-a1cc-f56af8c0903d.png">
+      <img src="http://www.luxos.com/cn/media/k2/items/cache/5d9bd784bfd234610bf8ba15e7ad6a4e_XL.jpg">
     </div>
     <div style="position:relative;">
       <div style="padding-top:5px;" class="progress-item">
