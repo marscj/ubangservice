@@ -60,11 +60,14 @@ class UserInfo(APIView):
 class UserView(ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer
-    queryset = CustomUser.objects.filter(company__isnull=False)
+    queryset = CustomUser.objects.all()
     
     filterset_fields = ('is_driver', 'is_tourguide', 'is_actived')
     search_fields = ('username', 'email')
     
+    def get_queryset(self):
+        return CustomUser.objects.all().filter(company=self.request.user.company)
+
     def list(self, request):
         response = super().list(request)
         

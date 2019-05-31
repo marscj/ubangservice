@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from datetime import datetime
 import arrow
 
+from .import BookingStatus
 from .models import Booking
 from .serializers import BookingSerializer, BookingListSerializer, BookingListSimpleSerializer
 
@@ -20,9 +21,12 @@ class BookingView(ModelViewSet):
         else :
             return BookingSerializer
 
+    def parent_queryset(self):
+        return Booking.objects.all().exclude(status=BookingStatus.Delete).filter(company_by=self.request.user.company)
+
     def get_queryset(self):
         if self.action == 'list':
-            queryset = Booking.objects.all()
+            queryset = self.parent_queryset()
             start_time = self.request.query_params.get('start_time', None)
             end_time = self.request.query_params.get('end_time', None)
 
@@ -32,11 +36,11 @@ class BookingView(ModelViewSet):
                 queryset = queryset.filter(start_time__gte=_start_time).filter(end_time__lte=_end_time)
             return queryset
         else:
-            return Booking.objects.all()
+            return self.parent_queryset()
 
     @action(detail=False, methods=['get'])
     def dashboard(self, request):
-        queryset = Booking.objects.all().order_by('-id')[:10]
+        queryset = self.parent_queryset().order_by('-id')[:10]
 
         serializer = BookingListSimpleSerializer(queryset, many=True)
 

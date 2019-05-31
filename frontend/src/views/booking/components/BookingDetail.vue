@@ -454,7 +454,6 @@ export default {
         order: undefined,
         create_by: undefined,
         company_by: undefined,
-        history: [],
       },
       vehicleDialog: {
         show: false,
@@ -576,18 +575,7 @@ export default {
           delete this.postForm.company_by
         }
       }
-    },
-    history: {
-      get() {
-        return this.relatedKey.history
-      },
-      set(value) {
-        if(value) {
-          this.relatedKey.history = value
-          delete this.postForm.history
-        }
-      }
-    }    
+    }  
   },
   created() {
     if (this.isEdit) {
@@ -672,21 +660,25 @@ export default {
     updateStatus(status) {
       this.loading = true
       this.postForm.status = status
+      console.log(this.postForm)
       updateBooking(this.postForm.id, this.postForm).then(response => {
         this.setData(response.data)
         this.$notify({
           title: 'Success',
-          message: 'Change Successfully',
+          message: status + 'Successfully',
           type: 'success',
           duration: 2000
         })
         this.loading = false
+        if(this.postForm.status === 'Delete') {
+          this.$store.dispatch('tagsView/delView', this.$route)
+        }
       }).catch(error => {
         this.loading = false
       })   
     },
     cancelFormConfirm() {
-      this.$confirm('Are you sure to cancel the booking?', 'Prompt', {
+      this.$confirm('Are you sure to cancel the booking?', 'Alert', {
           confirmButtonText: 'Confirm',
           cancelButtonText: 'Cancel',
           type: 'warning'
@@ -695,7 +687,7 @@ export default {
         })
     },
     deleteFormConfirm() {
-      this.$confirm('Are you sure to delete the booking?', 'Prompt', {
+      this.$confirm('Are you sure to delete the booking?', 'Alert', {
           confirmButtonText: 'Confirm',
           cancelButtonText: 'Cancel',
           type: 'warning'
@@ -845,6 +837,7 @@ export default {
         var duration = this.$moment.duration(end_time.diff(start_time))
 
         if(!this.isEdit) {
+          console.log('############# 1111111111111111')
           this.postForm.itinerary = []
 
           for(var i = 0; i < Math.floor(duration.asDays()) + 1; i++){

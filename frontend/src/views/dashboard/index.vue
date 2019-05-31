@@ -31,7 +31,7 @@ export default {
 <style lang="scss">
 .dashboard-container {
   min-height: 100vh;
-  height: 100vh;
+  // height: 100vh;
   width: 100%;
   padding: 16px;
   background-color: rgb(240, 242, 245);

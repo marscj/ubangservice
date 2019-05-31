@@ -33,9 +33,8 @@ export default {
     statusFilter(status) {
       const statusMap = {
         Created: 'success',
-        Cancel: 'warning',
-        Delete: 'danger',
-        Process: 'primary',
+        Cancel: 'danger',
+        Process: 'warning',
         Complete: 'primary'
       }
       return statusMap[status]
