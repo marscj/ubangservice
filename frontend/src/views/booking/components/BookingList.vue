@@ -60,7 +60,7 @@
           </router-link>
         </template>
       </el-table-column> -->
-      <el-table-column label="Create by" width="160px" align="center">
+      <el-table-column label="Creator" width="160px" align="center">
         <template slot-scope="{row}">
           <router-link :to="'/booking/edit/'+row.id" class="link-type">
             <span v-if="row.create_by">{{ row.create_by.name || row.create_by.username }}</span>
@@ -114,12 +114,6 @@ const Status = [
 
 export default {
   components: { Pagination },
-  props: {
-    title: {
-      type: String,
-      default: 'Booking'
-    }
-  },
   filters: {
     typeStatus(status) {
       const statusMap = {

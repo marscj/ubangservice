@@ -1,29 +1,24 @@
 <template >
   <div class="dashboard-container">
-      <panel-group/>
       <el-row :gutter="8">
-        <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
+        <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 10}" :lg="{span: 5}" :xl="{span: 5}" style="margin-bottom:30px;">
           <company-panel />
         </el-col> 
-        <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 18}" :xl="{span: 18}" style="padding-right:12px;margin-bottom:30px;">
-          <booking-list />
+        <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 19}" :xl="{span: 19}" style="padding-right:12px;margin-bottom:30px;">
+          <tab-view />
         </el-col>
-        <!-- <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
-          <todo-list />
-        </el-col>-->
       </el-row>
     </div>
 </template>
 
 <script>
-import PanelGroup from './components/PanelGroup'
-import BookingList from './components/BookingList'
 import CompanyPanel from './components/CompanyPanel'
+import TabView from './components/TabView'
 
 export default {
   name: 'Dashboard',
   components: {
-    PanelGroup, BookingList, CompanyPanel
+    CompanyPanel, TabView
   }
 }
 </script>
