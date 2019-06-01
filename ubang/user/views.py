@@ -47,13 +47,7 @@ class UserInfo(APIView):
         user = UserSerializer(request.user)
         context = {
             'code': 20000,
-            'data': {
-                'roles': ['editor'],
-                'introduction': 'I am a super administrator',
-                'avatar': 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-                'name': 'Editor',
-                'extra': user.data
-            }
+            'data': user.data
         }
         return Response(context)
 
