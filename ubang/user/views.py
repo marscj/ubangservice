@@ -62,11 +62,11 @@ class UserView(ModelViewSet):
     serializer_class = UserSerializer
     queryset = CustomUser.objects.all()
     
-    filterset_fields = ('is_driver', 'is_tourguide', 'is_actived')
+    filterset_fields = ('is_driver', 'is_tourguide', 'is_actived', 'company')
     search_fields = ('username', 'email')
     
     def get_queryset(self):
-        return CustomUser.objects.all().filter(company=self.request.user.company)
+        return CustomUser.objects.all()
 
     def list(self, request):
         response = super().list(request)

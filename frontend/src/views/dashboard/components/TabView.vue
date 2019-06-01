@@ -65,6 +65,8 @@ export default {
           return {
             page: 1,
             limit: 20,
+            search: '',
+            company: this.$store.state.user.user.company.id
           }
       }
     }

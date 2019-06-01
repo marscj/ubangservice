@@ -10,6 +10,9 @@
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         Search
       </el-button>
+      <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">
+        Add
+      </el-button>
     </div>
     <el-table
       :key="tableKey"
@@ -91,10 +94,6 @@ const Status = [
 export default {
   components: { Pagination },
   props: {
-    tabName: {
-      type: String,
-      default: 'AllBooking'
-    },
     query: {
       type: Object,
       default: {

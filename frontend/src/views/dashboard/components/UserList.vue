@@ -2,14 +2,6 @@
   <div>
     <div class="filter-container">
       <el-input v-model="listQuery.search" placeholder="username name phone email" style="width: 240px;" class="filter-item" @keyup.enter.native="handleFilter" />
-      <el-select v-model="listQuery.is_actived" placeholder="Active" clearable class="filter-item" @change="handleFilter">
-        <el-option v-for="item in BoolOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         Search
       </el-button>
@@ -20,17 +12,16 @@
 
     <el-table
       :key="tableKey"
-      v-loading="listLoading"
       :data="list"
+      v-loading="listLoading"
       border
       stripe
       fit
       highlight-current-row
-      style="width: 100%;"
     >
       <el-table-column label="UserName" align="center" width="180px">
         <template slot-scope="{row}">
-          <span>{{ row.username }}</span>
+          <span class="link-type" @click="handleUpdate(row)">{{ row.username }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Name" align="center" width="120px">
@@ -48,16 +39,9 @@
           <span class="link-type" @click="handleUpdate(row)">{{ row.email }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Active" align="center" width="80px" class-name="small-padding fixed-width">
+      <el-table-column label="Role" width="180px" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-checkbox v-model="row.is_actived" @change="handleChangeStatus(row, 'is_actived')" />
-        </template>
-      </el-table-column>
-      <el-table-column label="Actions" align="center" width="100px" class-name="small-padding fixed-width">
-        <template slot-scope="{row}">
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">
-            Edit
-          </el-button>
+          <span class="link-type" @click="handleUpdate(row)">{{ row.roles }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -74,9 +58,6 @@
         </el-form-item>
         <el-form-item label="email" prop="email">
           <el-input v-model="temp.email" />
-        </el-form-item>
-        <el-form-item label="introduction" prop="introduction">
-          <el-input v-model="temp.introduction" :autosize="{ minRows: 2, maxRows: 4}" type="textarea"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -105,27 +86,29 @@ const BoolOptions = [
 export default {
   components: { Pagination },
   directives: { waves },
+  props: {
+    query: {
+      type: Object,
+      default: {
+        page: 1,
+        limit: 20,
+        search: '',
+        company: undefined
+      }
+    }
+  },
   data() {
     return {
       tableKey: 0,
       list: null,
       total: 0,
       listLoading: true,
-      listQuery: {
-        page: 1,
-        limit: 20,
-        search: undefined,
-        is_driver: undefined,
-        is_tourguide: undefined,
-        is_actived: undefined,
-        sort: 'id'
-      },
+      listQuery: Object.assign({}, this.query),
       temp: {
         id: undefined,
         name: '',
         phone: '',
-        email: '',
-        introduction: ''
+        email: ''
       },
       textMap: {
         update: 'Edit',
@@ -181,8 +164,7 @@ export default {
         id: undefined,
         name: '',
         phone: '',
-        email: '',
-        introduction: ''
+        email: ''
       }
     },
     handleCreate() {
@@ -199,8 +181,7 @@ export default {
         username: row.username,
         name: row.name,
         email: row.email,
-        phone: row.phone,
-        introduction: row.introduction
+        phone: row.phone
       })
       this.dialogStatus = 'update'
       this.dialogFormVisible = true

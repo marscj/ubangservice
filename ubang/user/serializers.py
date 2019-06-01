@@ -32,12 +32,12 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = (
-            'id', 'username', 'name', 'phone', 'email', 'country', 'company', 'roles', 'is_driver', 'is_tourguide', 'is_actived', 'introduction', 'avg_score', 'total_score'
+            'id', 'username', 'name', 'phone', 'email', 'country', 'company', 'roles', 'is_driver', 'is_tourguide', 'is_actived', 'introduction', 'avg_score', 'total_score', 'is_active'
         )
 
     def get_roles(self, obj):
         if obj.roles is None or obj.roles.all().count() == 0:
-            return ['visitor', 'admin']
+            return 'operator'
         
         return obj
 

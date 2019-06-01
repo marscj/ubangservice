@@ -675,18 +675,19 @@ export default {
           this.$store.dispatch('tagsView/delView', view).then(({ visitedViews }) => {
             const latestView = visitedViews.slice(-1)[0]
             const firstView = visitedViews[0]
-            if (latestView && latestView != firstView) {
-              this.$router.push(latestView)
-            } 
+            this.$router.push(latestView)
+            // if (latestView && latestView != firstView) {
+            //   this.$router.push(latestView)
+            // } 
 
-            this.$store.dispatch('tagsView/delCachedView', firstView).then(() => {
-              const { fullPath } = firstView
-              this.$nextTick(() => {
-                this.$router.replace({
-                  path: '/redirect' + fullPath
-                })
-              })
-            })
+            // this.$store.dispatch('tagsView/delCachedView', firstView).then(() => {
+            //   const { fullPath } = firstView
+            //   this.$nextTick(() => {
+            //     this.$router.replace({
+            //       path: '/redirect' + fullPath
+            //     })
+            //   })
+            // })
           })
         }
       }).catch(error => {
