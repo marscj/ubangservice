@@ -130,9 +130,6 @@ export default {
     }
   },
   created() {
-    console.log(this.tabName)
-    console.log(this.query)
-    console.log('###########')
     this.getList()
   },
   methods: {
@@ -155,7 +152,6 @@ export default {
       this.$router.push({ path: '/booking/create/' })
     },
     mounted() {
-      console.log(this.tabName)
     },
   }
 }

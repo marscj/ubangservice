@@ -52,7 +52,6 @@ export default {
     }
   },
   created() {
-    console.log(this.tabName, 'create')
     this.fetchData()
   },
   methods: {

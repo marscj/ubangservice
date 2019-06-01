@@ -660,7 +660,6 @@ export default {
     updateStatus(status) {
       this.loading = true
       this.postForm.status = status
-      console.log(this.postForm)
       updateBooking(this.postForm.id, this.postForm).then(response => {
         this.setData(response.data)
         this.$notify({
@@ -675,15 +674,19 @@ export default {
           var view = this.$route
           this.$store.dispatch('tagsView/delView', view).then(({ visitedViews }) => {
             const latestView = visitedViews.slice(-1)[0]
-            if (latestView) {
+            const firstView = visitedViews[0]
+            if (latestView && latestView != firstView) {
               this.$router.push(latestView)
-            } else {
-              if (view.name === 'Dashboard') {
-                this.$router.replace({ path: '/redirect' + view.fullPath })
-              } else {
-                this.$router.push('/')
-              }
-            }
+            } 
+
+            this.$store.dispatch('tagsView/delCachedView', firstView).then(() => {
+              const { fullPath } = firstView
+              this.$nextTick(() => {
+                this.$router.replace({
+                  path: '/redirect' + fullPath
+                })
+              })
+            })
           })
         }
       }).catch(error => {
@@ -850,7 +853,6 @@ export default {
         var duration = this.$moment.duration(end_time.diff(start_time))
 
         if(!this.isEdit) {
-          console.log('############# 1111111111111111')
           this.postForm.itinerary = []
 
           for(var i = 0; i < Math.floor(duration.asDays()) + 1; i++){

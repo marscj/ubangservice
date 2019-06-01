@@ -2,7 +2,6 @@
     'use strict';
 
     $(document).ready(function() {
-        console.log('hello oder');
 
         $("#lookup_id_vehicle" ).click(function(event) {
             if ($("#id_start_time_0").val() == "") {

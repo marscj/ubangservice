@@ -4,6 +4,7 @@
       <el-tab-pane label="All Booking" name="all" lazy></el-tab-pane>
       <el-tab-pane :label="monthTitle" name="month" lazy></el-tab-pane>
       <el-tab-pane label="My Booking" name="my" lazy></el-tab-pane>
+      <el-tab-pane label="Users" name="user" lazy></el-tab-pane>
     </el-tabs>
     <component v-bind:is="activeTabName" :tabName="activeTabName" :query="get_queryset()"></component>
   </div>
@@ -13,15 +14,17 @@
 import all from './BookingList'
 import month from './BookingList'
 import my from './BookingList'
+import user from './UserList'
 
 export default {
-  components: { all, month, my },
+  components: { all, month, my, user },
   data() {
     return {
       activeTabName: 'all',
       all: 'all',
       month: 'month',
       my: 'my',
+      user: 'user',
       monthTitle: this.$moment().format('MMM') + ' Booking'
     };
   },
@@ -57,6 +60,11 @@ export default {
             end_time: '',
             status: '',
             creator_by: this.$store.state.user.user.id
+          }
+        case 'user':
+          return {
+            page: 1,
+            limit: 20,
           }
       }
     }
