@@ -13,12 +13,8 @@ class CompanyAdmin(admin.ModelAdmin):
     
     form = CompanyForm
 
-    fieldsets = (
-        (None, {
-            'fields': (
-                'type', 'name', 'phone', 'tel', 'address', 'email', 'whatsup', 'wechart', 'open_time', 'close_time', 'discount',
-            ),
-        })
+    fields = (
+        'type', 'name', 'phone', 'tel', 'address', 'email', 'whatsup', 'wechart', 'open_time', 'close_time', 'discount',
     )
 
     list_display = (

@@ -19,21 +19,13 @@ class UserSerializer(serializers.ModelSerializer):
 
     phone = PhoneNumberField(required=False, allow_null=True)
 
-    roles = serializers.SerializerMethodField()
-
     company = CompanySerializer(required=False, allow_null=True)
 
     class Meta:
         model = CustomUser
         fields = (
-            'id', 'username', 'name', 'phone', 'email', 'country', 'company', 'roles', 'is_driver', 'is_tourguide', 'is_actived', 'introduction', 'avg_score', 'total_score', 'is_active'
+            'id', 'username', 'name', 'phone', 'email', 'country', 'company', 'is_driver', 'is_tourguide', 'is_actived', 'introduction', 'avg_score', 'total_score', 'is_active'
         )
-
-    def get_roles(self, obj):
-        if obj.roles is None or obj.roles.all().count() == 0:
-            return 'operator'
-        
-        return obj
 
 class UserListSerializer(serializers.ModelSerializer):
 
