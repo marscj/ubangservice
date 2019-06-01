@@ -19,19 +19,8 @@ class OrderAdmin(admin.ModelAdmin):
 
     inlines = (PaymentInline, BookingInline)
 
-    fieldsets = ( 
-        (None, {
-            'fields': ('orderId', 'status', 'remark')
-        }),
-        ('Customer Info', {
-            'fields': ('customer', )
-        }),
-        ('Company Info', {
-            'fields': ('company',)
-        }),
-        ('Charge Info', {
-            'fields': ('total',)
-        }),
+    fields = (
+        'orderId', 'status', 'start_time', 'end_time', ''
     )
 
     readonly_fields = (
@@ -39,11 +28,7 @@ class OrderAdmin(admin.ModelAdmin):
     )
 
     list_display = (
-       '__str__', 'status', 'customer', 'company', 'total', 'remark', 'task'
-    )
-
-    raw_id_fields = (
-        'company', 'customer'
+       '__str__', 'status', 'customer', 'company', 'total', 'remark'
     )
 
     list_filter = (
@@ -59,9 +44,6 @@ class OrderAdmin(admin.ModelAdmin):
     #         'admin/js/order.js',
     #         'admin/js/task.js'
     #     ]
-
-    def task(self, obj):
-        return mark_safe("<br>".join(['%s %s %s %s'% (task.day, task.guide or '', task.vehicle or '', task.itinerary or '') for task in obj.task.all()]))
 
     def has_add_permission(self, request):
         return False

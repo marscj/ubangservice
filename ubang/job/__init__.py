@@ -1,1 +1,1 @@
-default_app_config = 'ubang.order.apps.JobConfig'
+default_app_config = 'ubang.job.apps.JobConfig'

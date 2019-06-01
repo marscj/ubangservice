@@ -1,1 +1,1 @@
-default_app_config = 'ubang.booking.apps.DiscountConfig'
+default_app_config = 'ubang.discount.apps.DiscountConfig'

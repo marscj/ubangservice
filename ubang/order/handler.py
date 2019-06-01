@@ -7,8 +7,7 @@ from django.core.exceptions import ValidationError
 from datetime import datetime, date
 from decimal import Decimal
 
-from .models import Order, Task
-from .utils import save_by_task
+from .models import Order
 from ubang.discount.models import Discount
 
 @receiver(pre_save, sender=Order)
