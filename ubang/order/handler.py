@@ -8,7 +8,6 @@ from datetime import datetime, date
 from decimal import Decimal
 
 from .models import Order
-from ubang.discount.models import Discount
 
 @receiver(pre_save, sender=Order)
 def order_model_pre_save(sender, **kwargs):
@@ -18,9 +17,9 @@ def order_model_pre_save(sender, **kwargs):
     if order.orderId is None or order.orderId == '':
         order.orderId = datetime.now().strftime('%Y%m%d%H%M%S') + '-%s' % get_random_string(4, allowed_chars='0123456789')
 
-    if order.discount is None and order.company and order.company.discount:
-        discount = Discount.objects.create(name=order.company.discount.name, value=order.company.discount.value, expiry_date=order.company.discount.expiry_date)
-        order.discount = discount
+    # if order.discount is None and order.company and order.company.discount:
+    #     discount = Discount.objects.create(name=order.company.discount.name, value=order.company.discount.value, expiry_date=order.company.discount.expiry_date)
+    #     order.discount = discount
 
 # @receiver(pre_save, sender=Task)
 # def task_model_pre_save(sender, **kwargs):

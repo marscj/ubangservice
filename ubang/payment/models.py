@@ -35,9 +35,6 @@ class Payment(models.Model):
     # 货币
     currency = models.CharField(max_length=10)
 
-    # 支付ip
-    customer_ip_address = models.GenericIPAddressField(blank=True, null=True)
-
     # 额外
     extra_data = models.TextField(blank=True, default='')
 

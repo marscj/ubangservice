@@ -20,5 +20,3 @@ class CompanyAdmin(admin.ModelAdmin):
     list_display = (
        '__str__', 'type', 'phone', 'tel', 'address', 'email', 'whatsup', 'wechart', 'open_time', 'close_time'
     )
-
-    raw_id_fielsd = ('discount', )

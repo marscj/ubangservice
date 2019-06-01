@@ -1,10 +1,10 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 from phonenumber_field.modelfields import PhoneNumberField
 
 from .import CompanyType
-from ubang.discount.models import Discount
 
 # 组织
 class Company(models.Model):
@@ -39,8 +39,8 @@ class Company(models.Model):
     # 组织类型
     type = models.IntegerField(default=CompanyType.Supplier, choices=CompanyType.CHOICES)
 
-    # 价格等级
-    discount = models.ForeignKey(Discount, related_name='company', on_delete=models.SET_NULL, default=None, blank=True, null=True)
+    # 折扣
+    discount = models.DecimalField(default=Decimal(0.0), max_digits=3, decimal_places=2, validators=[MinValueValidator(0.0), MaxValueValidator(1.0)])
 
     class Meta:
         verbose_name = _("Company")
