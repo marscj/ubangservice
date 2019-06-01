@@ -4,6 +4,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 from phonenumber_field.modelfields import PhoneNumberField
 
+from decimal import Decimal
+
 from .import CompanyType
 
 # 组织
