@@ -1,23 +1,47 @@
 - model: company.permission
   pk: 1
   fields:
-    name: view booking
+    name: can view booking
     index: 1
 
 - model: company.permission
   pk: 2
   fields:
-    name: change booking
+    name: can change booking
     index: 2
 
 - model: company.permission
   pk: 3
   fields:
-    name: add booking
+    name: can add booking
     index: 3
 
 - model: company.permission
   pk: 4
   fields:
-    name: delete booking
+    name: can delete booking
     index: 4
+
+- model: company.permission
+  pk: 5
+  fields:
+    name: can view user
+    index: 5
+
+- model: company.permission
+  pk: 6
+  fields:
+    name: can change user
+    index: 6
+
+- model: company.permission
+  pk: 7
+  fields:
+    name: can add user
+    index: 7
+
+- model: company.permission
+  pk: 8
+  fields:
+    name: can delete user
+    index: 8

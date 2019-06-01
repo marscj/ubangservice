@@ -50,31 +50,3 @@ class Company(models.Model):
 
     def __str__(self):
         return self.name
-
-class Permission(models.Model):
-    name = models.CharField(max_length=128, unique=True)
-    index = models.IntegerField()
-
-    class Meta:
-        verbose_name = 'Permission'
-        verbose_name_plural = 'Permissions'
-
-    def __str__(self):
-        return self.name
-
-class Role(models.Model):
-    name = models.CharField(max_length=128, unique=True)
-    
-    permissions = models.ManyToManyField(
-        Permission,
-        blank=True,
-    )
-
-    company = models.ForeignKey(Company, related_name='role', on_delete=models.CASCADE)
-
-    class Meta:
-        verbose_name = 'Role'
-        verbose_name_plural = 'Roles'
-
-    def __str__(self):
-        return self.name

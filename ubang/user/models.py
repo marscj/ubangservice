@@ -10,6 +10,31 @@ from django_countries.fields import CountryField
 from ubang.company.models import Company
 from .import Gender
 
+class Permission(models.Model):
+    name = models.CharField(max_length=128, unique=True)
+    index = models.IntegerField()
+
+    class Meta:
+        verbose_name = 'Permission'
+        verbose_name_plural = 'Permissions'
+
+    def __str__(self):
+        return self.name
+
+class Role(models.Model):
+    name = models.CharField(max_length=128)
+    
+    permissions = models.ManyToManyField(Permission, blank=True)
+
+    company = models.ForeignKey(Company, related_name='role', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Role'
+        verbose_name_plural = 'Roles'
+
+    def __str__(self):
+        return self.name
+
 class CustomUser(AbstractUser):
 
     # 电话
@@ -50,6 +75,9 @@ class CustomUser(AbstractUser):
 
     # 总分
     total_score = models.FloatField(default=0.0)
+
+    # 角色
+    role = models.ManyToManyField(Role, blank=True)
 
     # 公司
     company = models.ForeignKey(Company, related_name='user', on_delete=models.SET_NULL, blank=True,null=True)
