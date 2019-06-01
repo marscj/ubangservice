@@ -8,7 +8,7 @@ from .import CompanyType
 from ubang.discount.models import Discount
 
 # 组织
-class Company(Group):
+class Company(models.Model):
     
     # 移动电话
     phone = PhoneNumberField()

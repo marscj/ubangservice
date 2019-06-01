@@ -18,10 +18,7 @@ class CompanyAdmin(admin.ModelAdmin):
             'fields': (
                 'type', 'name', 'phone', 'tel', 'address', 'email', 'whatsup', 'wechart', 'open_time', 'close_time', 'discount',
             ),
-        }),
-        ('Permission', {
-            'fields' : ('permissions',)
-        }),
+        })
     )
 
     list_display = (
@@ -29,5 +26,3 @@ class CompanyAdmin(admin.ModelAdmin):
     )
 
     raw_id_fielsd = ('discount', )
-
-    filter_horizontal = ('permissions', )

@@ -94,7 +94,3 @@ class CustomUser(AbstractUser):
     #     return round(Booking.objects.filter(guide=self).filter(
     #        Q(status='Created') | Q(status='Complete')
     #     ).aggregate(score=Sum('guide_score')).get('score') or 0.0, 2)
-
-class Role(models.Model):
-    name = models.CharField(max_length=64)
-    user = models.ManyToManyField(CustomUser, related_name='roles', blank=True)
