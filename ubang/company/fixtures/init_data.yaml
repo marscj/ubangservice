@@ -1,32 +1,23 @@
-- model: ubang.company.permission
-
+- model: company.permission
   pk: 1
-
   fields:
-
     name: view booking
+    index: 1
 
-- model: ubang.company.permission
-
+- model: company.permission
   pk: 2
-
   fields:
-
     name: change booking
+    index: 2
 
-- model: ubang.company.permission
-
+- model: company.permission
   pk: 3
-
   fields:
-
     name: add booking
+    index: 3
 
-- model: ubang.company.permission
-
+- model: company.permission
   pk: 4
-
   fields:
-
     name: delete booking
-
+    index: 4

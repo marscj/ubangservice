@@ -9,6 +9,9 @@ from ubang.discount.models import Discount
 # 组织
 class Company(models.Model):
     
+    # 名称    
+    name = models.CharField(max_length=128, unique=True)
+
     # 移动电话
     phone = PhoneNumberField()
 
@@ -48,6 +51,7 @@ class Company(models.Model):
 
 class Permission(models.Model):
     name = models.CharField(max_length=128, unique=True)
+    index = models.IntegerField()
 
     class Meta:
         verbose_name = 'Permission'
@@ -65,3 +69,10 @@ class Role(models.Model):
     )
 
     company = models.ForeignKey(Company, related_name='role', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Role'
+        verbose_name_plural = 'Roles'
+
+    def __str__(self):
+        return self.name

@@ -108,3 +108,4 @@ venv.bak/
 /static
 
 dump.rdb
+.DS_Store
