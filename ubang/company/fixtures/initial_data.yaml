@@ -1,0 +1,32 @@
+- model: ubang.company.permission
+
+  pk: 1
+
+  fields:
+
+    name: view booking
+
+- model: ubang.company.permission
+
+  pk: 2
+
+  fields:
+
+    name: change booking
+
+- model: ubang.company.permission
+
+  pk: 3
+
+  fields:
+
+    name: add booking
+
+- model: ubang.company.permission
+
+  pk: 4
+
+  fields:
+
+    name: delete booking
+

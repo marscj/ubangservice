@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import Group
 from django.utils.translation import ugettext_lazy as _
 
 from phonenumber_field.modelfields import PhoneNumberField
@@ -46,3 +45,23 @@ class Company(models.Model):
 
     def __str__(self):
         return self.name
+
+class Permission(models.Model):
+    name = models.CharField(max_length=128, unique=True)
+
+    class Meta:
+        verbose_name = 'Permission'
+        verbose_name_plural = 'Permissions'
+
+    def __str__(self):
+        return self.name
+
+class Role(models.Model):
+    name = models.CharField(max_length=128, unique=True)
+    
+    permissions = models.ManyToManyField(
+        Permission,
+        blank=True,
+    )
+
+    company = models.ForeignKey(Company, related_name='role', on_delete=models.CASCADE)
