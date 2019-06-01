@@ -99,7 +99,6 @@ class BookingView(ModelViewSet):
             return Response(context) 
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
         try:
             response = super().create(request, *args, **kwargs)
             context = {
