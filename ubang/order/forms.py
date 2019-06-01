@@ -8,7 +8,7 @@ from datetime import datetime, date
 
 from phonenumber_field.formfields import PhoneNumberField
 
-from .models import Order, Task
+from .models import Order
 from ubang.booking.models import Booking
 from ubang.vehicle.models import Vehicle
 
@@ -98,28 +98,28 @@ class OrderForm(forms.ModelForm):
         
         return guide
 
-class TaskInlineFormSet(forms.BaseInlineFormSet):
+# class TaskInlineFormSet(forms.BaseInlineFormSet):
     
-    def clean_order_time(self, order, day):
-        arrival_day = date(order.start_time.year, order.start_time.month, order.start_time.day)
-        departure_day = date(order.end_time.year, order.end_time.month, order.end_time.day)
+#     def clean_order_time(self, order, day):
+#         arrival_day = date(order.start_time.year, order.start_time.month, order.start_time.day)
+#         departure_day = date(order.end_time.year, order.end_time.month, order.end_time.day)
 
-        if order and day: 
-            if day < arrival_day:
-                raise ValidationError('Ensure day is greater than or equal to %s' % arrival_day)
+#         if order and day: 
+#             if day < arrival_day:
+#                 raise ValidationError('Ensure day is greater than or equal to %s' % arrival_day)
 
-            if day > departure_day:
-                raise ValidationError('Ensure day is less than or equal to %s' % departure_day)
+#             if day > departure_day:
+#                 raise ValidationError('Ensure day is less than or equal to %s' % departure_day)
 
-    def clean_itinerary(self, itinerary, vehicle):
-        if itinerary and vehicle:
-            if vehicle.model and vehicle.model.price:
-                try:
-                    vehicle.model.price.all().get(itinerary=itinerary)
-                except ModelPrice.DoesNotExist:
-                    raise ValidationError('Ensure %s model has itinerary price' % vehicle.traffic_plate_no)
-            else:
-                raise ValidationError('Ensure %s has model' % vehicle.traffic_plate_no)
+#     def clean_itinerary(self, itinerary, vehicle):
+#         if itinerary and vehicle:
+#             if vehicle.model and vehicle.model.price:
+#                 try:
+#                     vehicle.model.price.all().get(itinerary=itinerary)
+#                 except ModelPrice.DoesNotExist:
+#                     raise ValidationError('Ensure %s model has itinerary price' % vehicle.traffic_plate_no)
+#             else:
+#                 raise ValidationError('Ensure %s has model' % vehicle.traffic_plate_no)
 
     # def clean_guide(self, guide):
     #     if guide and not guide.is_tourguide:

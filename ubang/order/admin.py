@@ -5,43 +5,10 @@ from django.utils.safestring import mark_safe
 from datetime import datetime
 
 from .models import Order
-from .forms import OrderForm, TaskInlineFormSet
+from .forms import OrderForm
 from .import OrderStatus
 from ubang.payment.admin import PaymentInline
 from ubang.booking.admin import BookingInline
-from .models import Task
-
-class TaskInline(admin.TabularInline):
-    model = Task
-    extra = 0
-    formset = TaskInlineFormSet
-
-    class Media:
-        js = [
-            'admin/js/task.js'
-        ]
-    
-    fields = ('taskId', 'day', 'is_freedom_day', 'itinerary', 'guide', 'vehicle', 'remark')
-
-    raw_id_fields = ('vehicle', 'guide', )
-
-    readonly_fields = ('taskId', 'day')
-
-    def get_readonly_fields(self, request, obj=None):
-        if request.user.is_superuser:
-            return self.readonly_fields
-        else:
-            return ('taskId', 'guide', 'vehicle', 'day')
-
-    def has_delete_permission(self, request, obj):
-        return False
-
-    def has_add_permission(self, request):
-        return False
-
-@admin.register(Task)
-class TaskAdmin(admin.ModelAdmin):
-    pass
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
@@ -50,7 +17,7 @@ class OrderAdmin(admin.ModelAdmin):
 
     confirm_template = 'admin/order/confirm.html'
 
-    inlines = (TaskInline, PaymentInline, BookingInline)
+    inlines = (PaymentInline, BookingInline)
 
     fieldsets = ( 
         (None, {
