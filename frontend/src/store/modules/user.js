@@ -44,7 +44,7 @@ const actions = {
         if (!data) {
           reject('Verification failed, please Login again.')
         }
-        commit('SET_ROLES', data.role)
+        commit('SET_ROLES', ['admin'])
         commit('SET_USER', data)
         resolve(data)
       }).catch(error => {
