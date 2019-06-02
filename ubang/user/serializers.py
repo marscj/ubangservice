@@ -61,13 +61,36 @@ class UserSerializer(serializers.ModelSerializer):
 
     company_id = serializers.IntegerField(required=True, allow_null=True, write_only=True)
 
-    role_id = serializers.IntegerField(required=True, allow_null=True, write_only=True)
+    role_id = serializers.PrimaryKeyRelatedField(required=False, allow_null=True, write_only=True, many=True, queryset=Role.objects.all())
 
     class Meta:
         model = CustomUser
         fields = (
             'id', 'username', 'name', 'phone', 'email', 'country', 'company', 'is_driver', 'is_tourguide', 'is_actived', 'introduction', 'avg_score', 'total_score', 'is_active', 'role', 'role_id', 'company_id'
         )
+
+    def create(self, validated_data):
+        roles = validated_data.pop('role_id')
+        user = CustomUser.objects.create(**validated_data)
+        
+        if roles is not None:
+            for role in roles:
+                user.role.add(role)
+        return user
+
+    def update(self, instance, validated_data):
+        roles = validated_data.pop('role_id')
+        
+        super().update(instance, validated_data)
+
+        for role in instance.role.all():
+            instance.role.remove(role)
+
+        if roles is not None:
+            for role in roles:
+                instance.role.add(role)
+
+        return instance
 
 class UserListSerializer(serializers.ModelSerializer):
 

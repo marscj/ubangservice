@@ -115,10 +115,11 @@ export default {
       listQuery: Object.assign({}, this.query),
       temp: {
         id: undefined,
-        name: '',
-        phone: '',
-        email: '',
+        name: undefined,
+        phone: undefined,
+        email: undefined,
         role_id: undefined,
+        company_id: this.$store.getters.user.company.id
       },
       textMap: {
         update: 'Edit',
@@ -161,7 +162,6 @@ export default {
       context[key] = row[key]
       updateUser(row.id, context).then(response => {
         this.listLoading = false
-
         this.$notify({
           title: 'Success',
           message: 'Change Successfully',
@@ -173,16 +173,26 @@ export default {
         this.listLoading = false
       })
     },
-    resetTemp() {
+    handleCreate() {
       this.temp = {
         id: undefined,
-        name: '',
-        phone: '',
-        email: ''
+        name: undefined,
+        phone: undefined,
+        email: undefined,
+        role_id: undefined,
+        company_id: this.$store.getters.user.company.id
       }
-    },
-    handleCreate() {
-      this.resetTemp()
+      if(this.role.data.length == 0) {
+        this.role.loading = true
+        getRoles({
+          company: this.$store.getters.user.company.id
+        }).then(response => {
+          this.role.data = response.data
+          this.role.loading = false
+        }).catch(error => {
+          this.role.loading = false
+        })
+      }
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -196,9 +206,11 @@ export default {
         name: row.name,
         email: row.email,
         phone: row.phone,
-        role_id: row.role
+        role_id: row.role.map((f) => {
+          return f.id
+        }),
+        company_id: this.$store.getters.user.company.id
       })
-      console.log(this.role.data.length)
       if(this.role.data.length == 0) {
         this.role.loading = true
         getRoles({
@@ -219,12 +231,12 @@ export default {
     updateData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          const tempData = Object.assign({}, this.temp)
-          updateUser(tempData.id, tempData).then(() => {
+          updateUser(this.temp.id, this.temp).then((response) => {
+            const { data } = response
             for (const v of this.list) {
-              if (v.id === this.temp.id) {
+              if (v.id === data.id) {
                 const index = this.list.indexOf(v)
-                this.list.splice(index, 1, this.temp)
+                this.list.splice(index, 1, data)
                 break
               }
             }
