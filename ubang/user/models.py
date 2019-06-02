@@ -11,8 +11,8 @@ from ubang.company.models import Company
 from .import Gender
 
 class Permission(models.Model):
-    name = models.CharField(max_length=128, unique=True)
-    index = models.IntegerField()
+    label = models.CharField(max_length=128, unique=True)
+    key = models.IntegerField()
 
     class Meta:
         verbose_name = 'Permission'
@@ -24,7 +24,7 @@ class Permission(models.Model):
 class Role(models.Model):
     name = models.CharField(max_length=128)
     
-    permissions = models.ManyToManyField(Permission, blank=True)
+    permission = models.ManyToManyField(Permission, blank=True)
 
     company = models.ForeignKey(Company, related_name='role', on_delete=models.CASCADE)
 

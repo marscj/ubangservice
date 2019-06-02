@@ -5,11 +5,12 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework_jwt.views import ObtainJSONWebToken
 from rest_framework.mixins import ListModelMixin
+from rest_framework import generics
 
 from rest_framework import filters
 
-from .serializers import UserSerializer
-from .models import CustomUser
+from .serializers import UserSerializer, PermissionSerializer, RoleSerializer
+from .models import CustomUser, Permission, Role
 
 class LoginJwtTokenView(ObtainJSONWebToken):
     
@@ -99,3 +100,99 @@ class UserView(ModelViewSet):
                 'message': '%s' % e
             }
             return Response(context)
+
+class RoleView(ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = RoleSerializer
+    queryset = Role.objects.all()
+    
+    filterset_fields = ('company',)
+    
+    def get_queryset(self):
+        return Role.objects.all()
+
+    def list(self, request):
+        response = super().list(request)
+        
+        context = {
+            'code': 20000,
+            'data': response.data,
+        }
+
+        return Response(context)
+
+    def retrieve(self, request, pk=None):
+        try:
+            response = super().retrieve(request, pk)            
+            context = {
+                'code': 20000,
+                'data': response.data
+            }
+            return Response(context)
+        except (ValueError, Exception) as e:  
+            context = {
+                'code': 20001,
+                'message': '%s' % e
+            }
+            return Response(context) 
+        
+    def update(self, request, *args, **kwargs):
+        try:
+            response = super().update(request, *args, **kwargs)
+            context = {
+                'code': 20000,
+                'data': response.data
+            }
+            return Response(context)
+        except (ValueError, Exception) as e:
+            context = {
+                'code': 20001,
+                'message': '%s' % e
+            }
+            return Response(context)
+
+    def create(self, request, *args, **kwargs):
+        try:
+            response = super().create(request, *args, **kwargs)
+            context = {
+                'code': 20000,
+                'data': response.data
+            }
+            return Response(context)
+        except (ValueError, Exception) as e:
+            context = {
+                'code': 20001,
+                'message': '%s' % e
+            }
+            return Response(context)
+
+    def destroy(self, request, *args, **kwargs):
+        try:
+            response = super().destroy(request, *args, **kwargs)
+            context = {
+                'code': 20000,
+                'data': response.data
+            }
+            return Response(context)
+        except (ValueError, Exception) as e:
+            context = {
+                'code': 20001,
+                'message': '%s' % e
+            }
+            return Response(context)
+
+class PermissionView(generics.ListAPIView):
+    
+    permission_classes = [IsAuthenticated]
+    serializer_class = PermissionSerializer
+    queryset = Permission.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        
+        context = {
+            'code': 20000,
+            'data': response.data,
+        }
+
+        return Response(context)

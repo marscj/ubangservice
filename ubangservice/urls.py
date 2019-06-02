@@ -25,6 +25,10 @@ urlpatterns = [
 
     url(r'user/', include('ubang.user.urls')),
 
+    url(r'role/', include('ubang.user.role_urls')),
+
+    url(r'permission/', include('ubang.user.permission_urls')),
+
     url(r'booking/', include('ubang.booking.urls')),
 
     url(r'vehicle/', include('ubang.vehicle.urls')),

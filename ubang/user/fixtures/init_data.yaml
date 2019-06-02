@@ -1,0 +1,71 @@
+- model: user.permission
+  pk: 1
+  fields:
+    label: can view booking
+    key: 1
+
+- model: user.permission
+  pk: 2
+  fields:
+    label: can change booking
+    key: 2
+
+- model: user.permission
+  pk: 3
+  fields:
+    label: can add booking
+    key: 3
+
+- model: user.permission
+  pk: 4
+  fields:
+    label: can delete booking
+    key: 4
+
+- model: user.permission
+  pk: 5
+  fields:
+    label: can view user
+    key: 5
+
+- model: user.permission
+  pk: 6
+  fields:
+    label: can change user
+    key: 6
+
+- model: user.permission
+  pk: 7
+  fields:
+    label: can add user
+    key: 7
+
+- model: user.permission
+  pk: 8
+  fields:
+    label: can delete user
+    key: 8
+
+- model: user.permission
+  pk: 9
+  fields:
+    label: can view role
+    key: 9
+
+- model: user.permission
+  pk: 10
+  fields:
+    label: can change role
+    key: 10
+
+- model: user.permission
+  pk: 11
+  fields:
+    label: can add role
+    key: 11
+
+- model: user.permission
+  pk: 12
+  fields:
+    label: can delete role
+    key: 12
