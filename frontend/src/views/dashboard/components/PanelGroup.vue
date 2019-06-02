@@ -69,7 +69,7 @@ export default {
         end_time: this.$moment().endOf('month').format()
       },
       queryMy: {
-        creator_by: this.$store.state.user.user.id
+        creator_by: this.$store.getters.user.id
       },
       monthTitle: 'Booking in ' + this.$moment().format('MMM')
     }

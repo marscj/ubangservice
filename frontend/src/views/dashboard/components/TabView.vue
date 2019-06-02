@@ -59,14 +59,14 @@ export default {
             start_time: '',
             end_time: '',
             status: '',
-            creator_by: this.$store.state.user.user.id
+            creator_by: this.$store.getters.user.id
           }
         case 'user':
           return {
             page: 1,
             limit: 20,
             search: '',
-            company: this.$store.state.user.user.company.id
+            company: this.$store.getters.user.company.id
           }
       }
     }

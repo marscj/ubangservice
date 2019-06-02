@@ -45,7 +45,7 @@ export default {
     ]),
     username: {
       get() {
-        return this.$store.state.user.user.name || this.$store.state.user.user.username
+        return this.$store.getters.user.name || this.$store.getters.user.username
       },
       set(value) {
 

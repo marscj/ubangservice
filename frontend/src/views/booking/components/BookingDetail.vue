@@ -811,7 +811,7 @@ export default {
     },
     discount() {
       var total = 0.0
-      var user = this.$store.state.user.user
+      var user = this.$store.getters.user
       if (user && user.company && user.company.discount) {
         var discount = Number(user.company.discount.value)
 

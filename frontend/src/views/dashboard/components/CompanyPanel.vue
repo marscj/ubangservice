@@ -46,7 +46,7 @@ export default {
   },
   data() {
     return {
-      company: this.$store.state.user.user.company
+      company: this.$store.getters.user.company
     }
   }
 }
