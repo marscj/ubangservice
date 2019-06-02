@@ -56,8 +56,11 @@
         <el-form-item label="Phone" prop="phone">
           <el-input v-model="temp.phone" />
         </el-form-item>
-        <el-form-item label="email" prop="email">
+        <el-form-item label="Email" prop="email">
           <el-input v-model="temp.email" />
+        </el-form-item>
+        <el-form-item label="Role" prop="role">
+          <el-input v-model="temp.role" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -108,7 +111,8 @@ export default {
         id: undefined,
         name: '',
         phone: '',
-        email: ''
+        email: '',
+        role: undefined,
       },
       textMap: {
         update: 'Edit',
