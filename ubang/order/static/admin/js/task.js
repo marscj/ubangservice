@@ -2,8 +2,6 @@
     'use strict';
 
     $(document).ready(function() {
-        console.log("hello task");
-
         $(".related-lookup").click(function(event){
             if(($(this).parents()[4]).id == "task-group"){
               

@@ -40,17 +40,6 @@ class LogoutJwtTokenView(APIView):
         }
         return Response(context)
 
-class UserInfo(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, *args, **kwargs):
-        user = UserSerializer(request.user)
-        context = {
-            'code': 20000,
-            'data': user.data
-        }
-        return Response(context)
-
 class UserView(ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer
@@ -77,9 +66,8 @@ class UserView(ModelViewSet):
         serializer = UserSerializer(request.user)
         context = {
             'code': 20000,
-            'data': serializer.data,
+            'data': serializer.data
         }
-
         return Response(context)
 
     def retrieve(self, request, pk=None):

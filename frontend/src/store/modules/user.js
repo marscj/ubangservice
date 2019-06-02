@@ -4,7 +4,11 @@ import { resetRouter } from '@/router'
 
 const state = {
   token: getToken(),
-  user: null
+  name: '',
+  avatar: '',
+  introduction: '',
+  roles: [],
+  user: undefined
 }
 
 const mutations = {
@@ -13,6 +17,18 @@ const mutations = {
   },
   SET_USER: (state, user) => {
     state.user = user
+  },
+  SET_INTRODUCTION: (state, introduction) => {
+    state.introduction = introduction
+  },
+  SET_NAME: (state, name) => {
+    state.name = name
+  },
+  SET_AVATAR: (state, avatar) => {
+    state.avatar = avatar
+  },
+  SET_ROLES: (state, roles) => {
+    state.roles = roles
   }
 }
 
@@ -37,11 +53,14 @@ const actions = {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
         const { data } = response
-
         if (!data) {
           reject('Verification failed, please Login again.')
         }
 
+        commit('SET_ROLES', data.role)
+        commit('SET_NAME', 'admin')
+        commit('SET_AVATAR', 'adb')
+        commit('SET_INTRODUCTION', 'dbc')
         commit('SET_USER', data)
         resolve(data)
       }).catch(error => {

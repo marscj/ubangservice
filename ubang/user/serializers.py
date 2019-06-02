@@ -21,11 +21,16 @@ class UserSerializer(serializers.ModelSerializer):
 
     company = CompanySerializer(required=False, allow_null=True)
 
+    role = serializers.SerializerMethodField()
+
     class Meta:
         model = CustomUser
         fields = (
-            'id', 'username', 'name', 'phone', 'email', 'country', 'company', 'is_driver', 'is_tourguide', 'is_actived', 'introduction', 'avg_score', 'total_score', 'is_active'
+            'id', 'username', 'name', 'phone', 'email', 'country', 'company', 'is_driver', 'is_tourguide', 'is_actived', 'introduction', 'avg_score', 'total_score', 'is_active', 'role'
         )
+
+    def get_role(self, obj):
+        return ['admin']
 
 class UserListSerializer(serializers.ModelSerializer):
 

@@ -48,7 +48,7 @@ export default {
     return {
       company: this.$store.state.user.user.company
     }
-  },
+  }
 }
 </script>
 
