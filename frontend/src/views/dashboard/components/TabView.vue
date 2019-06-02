@@ -68,7 +68,7 @@ export default {
           return {
             page: 1,
             limit: 20,
-            search: '',
+            search: undefined,
             company: this.$store.getters.user.company.id
           }
       }

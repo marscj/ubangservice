@@ -19,7 +19,7 @@ class Permission(models.Model):
         verbose_name_plural = 'Permissions'
 
     def __str__(self):
-        return self.name
+        return self.label
 
 class Role(models.Model):
     name = models.CharField(max_length=128)

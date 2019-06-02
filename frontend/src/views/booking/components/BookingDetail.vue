@@ -190,7 +190,7 @@
           v-model="vehicleDialog.query.model"
           reserve-keyword 
           clearable
-          v-loading="vehicleDialog.modelLoading"
+          :loading="vehicleDialog.modelLoading"
           placeholder="Vehicle Model"
           @change="loadVehicles"
           class="filter-item">

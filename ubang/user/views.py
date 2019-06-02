@@ -138,6 +138,7 @@ class RoleView(ModelViewSet):
         
     def update(self, request, *args, **kwargs):
         try:
+            print(request.data)
             response = super().update(request, *args, **kwargs)
             context = {
                 'code': 20000,
@@ -153,6 +154,7 @@ class RoleView(ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         try:
+            print(request.data)
             response = super().create(request, *args, **kwargs)
             context = {
                 'code': 20000,
@@ -164,6 +166,7 @@ class RoleView(ModelViewSet):
                 'code': 20001,
                 'message': '%s' % e
             }
+            print(e)
             return Response(context)
 
     def destroy(self, request, *args, **kwargs):

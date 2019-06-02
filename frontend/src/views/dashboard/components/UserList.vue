@@ -50,17 +50,27 @@
     
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px" style="width: 400px; margin-left:20px;">
-        <el-form-item label="Name" prop="name">
+        <el-form-item label="UserName:" prop="username">
+          <el-input v-model="temp.username" disabled/>
+        </el-form-item>
+        <el-form-item label="Name:" prop="name">
           <el-input v-model="temp.name" />
         </el-form-item>
-        <el-form-item label="Phone" prop="phone">
+        <el-form-item label="Phone:" prop="phone">
           <el-input v-model="temp.phone" />
         </el-form-item>
-        <el-form-item label="Email" prop="email">
+        <el-form-item label="Email:" prop="email">
           <el-input v-model="temp.email" />
         </el-form-item>
-        <el-form-item label="Role" prop="role">
-          <el-input v-model="temp.role" />
+        <el-form-item label="Role:" prop="role">
+          <el-select v-model="temp.role_id" multiple :loading="role.loading">
+            <el-option
+              v-for="item in role.data"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -80,11 +90,7 @@ import { getUsers, updateUser } from '@/api/user'
 import waves from '@/directive/waves'
 import { parseTime } from '@/utils'
 import Pagination from '@/components/Pagination'
-
-const BoolOptions = [
-  { value: true, label: 'Yes' },
-  { value: false, label: 'No' }
-]
+import { getRoles } from '@/api/role'
 
 export default {
   components: { Pagination },
@@ -95,7 +101,7 @@ export default {
       default: {
         page: 1,
         limit: 20,
-        search: '',
+        search: undefined,
         company: undefined
       }
     }
@@ -112,7 +118,7 @@ export default {
         name: '',
         phone: '',
         email: '',
-        role: undefined,
+        role_id: undefined,
       },
       textMap: {
         update: 'Edit',
@@ -121,7 +127,11 @@ export default {
       dialogFormVisible: false,
       dialogStatus: '',
       rules: {},
-      BoolOptions
+      role: {
+        data: [],
+        loading: false,
+        role_id: [],
+      }
     }
   },
   created() {
@@ -185,8 +195,21 @@ export default {
         username: row.username,
         name: row.name,
         email: row.email,
-        phone: row.phone
+        phone: row.phone,
+        role_id: row.role
       })
+      console.log(this.role.data.length)
+      if(this.role.data.length == 0) {
+        this.role.loading = true
+        getRoles({
+          company: this.$store.getters.user.company.id
+        }).then(response => {
+          this.role.data = response.data
+          this.role.loading = false
+        }).catch(error => {
+          this.role.loading = false
+        })
+      }
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {

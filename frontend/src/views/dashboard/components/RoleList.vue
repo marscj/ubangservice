@@ -24,21 +24,20 @@
           :visible.sync="dialog.visible"
           v-loading="dialog.loading"
           width="55%">
-          <el-form :model="temp" ref="roleForm" label-width="80px" label-position="left" style="width: 600px; margin-left:20px;">
+          <el-form :model="temp" ref="roleForm" :rules="dialog.rules" label-width="80px" label-position="left" style="width: 600px; margin-left:20px;">
               <el-form-item label="Name:" prop="name">
                 <el-input v-model="temp.name"></el-input>
               </el-form-item>
               <el-form-item label="Permission:" prop="permission">
-                <el-transfer v-model="temp.permission" :data="permission" @change="handlePermissionChange"></el-transfer>
+                <el-transfer v-model="temp.permission_id" :data="permission" @change="handlePermissionChange" :titles="['Source', 'Target']"></el-transfer>
               </el-form-item>
           </el-form>
           
           <span slot="footer">
               <el-button @click=" dialog.visible = false">Cancel</el-button>
-              <el-button type="primary" @click="updateForm">Confirm</el-button>
+              <el-button type="primary" @click="dialog.title === 'Edit' ? updateForm() : createForm()">Confirm</el-button>
           </span>
       </el-dialog>
-      
     </div>
   </div>
 </template>
@@ -62,16 +61,21 @@ export default {
         company: this.$store.getters.user.company.id
       },
       dialog: {
-        title: 'Edit Role',
+        title: 'Edit',
         visible: false,
         data: undefined,
         loading: false,
+        rules: {
+          name: [
+            { required: true, message: 'This fields is required', trigger: 'change' }
+          ],
+        }
       },
       temp: {
         id: undefined,
         name: '',
-        permission: [],
-        company: this.$store.getters.user.company.id
+        permission_id: [],
+        company_id: this.$store.getters.user.company.id
       }
     }
   },
@@ -87,22 +91,62 @@ export default {
     },
     handleUpdate(row) {
       this.dialog.visible = true
+      this.dialog.title = 'Edit'
+      this.temp = Object.assign({}, {
+        id: row.id,
+        name: row.name,
+        permission_id: row.permission.map((f) => {
+          return f.key
+        }),
+        company_id: this.$store.getters.user.company.id
+      })
+      if(this.permission.length == 0){
+        this.dialog.loading = true
+        getPermissions().then(response => {
+          this.dialog.loading = false
+          this.permission = response.data
+        }).catch(error => {
+          this.dialog.loading = false
+        })
+      }
+      this.$nextTick(() => {
+        this.$refs['roleForm'].clearValidate()
+      })
     },
     updateForm() {
-      updateRole().then(response => {
-        this.dialog.visible = false
-      }).catch(error => {
-        this.dialog.visible = false
+      this.$refs['roleForm'].validate((valid) => {
+        if (valid) {
+          updateRole(this.temp.id, this.temp).then(response => {
+            const { data } = response
+            this.dialog.visible = false
+            for (const v of this.list.data) {
+              if (v.id === data.id) {
+                const index = this.list.data.indexOf(v)
+                this.list.data.splice(index, 1, data)
+                break
+              }
+            }
+            this.$notify({
+              title: 'Success',
+              message: 'Update Successfully',
+              type: 'success',
+              duration: 2000
+            })
+          }).catch(error => {
+            this.dialog.visible = false
+          })
+        }
       })
     },
     handleCreate() {
       this.temp = {
         id: undefined,
         name: '',
-        permission: [],
-        company: this.$store.getters.user.company.id
+        permission_id: [],
+        company_id: this.$store.getters.user.company.id
       }
       this.dialog.visible = true
+      this.dialog.title = 'Create'
       if(this.permission.length == 0){
         this.dialog.loading = true
         getPermissions().then(response => {
@@ -117,8 +161,9 @@ export default {
       })
     },
     createForm() {
-      this.$refs['dataForm'].validate((valid) => {
+      this.$refs['roleForm'].validate((valid) => {
         if (valid) {
+          console.log(this.temp)
           createRole(this.temp).then(response => {
             this.dialog.visible = false
           }).catch(error => {
@@ -128,7 +173,7 @@ export default {
       })
     },
     handlePermissionChange(value, direction, movedKeys) {
-      console.log(this.temp.permission)
+    //   console.log(this.temp.permission)
     }
   },
 }
