@@ -39,9 +39,9 @@
           <span class="link-type" @click="handleUpdate(row)">{{ row.email }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Role" width="180px" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="Role" min-width="180px" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <span class="link-type" @click="handleUpdate(row)">{{ row.roles }}</span>
+          <span class="link-type" @click="handleUpdate(row)">{{ userRole(row) }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -139,6 +139,11 @@ export default {
     this.getList()
   },
   methods: {
+    userRole(row){
+      return row.role.map((f) => {
+        return f.name
+      }).join(',')
+    },
     getList() {
       this.listLoading = true
       getUsers(this.listQuery).then(response => {

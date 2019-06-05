@@ -15,7 +15,12 @@
           <template slot-scope="{row}">
             <span class="link-type" @click="handleUpdate(row)">{{ row.name }}</span>
           </template>
-      </el-table-column>
+        </el-table-column>
+        <el-table-column label="Name" align="center" width="180px">
+          <template slot-scope="{row}">
+            <span class="link-type" @click="handleUpdate(row)">{{ rolePermission(row) }}</span>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <div>
@@ -80,6 +85,11 @@ export default {
     }
   },
   methods: {
+    rolePermission(row) {
+      return row.permission.map((f) => {
+        return f.label
+      }).join(',')
+    },
     getList: function() {
       this.list.loading = true
       getRoles(this.listFilter).then(response => {
@@ -171,9 +181,6 @@ export default {
           })
         }
       })
-    },
-    handlePermissionChange(value, direction, movedKeys) {
-    //   console.log(this.temp.permission)
     }
   },
 }
