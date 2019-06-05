@@ -25,7 +25,7 @@
       </div>
       <div style="padding-top:15px;" class="progress-item">
         <span>Discount:</span> 
-        <span v-if="company.discount" >{{ company.discount.name }}</span>
+        <span v-if="company.discount" >{{ discount }}</span>
         <span v-else>None</span>
       </div>
     </div>
@@ -42,6 +42,15 @@ export default {
         pending: 'danger'
       }
       return statusMap[status]
+    }
+  },
+  computed: {
+    discount: {
+      get() {
+        if(this.company && this.company.discount) {
+          return this.company.discount * 100 + '% for free'
+        }
+      }
     }
   },
   data() {

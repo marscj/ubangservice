@@ -2,7 +2,7 @@
   <div>
     <el-tabs v-model="activeTabName">
       <el-tab-pane label="All Booking" name="all" lazy></el-tab-pane>
-      <el-tab-pane :label="monthTitle" name="month" lazy></el-tab-pane>
+      <!-- <el-tab-pane :label="monthTitle" name="month" lazy></el-tab-pane> -->
       <el-tab-pane label="My Booking" name="my" lazy></el-tab-pane>
       <el-tab-pane label="Users" name="user" lazy></el-tab-pane>
       <el-tab-pane label="Roles" name="role" lazy></el-tab-pane>
