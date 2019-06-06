@@ -5,9 +5,9 @@
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         Search
       </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
+      <!-- <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
         Add
-      </el-button>
+      </el-button> -->
     </div>
 
     <el-table
@@ -21,29 +21,30 @@
     >
       <el-table-column label="UserName" align="center" width="180px">
         <template slot-scope="{row}">
-          <span class="link-type" @click="handleUpdate(row)">{{ row.username }}</span>
+          <!-- <span class="link-type" @click="handleUpdate(row)">{{ row.username }}</span> -->
+          <span>{{ row.username }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Name" align="center" width="120px">
         <template slot-scope="{row}">
-          <span class="link-type" @click="handleUpdate(row)">{{ row.name }}</span>
+          <span>{{ row.name }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Phone" width="120px" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <span class="link-type" @click="handleUpdate(row)">{{ row.phone }}</span>
+          <span>{{ row.phone }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Email" width="180px" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <span class="link-type" @click="handleUpdate(row)">{{ row.email }}</span>
+          <span>{{ row.email }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Role" min-width="180px" align="center" class-name="small-padding fixed-width">
+      <!-- <el-table-column label="Role" min-width="180px" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <span class="link-type" @click="handleUpdate(row)">{{ userRole(row) }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
@@ -62,7 +63,7 @@
         <el-form-item label="Email:" prop="email">
           <el-input v-model="temp.email" />
         </el-form-item>
-        <el-form-item label="Role:" prop="role">
+        <!-- <el-form-item label="Role:" prop="role">
           <el-select v-model="temp.role_id" multiple :loading="role.loading">
             <el-option
               v-for="item in role.data"
@@ -71,7 +72,7 @@
               :value="item.id">
             </el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">
