@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div class="filter-container">
-      <el-button type="primary" @click="loadGuides" class="filter-item">Refresh</el-button>
-    </div>
     <el-table :data="list"
     :key="tableKey"
     v-loading="loading"

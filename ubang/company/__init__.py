@@ -1,7 +1,7 @@
 
 class CompanyType:
-    Supplier = 0
-    Customer = 1
+    Supplier = 'Supplier'
+    Customer = 'Customer'
 
     CHOICES = [
         (Supplier, 'Supplier'),

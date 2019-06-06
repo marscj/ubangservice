@@ -39,7 +39,7 @@ class Company(models.Model):
     close_time = models.TimeField(default='18:00', auto_now=False, auto_now_add=False)
 
     # 组织类型
-    type = models.IntegerField(default=CompanyType.Supplier, choices=CompanyType.CHOICES)
+    type = models.CharField(default=CompanyType.Supplier, max_length=16, choices=CompanyType.CHOICES)
 
     # 折扣
     discount = models.DecimalField(default=Decimal(0.0), max_digits=3, decimal_places=2, validators=[MinValueValidator(0.0), MaxValueValidator(1.0)])

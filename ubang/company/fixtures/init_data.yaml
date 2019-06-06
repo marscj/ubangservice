@@ -1,0 +1,40 @@
+- model: company.company
+  pk: 1
+  fields:
+    name: UBANG SERVICE
+    type: Supplier
+    phone: '+971556928816'
+    tel: '+97142280557'
+    address: International City
+    email: asif@highwaytourism.net
+    whatsup: 055-8409162
+    open_time: 09:00
+    close_time: '18:00'
+    
+- model: company.company
+  pk: 2
+  fields:
+    name: HIGH WAY TRAVEL AND TOURISM LLC
+    type: Customer
+    phone: '+97142280557'
+    tel: '+97142280557'
+    address: Dubai deira
+    email: asif@highwaytourism.net
+    whatsup: 0556928816
+    open_time: 09:00
+    close_time: '18:00'
+
+- model: company.company
+  pk: 3
+  fields:
+    name: UGODUBAI
+    type: Customer
+    phone: '+971556928816'
+    tel: '+97142280557'
+    address: International City
+    email: asif@highwaytourism.net
+    whatsup: 0556928816
+    open_time: 09:00
+    close_time: '18:00'
+
+    
