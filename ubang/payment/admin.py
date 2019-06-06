@@ -7,6 +7,6 @@ class PaymentInline(admin.TabularInline):
     model = Payment
     extra = 0
 
-@admin.register(Payment)
+# @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
     pass

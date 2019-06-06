@@ -53,7 +53,7 @@
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column label="Vehicle" width="120px" align="center">
+      <el-table-column label="Vehicle" min-width="120px" align="center">
         <template slot-scope="{row}">
           <router-link :to="'/booking/edit/'+row.id" class="link-type">
             <span v-if="row.vehicle">{{ row.vehicle.traffic_plate_no }}</span>
