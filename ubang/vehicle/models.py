@@ -136,7 +136,7 @@ class Vehicle(models.Model):
 class ModelPrice(models.Model):
     
     # 行程
-    itinerary = models.CharField(max_length=128, unique=True)
+    itinerary = models.CharField(max_length=128)
 
     # 全天
     full_day = models.BooleanField(default=False)

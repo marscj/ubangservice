@@ -286,4 +286,1691 @@
     passengers: 47
     year: 2017
     is_automatic: false
+###################################### ModelPrice 1 ############################################
+- model: vehicle.modelprice
+  pk: 1
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '900.00'
+    gross_price: '900.00'
+    model: 1
+
+- model: vehicle.modelprice
+  pk: 2
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '1000.0'
+    gross_price: '1000.0'
+    model: 1
+
+- model: vehicle.modelprice
+  pk: 3
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '500.0'
+    gross_price: '500.0'
+    model: 1
+
+- model: vehicle.modelprice
+  pk: 4
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '325.0'
+    gross_price: '325.0'
+    model: 1
+
+- model: vehicle.modelprice
+  pk: 5
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '325.0'
+    gross_price: '325.0'
+    model: 1
+
+- model: vehicle.modelprice
+  pk: 6
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '550.0'
+    gross_price: '550.0'
+    model: 1
+
+- model: vehicle.modelprice
+  pk: 7
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '225.0'
+    gross_price: '225.0'
+    model: 1
+
+- model: vehicle.modelprice
+  pk: 8
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '100.0'
+    gross_price: '100.0'
+    model: 1
+
+###################################### ModelPrice 2 ############################################
+- model: vehicle.modelprice
+  pk: 9
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '600.0'
+    gross_price: '600.0'
+    model: 2
+
+- model: vehicle.modelprice
+  pk: 10
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '700.0'
+    gross_price: '700.0'
+    model: 2
+
+- model: vehicle.modelprice
+  pk: 11
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '350.0'
+    gross_price: '350.0'
+    model: 2
+
+- model: vehicle.modelprice
+  pk: 12
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '250.0'
+    gross_price: '250.0'
+    model: 2
+
+- model: vehicle.modelprice
+  pk: 13
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '250.0'
+    gross_price: '250.0'
+    model: 2
+
+- model: vehicle.modelprice
+  pk: 14
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '450.0'
+    gross_price: '450.0'
+    model: 2
+
+- model: vehicle.modelprice
+  pk: 15
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '150.0'
+    gross_price: '150.0'
+    model: 2
+
+- model: vehicle.modelprice
+  pk: 16
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '75.0'
+    gross_price: '75.0'
+    model: 2
+
+###################################### ModelPrice 3 ############################################
+- model: vehicle.modelprice
+  pk: 17
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '700.0'
+    gross_price: '700.0'
+    model: 3
+
+- model: vehicle.modelprice
+  pk: 18
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '800.0'
+    gross_price: '800.0'
+    model: 3
+
+- model: vehicle.modelprice
+  pk: 19
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '450.0'
+    gross_price: '450.0'
+    model: 3
+
+- model: vehicle.modelprice
+  pk: 20
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '300.0'
+    gross_price: '300.0'
+    model: 3
+
+- model: vehicle.modelprice
+  pk: 21
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '300.0'
+    gross_price: '300.0'
+    model: 3
+
+- model: vehicle.modelprice
+  pk: 22
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '550.0'
+    gross_price: '550.0'
+    model: 3
+
+- model: vehicle.modelprice
+  pk: 23
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '150.0'
+    gross_price: '150.0'
+    model: 3
+
+- model: vehicle.modelprice
+  pk: 24
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '75.0'
+    gross_price: '75.0'
+    model: 3
+
+###################################### ModelPrice 4 ############################################
+- model: vehicle.modelprice
+  pk: 25
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '600.0'
+    gross_price: '600.0'
+    model: 4
+
+- model: vehicle.modelprice
+  pk: 26
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '700.0'
+    gross_price: '700.0'
+    model: 4
+
+- model: vehicle.modelprice
+  pk: 27
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '350.0'
+    gross_price: '350.0'
+    model: 4
+
+- model: vehicle.modelprice
+  pk: 28
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '250.0'
+    gross_price: '250.0'
+    model: 4
+
+- model: vehicle.modelprice
+  pk: 29
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '250.0'
+    gross_price: '250.0'
+    model: 4
+
+- model: vehicle.modelprice
+  pk: 30
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '450.0'
+    gross_price: '450.0'
+    model: 4
+
+- model: vehicle.modelprice
+  pk: 31
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '150.0'
+    gross_price: '150.0'
+    model: 4
+
+- model: vehicle.modelprice
+  pk: 32
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '75.0'
+    gross_price: '75.0'
+    model: 4
+
+###################################### ModelPrice 5 ############################################
+- model: vehicle.modelprice
+  pk: 33
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '700.0'
+    gross_price: '700.0'
+    model: 5
+
+- model: vehicle.modelprice
+  pk: 34
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '800.0'
+    gross_price: '800.0'
+    model: 5
+
+- model: vehicle.modelprice
+  pk: 35
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '450.0'
+    gross_price: '450.0'
+    model: 5
+
+- model: vehicle.modelprice
+  pk: 36
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '300.0'
+    gross_price: '300.0'
+    model: 5
+
+- model: vehicle.modelprice
+  pk: 37
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '300.0'
+    gross_price: '300.0'
+    model: 5
+
+- model: vehicle.modelprice
+  pk: 38
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '550.0'
+    gross_price: '550.0'
+    model: 5
+
+- model: vehicle.modelprice
+  pk: 39
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '150.0'
+    gross_price: '150.0'
+    model: 5
+
+- model: vehicle.modelprice
+  pk: 40
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '75.0'
+    gross_price: '75.0'
+    model: 5
+
+###################################### ModelPrice 6 ############################################
+- model: vehicle.modelprice
+  pk: 41
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '500.0'
+    gross_price: '500.0'
+    model: 6
+
+- model: vehicle.modelprice
+  pk: 42
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '600.0'
+    gross_price: '600.0'
+    model: 6
+
+- model: vehicle.modelprice
+  pk: 43
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '300.0'
+    gross_price: '300.0'
+    model: 6
+
+- model: vehicle.modelprice
+  pk: 44
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '200.0'
+    gross_price: '200.0'
+    model: 6
+
+- model: vehicle.modelprice
+  pk: 45
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '200.0'
+    gross_price: '200.0'
+    model: 6
+
+- model: vehicle.modelprice
+  pk: 46
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '350.0'
+    gross_price: '350.0'
+    model: 6
+
+- model: vehicle.modelprice
+  pk: 47
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '150.0'
+    gross_price: '150.0'
+    model: 6
+
+- model: vehicle.modelprice
+  pk: 48
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '50.0'
+    gross_price: '50.0'
+    model: 6
+
+###################################### ModelPrice 7 ############################################
+- model: vehicle.modelprice
+  pk: 49
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '400.0'
+    gross_price: '400.0'
+    model: 7
+
+- model: vehicle.modelprice
+  pk: 50
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '500.0'
+    gross_price: '500.0'
+    model: 7
+
+- model: vehicle.modelprice
+  pk: 51
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '250.0'
+    gross_price: '250.0'
+    model: 7
+
+- model: vehicle.modelprice
+  pk: 52
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '150.0'
+    gross_price: '150.0'
+    model: 7
+
+- model: vehicle.modelprice
+  pk: 53
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '150.0'
+    gross_price: '150.0'
+    model: 7
+
+- model: vehicle.modelprice
+  pk: 54
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '200.0'
+    gross_price: '200.0'
+    model: 7
+
+- model: vehicle.modelprice
+  pk: 55
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '75.0'
+    gross_price: '75.0'
+    model: 7
+
+- model: vehicle.modelprice
+  pk: 56
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '50.0'
+    gross_price: '50.0'
+    model: 7
+
+###################################### ModelPrice 8 ############################################
+- model: vehicle.modelprice
+  pk: 57
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '400.0'
+    gross_price: '400.0'
+    model: 8
+
+- model: vehicle.modelprice
+  pk: 58
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '500.0'
+    gross_price: '500.0'
+    model: 8
+
+- model: vehicle.modelprice
+  pk: 59
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '250.0'
+    gross_price: '250.0'
+    model: 8
+
+- model: vehicle.modelprice
+  pk: 60
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '100.0'
+    gross_price: '100.0'
+    model: 8
+
+- model: vehicle.modelprice
+  pk: 61
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '100.0'
+    gross_price: '100.0'
+    model: 8
+
+- model: vehicle.modelprice
+  pk: 62
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '150.0'
+    gross_price: '150.0'
+    model: 8
+
+- model: vehicle.modelprice
+  pk: 63
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '100.0'
+    gross_price: '100.0'
+    model: 8
+
+- model: vehicle.modelprice
+  pk: 64
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '50.0'
+    gross_price: '50.0'
+    model: 8
+
+###################################### ModelPrice 9 ############################################
+- model: vehicle.modelprice
+  pk: 65
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '700.0'
+    gross_price: '700.0'
+    model: 9
+
+- model: vehicle.modelprice
+  pk: 66
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '800.0'
+    gross_price: '800.0'
+    model: 9
+
+- model: vehicle.modelprice
+  pk: 67
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '450.0'
+    gross_price: '450.0'
+    model: 9
+
+- model: vehicle.modelprice
+  pk: 68
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '300.0'
+    gross_price: '300.0'
+    model: 9
+
+- model: vehicle.modelprice
+  pk: 69
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '300.0'
+    gross_price: '300.0'
+    model: 9
+
+- model: vehicle.modelprice
+  pk: 70
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '550.0'
+    gross_price: '550.0'
+    model: 9
+
+- model: vehicle.modelprice
+  pk: 71
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '150.0'
+    gross_price: '150.0'
+    model: 9
+
+- model: vehicle.modelprice
+  pk: 72
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '75.0'
+    gross_price: '75.0'
+    model: 9
+
+###################################### ModelPrice 10 ############################################
+- model: vehicle.modelprice
+  pk: 73
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '700.0'
+    gross_price: '700.0'
+    model: 10
+
+- model: vehicle.modelprice
+  pk: 74
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '800.0'
+    gross_price: '800.0'
+    model: 10
+
+- model: vehicle.modelprice
+  pk: 75
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '450.0'
+    gross_price: '450.0'
+    model: 10
+
+- model: vehicle.modelprice
+  pk: 76
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '300.0'
+    gross_price: '300.0'
+    model: 10
+
+- model: vehicle.modelprice
+  pk: 77
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '300.0'
+    gross_price: '300.0'
+    model: 10
+
+- model: vehicle.modelprice
+  pk: 78
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '550.0'
+    gross_price: '550.0'
+    model: 10
+
+- model: vehicle.modelprice
+  pk: 79
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '150.0'
+    gross_price: '150.0'
+    model: 10
+
+- model: vehicle.modelprice
+  pk: 80
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '75.0'
+    gross_price: '75.0'
+    model: 10
+
+###################################### ModelPrice 11 ############################################
+- model: vehicle.modelprice
+  pk: 81
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '600.0'
+    gross_price: '600.0'
+    model: 11
+
+- model: vehicle.modelprice
+  pk: 82
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '700.0'
+    gross_price: '700.0'
+    model: 11
+
+- model: vehicle.modelprice
+  pk: 83
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '350.0'
+    gross_price: '350.0'
+    model: 11
+
+- model: vehicle.modelprice
+  pk: 84
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '250.0'
+    gross_price: '250.0'
+    model: 11
+
+- model: vehicle.modelprice
+  pk: 85
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '250.0'
+    gross_price: '250.0'
+    model: 11
+
+- model: vehicle.modelprice
+  pk: 86
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '450.0'
+    gross_price: '450.0'
+    model: 11
+
+- model: vehicle.modelprice
+  pk: 87
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '150.0'
+    gross_price: '150.0'
+    model: 11
+
+- model: vehicle.modelprice
+  pk: 88
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '75.0'
+    gross_price: '75.0'
+    model: 11
+
+###################################### ModelPrice 12 ############################################
+- model: vehicle.modelprice
+  pk: 89
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '720.0'
+    gross_price: '720.0'
+    model: 12
+
+- model: vehicle.modelprice
+  pk: 90
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '800.0'
+    gross_price: '800.0'
+    model: 12
+
+- model: vehicle.modelprice
+  pk: 91
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '400.0'
+    gross_price: '400.0'
+    model: 12
+
+- model: vehicle.modelprice
+  pk: 92
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '300.0'
+    gross_price: '300.0'
+    model: 12
+
+- model: vehicle.modelprice
+  pk: 93
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '300.0'
+    gross_price: '300.0'
+    model: 12
+
+- model: vehicle.modelprice
+  pk: 94
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '400.0'
+    gross_price: '400.0'
+    model: 12
+
+- model: vehicle.modelprice
+  pk: 95
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '150.0'
+    gross_price: '150.0'
+    model: 12
+
+- model: vehicle.modelprice
+  pk: 96
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '75.0'
+    gross_price: '75.0'
+    model: 12
+
+###################################### ModelPrice 13 ############################################
+- model: vehicle.modelprice
+  pk: 97
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '900.0'
+    gross_price: '900.0'
+    model: 13
+
+- model: vehicle.modelprice
+  pk: 98
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '1000.0'
+    gross_price: '1000.0'
+    model: 13
+
+- model: vehicle.modelprice
+  pk: 99
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '500.0'
+    gross_price: '500.0'
+    model: 13
+
+- model: vehicle.modelprice
+  pk: 100
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '325.0'
+    gross_price: '325.0'
+    model: 13
+
+- model: vehicle.modelprice
+  pk: 101
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '325.0'
+    gross_price: '325.0'
+    model: 13
+
+- model: vehicle.modelprice
+  pk: 102
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '550.0'
+    gross_price: '550.0'
+    model: 13
+
+- model: vehicle.modelprice
+  pk: 103
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '225.0'
+    gross_price: '225.0'
+    model: 13
+
+- model: vehicle.modelprice
+  pk: 104
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '100.0'
+    gross_price: '100.0'
+    model: 13
+
+###################################### ModelPrice 14 ############################################
+- model: vehicle.modelprice
+  pk: 105
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '700.0'
+    gross_price: '700.0'
+    model: 14
+
+- model: vehicle.modelprice
+  pk: 106
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '800.0'
+    gross_price: '800.0'
+    model: 14
+
+- model: vehicle.modelprice
+  pk: 107
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '450.0'
+    gross_price: '450.0'
+    model: 14
+
+- model: vehicle.modelprice
+  pk: 108
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '300.0'
+    gross_price: '300.0'
+    model: 14
+
+- model: vehicle.modelprice
+  pk: 109
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '300.0'
+    gross_price: '300.0'
+    model: 14
+
+- model: vehicle.modelprice
+  pk: 110
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '550.0'
+    gross_price: '550.0'
+    model: 14
+
+- model: vehicle.modelprice
+  pk: 111
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '150.0'
+    gross_price: '150.0'
+    model: 14
+
+- model: vehicle.modelprice
+  pk: 112
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '75.0'
+    gross_price: '75.0'
+    model: 14
+
+###################################### ModelPrice 15 ############################################
+- model: vehicle.modelprice
+  pk: 113
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '900.0'
+    gross_price: '900.0'
+    model: 15
+
+- model: vehicle.modelprice
+  pk: 114
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '1000.0'
+    gross_price: '1000.0'
+    model: 15
+
+- model: vehicle.modelprice
+  pk: 115
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '500.0'
+    gross_price: '500.0'
+    model: 15
+
+- model: vehicle.modelprice
+  pk: 116
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '325.0'
+    gross_price: '325.0'
+    model: 15
+
+- model: vehicle.modelprice
+  pk: 117
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '325.0'
+    gross_price: '325.0'
+    model: 15
+
+- model: vehicle.modelprice
+  pk: 118
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '550.0'
+    gross_price: '550.0'
+    model: 15
+
+- model: vehicle.modelprice
+  pk: 119
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '225.0'
+    gross_price: '225.0'
+    model: 15
+
+- model: vehicle.modelprice
+  pk: 120
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '100.0'
+    gross_price: '100.0'
+    model: 15
+
+###################################### ModelPrice 16 ############################################
+- model: vehicle.modelprice
+  pk: 121
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '700.0'
+    gross_price: '700.0'
+    model: 16
+
+- model: vehicle.modelprice
+  pk: 122
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '800.0'
+    gross_price: '800.0'
+    model: 16
+
+- model: vehicle.modelprice
+  pk: 123
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '450.0'
+    gross_price: '450.0'
+    model: 16
+
+- model: vehicle.modelprice
+  pk: 124
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '300.0'
+    gross_price: '300.0'
+    model: 16
+
+- model: vehicle.modelprice
+  pk: 125
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '300.0'
+    gross_price: '300.0'
+    model: 16
+
+- model: vehicle.modelprice
+  pk: 126
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '550.0'
+    gross_price: '550.0'
+    model: 16
+
+- model: vehicle.modelprice
+  pk: 127
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '150.0'
+    gross_price: '150.0'
+    model: 16
+
+- model: vehicle.modelprice
+  pk: 128
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '75.0'
+    gross_price: '75.0'
+    model: 16
+
+###################################### ModelPrice 17 ############################################
+- model: vehicle.modelprice
+  pk: 129
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '600.0'
+    gross_price: '600.0'
+    model: 17
+
+- model: vehicle.modelprice
+  pk: 130
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '700.0'
+    gross_price: '700.0'
+    model: 17
+
+- model: vehicle.modelprice
+  pk: 131
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '350.0'
+    gross_price: '350.0'
+    model: 17
+
+- model: vehicle.modelprice
+  pk: 132
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '250.0'
+    gross_price: '250.0'
+    model: 17
+
+- model: vehicle.modelprice
+  pk: 133
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '250.0'
+    gross_price: '250.0'
+    model: 17
+
+- model: vehicle.modelprice
+  pk: 134
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '450.0'
+    gross_price: '450.0'
+    model: 17
+
+- model: vehicle.modelprice
+  pk: 135
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '150.0'
+    gross_price: '150.0'
+    model: 17
+
+- model: vehicle.modelprice
+  pk: 136
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '75.0'
+    gross_price: '75.0'
+    model: 17
+
+###################################### ModelPrice 18 ############################################
+- model: vehicle.modelprice
+  pk: 137
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '900.0'
+    gross_price: '900.0'
+    model: 18
+
+- model: vehicle.modelprice
+  pk: 138
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '1000.0'
+    gross_price: '1000.0'
+    model: 18
+
+- model: vehicle.modelprice
+  pk: 139
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '500.0'
+    gross_price: '500.0'
+    model: 18
+
+- model: vehicle.modelprice
+  pk: 140
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '325.0'
+    gross_price: '325.0'
+    model: 18
+
+- model: vehicle.modelprice
+  pk: 141
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '325.0'
+    gross_price: '325.0'
+    model: 18
+
+- model: vehicle.modelprice
+  pk: 142
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '550.0'
+    gross_price: '550.0'
+    model: 18
+
+- model: vehicle.modelprice
+  pk: 143
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '225.0'
+    gross_price: '225.0'
+    model: 18
+
+- model: vehicle.modelprice
+  pk: 144
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '100.0'
+    gross_price: '100.0'
+    model: 18
+
+###################################### ModelPrice 19 ############################################
+- model: vehicle.modelprice
+  pk: 145
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '900.0'
+    gross_price: '900.0'
+    model: 19
+
+- model: vehicle.modelprice
+  pk: 146
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '1000.0'
+    gross_price: '1000.0'
+    model: 19
+
+- model: vehicle.modelprice
+  pk: 147
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '500.0'
+    gross_price: '500.0'
+    model: 19
+
+- model: vehicle.modelprice
+  pk: 148
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '325.0'
+    gross_price: '325.0'
+    model: 19
+
+- model: vehicle.modelprice
+  pk: 149
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '325.0'
+    gross_price: '325.0'
+    model: 19
+
+- model: vehicle.modelprice
+  pk: 150
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '550.0'
+    gross_price: '550.0'
+    model: 19
+
+- model: vehicle.modelprice
+  pk: 151
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '225.0'
+    gross_price: '225.0'
+    model: 19
+
+- model: vehicle.modelprice
+  pk: 152
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '100.0'
+    gross_price: '100.0'
+    model: 19
+
+###################################### ModelPrice 20 ############################################
+- model: vehicle.modelprice
+  pk: 153
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '400.0'
+    gross_price: '400.0'
+    model: 20
+
+- model: vehicle.modelprice
+  pk: 154
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '550.0'
+    gross_price: '550.0'
+    model: 20
+
+- model: vehicle.modelprice
+  pk: 155
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '350.0'
+    gross_price: '350.0'
+    model: 20
+
+- model: vehicle.modelprice
+  pk: 156
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '150.0'
+    gross_price: '150.0'
+    model: 20
+
+- model: vehicle.modelprice
+  pk: 157
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '150.0'
+    gross_price: '150.0'
+    model: 20
+
+- model: vehicle.modelprice
+  pk: 158
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '350.0'
+    gross_price: '350.0'
+    model: 20
+
+- model: vehicle.modelprice
+  pk: 159
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '150.0'
+    gross_price: '150.0'
+    model: 20
+
+- model: vehicle.modelprice
+  pk: 160
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '50.0'
+    gross_price: '50.0'
+    model: 20
+
+###################################### ModelPrice 21 ############################################
+- model: vehicle.modelprice
+  pk: 161
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '1100.0'
+    gross_price: '1100.0'
+    model: 21
+
+- model: vehicle.modelprice
+  pk: 162
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '1200.0'
+    gross_price: '1200.0'
+    model: 21
+
+- model: vehicle.modelprice
+  pk: 163
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '700.0'
+    gross_price: '700.0'
+    model: 21
+
+- model: vehicle.modelprice
+  pk: 164
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '450.0'
+    gross_price: '450.0'
+    model: 21
+
+- model: vehicle.modelprice
+  pk: 165
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '450.0'
+    gross_price: '450.0'
+    model: 21
+
+- model: vehicle.modelprice
+  pk: 166
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '900.0'
+    gross_price: '900.0'
+    model: 21
+
+- model: vehicle.modelprice
+  pk: 167
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '225.0'
+    gross_price: '225.0'
+    model: 21
+
+- model: vehicle.modelprice
+  pk: 168
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '120.0'
+    gross_price: '120.0'
+    model: 21
+
+###################################### ModelPrice 22 ############################################
+- model: vehicle.modelprice
+  pk: 169
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '600.0'
+    gross_price: '600.0'
+    model: 22
+
+- model: vehicle.modelprice
+  pk: 170
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '700.0'
+    gross_price: '700.0'
+    model: 22
+
+- model: vehicle.modelprice
+  pk: 171
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '500.0'
+    gross_price: '500.0'
+    model: 22
+
+- model: vehicle.modelprice
+  pk: 172
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '225.0'
+    gross_price: '225.0'
+    model: 22
+
+- model: vehicle.modelprice
+  pk: 173
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '225.0'
+    gross_price: '225.0'
+    model: 22
+
+- model: vehicle.modelprice
+  pk: 174
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '450.0'
+    gross_price: '450.0'
+    model: 22
+
+- model: vehicle.modelprice
+  pk: 175
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '150.0'
+    gross_price: '150.0'
+    model: 22
+
+- model: vehicle.modelprice
+  pk: 176
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '75.0'
+    gross_price: '75.0'
+    model: 22
+
+###################################### ModelPrice 23 ############################################
+- model: vehicle.modelprice
+  pk: 177
+  fields:
+    itinerary: Full Day Dubai/Sharjah 12 hours
+    full_day: true
+    cost_price: '900.0'
+    gross_price: '900.0'
+    model: 23
+
+- model: vehicle.modelprice
+  pk: 178
+  fields:
+    itinerary: Full Day Abu Dhabi 12 hours
+    full_day: true
+    cost_price: '1000.0'
+    gross_price: '1000.0'
+    model: 23
+
+- model: vehicle.modelprice
+  pk: 179
+  fields:
+    itinerary: Half Day Dubai 6 Hours
+    full_day: false
+    cost_price: '500.0'
+    gross_price: '500.0'
+    model: 23
+
+- model: vehicle.modelprice
+  pk: 180
+  fields:
+    itinerary: DXB Dubai Airport to DXB Hotel
+    full_day: false
+    cost_price: '325.0'
+    gross_price: '325.0'
+    model: 23
+
+- model: vehicle.modelprice
+  pk: 181
+  fields:
+    itinerary: Departure DXB Hotel - DXB Airport
+    full_day: false
+    cost_price: '325.0'
+    gross_price: '325.0'
+    model: 23
+
+- model: vehicle.modelprice
+  pk: 182
+  fields:
+    itinerary: Abu Dhabi Airport - AUH Hotel
+    full_day: false
+    cost_price: '550.0'
+    gross_price: '550.0'
+    model: 23
+
+- model: vehicle.modelprice
+  pk: 183
+  fields:
+    itinerary: Airport Parking T1 & T3
+    full_day: false
+    cost_price: '225.0'
+    gross_price: '225.0'
+    model: 23
+
+- model: vehicle.modelprice
+  pk: 184
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '100.0'
+    gross_price: '100.0'
+    model: 23
+
 ###################################### Vehicle ############################################
+- model: vehicle.vehicle
+  pk: 184
+  fields:
+    itinerary: Extra Hour
+    full_day: false
+    cost_price: '100.0'
+    gross_price: '100.0'
+    model: 23
