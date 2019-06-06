@@ -2,26 +2,26 @@
     <div>
       <div class="filter-container">
         <el-select 
-          v-model="vehicleDialog.query.model"
+          v-model="query.model"
           reserve-keyword 
           clearable
-          :loading="vehicleDialog.modelLoading"
+          :loading="modelLoading"
           placeholder="Vehicle Model"
           @change="loadVehicles"
           class="filter-item">
           <el-option
-            v-for="item in vehicleDialog.modelOptions"
+            v-for="item in modelOptions"
             :key="item.id"
             :label="item.name"
             :value="item.id">
           </el-option>
         </el-select>
-        <el-button type="primary" @click="loadVehicles" class="filter-item">Refresh</el-button>
+        <el-button type="primary" @click="loadVehicles" class="filter-item">Search</el-button>
       </div>
       <el-table
         :key="tableKey"
-        v-loading="vehicleDialog.vehicleLoading"
-        :data="vehicleDialog.vehicleList"
+        v-loading="vehicleLoading"
+        :data="vehicleList"
         border 
         stripe
         fit
@@ -78,7 +78,48 @@
 </template>
 
 <script>
+
+import { getModels, getVehicles } from '@/api/vehicle'
+
 export default {
-    
+  data() {
+    return {
+      tableKey: 0,
+      query: {
+        model: undefined,
+        is_actived: true
+      },
+      modelOptions: [],
+      vehicleList: [],
+      modelLoading: false,
+      vehicleLoading: false,
+    }
+  },
+  created() {
+    this.loadModel()
+  },
+  methods: {
+    loadModel() {
+      if(this.modelOptions.length === 0){
+        this.modelLoading = true
+        getModels().then(response => {
+          this.modelLoading = false
+          this.modelOptions = response.data
+        }).catch(err => {
+          this.modelLoading = false
+        })
+      }
+    },
+    loadVehicles() {
+      this.vehicleLoading = true
+      this.vehicleList = []
+      getVehicles(this.query).then(response => {
+        this.vehicleList = response.data
+        this.vehicleLoading = false
+      }).catch(error => {
+        this.vehicleLoading = false
+      })
+    },
+  },
 }
 </script>
