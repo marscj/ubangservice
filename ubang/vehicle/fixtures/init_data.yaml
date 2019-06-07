@@ -2867,7 +2867,7 @@
   fields:
     traffic_plate_no: H-95126
     exp_date: '2019-06-30'
-    model: 14
+    model: 13
     company: 1
 
 - model: vehicle.vehicle
