@@ -1,0 +1,10 @@
+ELERYD_NODES="ubangservice"
+CELERY_BIN="~/venv/bin/celery"
+CELERY_APP="ubangservice"
+CELERYD_CHDIR="~/venv/src/ubangservice"
+CELERYD_OPTS="--time-limit=300 --concurrency=8"
+CELERYD_LOG_FILE="/var/log/celery/%n%I.log"
+CELERYD_PID_FILE="/var/run/celery/%n.pid"
+CELERYD_USER="ubuntu"
+CELERYD_GROUP="ubuntu"
+CELERY_CREATE_DIRS=1

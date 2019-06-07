@@ -39,9 +39,11 @@ $ redis-cli ping
 
 celery配置
 启动任务队列
+$ sudo cp celerybeat celeryd /etc/init.d ls 
 $ celery -A ubangservice worker -l info 
 清除任务队列
 $ celery -A ubangservice purge
+$ /etc/init.d/celeryd {start|stop|restart}即可开启／停止／重启celery
 
 命令
 $ uwsgi --ini uwsgi.ini
