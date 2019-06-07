@@ -51,7 +51,7 @@ def booking_model_post_save(sender, **kwargs):
         booking.order = order
         booking.save()
         
-        process.apply_async([booking.id], eta=booking.start_time)
+        # process.apply_async([booking.id], eta=booking.start_time)
         complete.apply_async([booking.id], eta=booking.end_time)
         
     if booking.guide is not None:

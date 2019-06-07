@@ -92,20 +92,20 @@ class Booking(models.Model):
 
     @property
     def can_save(self):  
-        if self.status == BookingStatus.Created or self.status == BookingStatus.Process or self.status == BookingStatus.Complete:
+        if self.status == BookingStatus.Created or self.status == BookingStatus.Complete:
             return True
         return False
 
     @property
     def can_cancel(self):
-        if self.status == BookingStatus.Created or self.status == BookingStatus.Process:
+        if self.status == BookingStatus.Created:
             return True
         return False
 
     @property
     def can_delete(self):
-        if self.status == BookingStatus.Cancel:
-            return True
+        # if self.status == BookingStatus.Cancel:
+        #     return True
         return False
 
     @property
