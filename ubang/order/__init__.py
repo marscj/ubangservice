@@ -5,11 +5,11 @@ class OrderStatus:
     Created = 'Created'
     Cancel = 'Cancel'
     Complete = 'Complete'
-    Delete = 'Delete'
+    # Delete = 'Delete'
 
     CHOICES = [
         (Created, 'Created'),
         (Cancel, 'Cancel'),
         (Complete, 'Complete'),
-        (Delete, 'Delete'),
+        # (Delete, 'Delete'),
     ]

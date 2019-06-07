@@ -48,7 +48,11 @@ export default {
     discount: {
       get() {
         if(this.company && this.company.discount) {
-          return this.company.discount * 100 + '% for free'
+          if (this.company.discount > 0) {
+            return this.company.discount * 100 + '% for free'
+          } else {
+            return 'no discount'
+          }
         }
       }
     }

@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
+from django.core.exceptions import ValidationError
 
 from datetime import datetime
 import arrow
@@ -9,6 +10,7 @@ import arrow
 from .import BookingStatus
 from .models import Booking
 from .serializers import BookingSerializer, BookingListSerializer, BookingListSimpleSerializer
+from .forms import BookingCreateForm
 
 class BookingView(ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -99,13 +101,25 @@ class BookingView(ModelViewSet):
             return Response(context) 
 
     def create(self, request, *args, **kwargs):
+        serializer = BookingSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            if serializer.errors.get('non_field_errors'):
+                return Response({
+                    'code': 20001,
+                    'message': serializer.errors['non_field_errors'][0]
+                })
+            elif serializer.errors.get('contact_phone'):
+                return Response({
+                    'code': 20001,
+                    'message': serializer.errors['contact_phone'][0]
+                })
         try:
             response = super().create(request, *args, **kwargs)
-            context = {
+            return Response({
                 'code': 20000,
                 'data': response.data
-            }
-            return Response(context)
+            })
         except (ValueError, Exception) as e:
             context = {
                 'code': 20001,

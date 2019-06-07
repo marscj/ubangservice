@@ -15,6 +15,7 @@ from ubang.order.models import Order
 from ubang.user.models import CustomUser
 from ubang.vehicle.models import Vehicle
 from .tasks import process, complete
+from ubangservice.celery import app
 
 @receiver(pre_save, sender=Booking)
 def booking_model_pre_save(sender, **kwargs):
@@ -52,10 +53,17 @@ def booking_model_post_save(sender, **kwargs):
         booking.save()
         
         # process.apply_async([booking.id], eta=booking.start_time)
-        complete.apply_async([booking.id], eta=booking.end_time)
+        complete.apply_async([booking.id], eta=booking.end_time, task_id=booking.bookingId)
         
     if booking.guide is not None:
         CustomUser.updateScore(booking.guide.id)
     
     if booking.vehicle is not None:
         Vehicle.updateScore(booking.vehicle.id)
+
+    if booking.order and booking.status == BookingStatus.Cancel:
+        booking.order.status = BookingStatus.Cancel
+        booking.order.save()
+
+    if booking.status == BookingStatus.Cancel:
+        app.control.revoke(booking.bookingId)

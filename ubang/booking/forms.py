@@ -42,3 +42,18 @@ class ItineraryInlineFormSet(forms.BaseInlineFormSet):
                 self.clean_booking_time(booking, day)
                 
         return super().clean()
+
+class BookingCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Booking
+        fields = '__all__'
+    
+    def clean_start_time(self):
+        start_time = self.cleaned_data.get('start_time')
+
+        if start_time:
+            raise ValidationError('This fields is required.')
+
+        raise ValidationError('This fields is required.')
+        return start_time

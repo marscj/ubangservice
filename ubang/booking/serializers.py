@@ -2,6 +2,7 @@ from django.contrib.admin.models import LogEntry
 from rest_framework import serializers
 
 from phonenumber_field.serializerfields import PhoneNumberField
+import arrow
 
 from .models import Booking, Itinerary
 from ubang.user.serializers import UserSerializer, UserListSerializer
@@ -38,8 +39,6 @@ class BookingSerializer(serializers.ModelSerializer):
 
     itinerary = ItinerarySerializer(required=False, allow_null=True, many=True)
 
-    # expiry_date = serializers.DateTimeField(required=False, read_only=True)
-
     can_save = serializers.BooleanField(required=False, read_only=True)
 
     can_cancel = serializers.BooleanField(required=False, read_only=True)
@@ -56,6 +55,29 @@ class BookingSerializer(serializers.ModelSerializer):
             'order', 'remark', 'vehicle_score', 'guide_score', 'comment', 'can_save', 'can_cancel', 
             'can_delete', 'can_comment', 'itinerary'
         )
+
+    def validate(self, data):
+        start_time = data.get('start_time')
+        end_time = data.get('end_time')
+        contact_phone = data.get('contact_phone')
+    
+        if start_time and end_time:
+            now = arrow.utcnow().to('Asia/Dubai')
+            _start_time = arrow.get(start_time).to('Asia/Dubai')
+            duration = end_time - start_time
+
+            if start_time > end_time:
+                raise serializers.ValidationError('Ensure start time is less than end time')
+            
+            if duration.total_seconds() < 3600:
+                raise serializers.ValidationError('Ensure duration is greater than 1 hour')
+
+            if (_start_time - now ).total_seconds() <= 3600 * 24:
+                raise serializers.ValidationError('Ensure booking 1 day in advance')
+
+        raise serializers.ValidationError('Just test1') 
+        
+        return data
 
     def create(self, validated_data):
         itinerary_data = validated_data.pop('itinerary')        
