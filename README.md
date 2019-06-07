@@ -17,11 +17,13 @@ GIT 配置
 安装项目
 1. mkdir src
 2. git clone git@github.com:marscj/ubangservice.git
-3. pip install -r requirements.txt
-4. ./manage.py makemigrations
+3. pip install --upgrade pip
+4. pip install -r requirements.txt
+5. ./manage.py makemigrations
 6. ./manage.py migrate
-7. ./manage.py loaddata init_data.yaml
-8. ./manage.py createsuperuser
+7. ./manage.py collectstatic
+8. ./manage.py loaddata init_data.yaml
+9. ./manage.py createsuperuser
 
 NGINX + UWSGI 部署
 1. sudo apt-get install nginx
