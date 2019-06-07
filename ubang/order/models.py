@@ -5,8 +5,6 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
-from djmoney.models.fields import MoneyField
-
 from decimal import Decimal
 
 from .import OrderStatus
@@ -43,8 +41,6 @@ class Order(models.Model):
     # 折扣
     discount = models.DecimalField(default=Decimal(0.0), max_digits=3, decimal_places=2, validators=[MinValueValidator(0.0), MaxValueValidator(1.0)])
 
-    total = MoneyField(max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
-
     # 备注
     remark = models.TextField(max_length=256, blank=True, null=True)
 
@@ -68,4 +64,12 @@ class Order(models.Model):
     @property
     def total(self):
         total = Decimal(0.0)
-        return total
+        for itinerary in self.booking.itinerary.all():
+            if not itinerary.freedom_day:
+                total += itinerary.vehicle_gross_charge + (itinerary.vehicle_gross_charge - itinerary.vehicle_cost_charge) * self.discount
+                if self.booking.guide:
+                    if itinerary.full_day:
+                        total += settings.DEFAULT_FULL_GUIDE_PRICE
+                    else:
+                        total += settings.DEFAULT_HALF_GUIDE_PRICE
+        return round(total, 2)

@@ -251,7 +251,8 @@ PAYMENT_GATEWAYS = {
 }
 
 # 导游费用
-DEFAULT_GUIDE_PRICE = Decimal(400.0)
+DEFAULT_FULL_GUIDE_PRICE = Decimal(400.0)
+DEFAULT_HALF_GUIDE_PRICE = Decimal(200.0)
 
 # middleware create_by
 CREATE_BY_FIELD = 'create_by'

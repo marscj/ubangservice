@@ -4,6 +4,7 @@ from django.core.signals import request_finished
 from django.db.models.signals import post_save, pre_save, pre_delete
 from django.utils.crypto import get_random_string
 from django.core.exceptions import ValidationError
+from django.conf import settings
 
 from datetime import datetime, date, timedelta
 from decimal import Decimal
@@ -25,9 +26,28 @@ def booking_model_pre_save(sender, **kwargs):
 @receiver(post_save, sender=Booking)
 def booking_model_post_save(sender, **kwargs):
     booking = kwargs['instance']
-        
+    
     if kwargs['created']:
-        order = Order.objects.create(customer=booking.create_by, company=booking.company_by)
+        if booking.guide:
+            order = Order.objects.create(
+                customer=booking.create_by.username, 
+                company=booking.company_by.name, 
+                start_time=booking.start_time, 
+                end_time=booking.end_time,
+                vehicle=booking.vehicle.traffic_plate_no,
+                guide=booking.guide.username,
+                discount=booking.create_by.company.discount
+            )
+        else:
+            order = Order.objects.create(
+                customer=booking.create_by.username, 
+                company=booking.company_by.name, 
+                start_time=booking.start_time, 
+                end_time=booking.end_time,
+                vehicle=booking.vehicle.traffic_plate_no,
+                discount=booking.create_by.company.discount
+            )
+
         booking.order = order
         booking.save()
         

@@ -1,21 +1,7 @@
 <template>
     <div>
       <div class="filter-container">
-        <el-select 
-          v-model="query.model"
-          reserve-keyword 
-          clearable
-          :loading="modelLoading"
-          placeholder="Vehicle Model"
-          @change="loadVehicles"
-          class="filter-item">
-          <el-option
-            v-for="item in modelOptions"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id">
-          </el-option>
-        </el-select>
+        <el-input v-model="query.search" placeholder="" style="width: 240px" class="filter-item" @keyup.enter.native="handleFilter" />
         <el-button type="primary" @click="loadVehicles" class="filter-item">Search</el-button>
       </div>
       <el-table
@@ -28,98 +14,103 @@
         highlight-current-row
         style="width: 100%;"
       >
-        <el-table-column label="Brand" align="center" width="120px">
+        <el-table-column label="Traffic Number" align="center" min-width="120px">
           <template slot-scope="{row}">
-            <span class="link-type" @click="selectVechicleHandle(row)">{{ row.model.brand.name }}</span>
+            <span>{{ row.traffic_plate_no }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="Model" align="center" width="160px">
+        <el-table-column label="Brand" align="center" width="120px">
           <template slot-scope="{row}">
-            <span class="link-type" @click="selectVechicleHandle(row)">{{ row.model.name }}</span>
+            <span>{{ row.model.brand.name }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="Model" align="center" min-width="120px">
+          <template slot-scope="{row}">
+            <span>{{ row.model.name }}</span>
           </template>
         </el-table-column>
         <el-table-column label="Year" align="center" width="120px">
           <template slot-scope="{row}">
-            <span class="link-type" @click="selectVechicleHandle(row)">{{ row.model.year }}</span>
+            <span>{{ row.model.year }}</span>
           </template>
         </el-table-column>
         <el-table-column label="Type" align="center" width="120px">
           <template slot-scope="{row}">
-            <span class="link-type" @click="selectVechicleHandle(row)">{{ row.model.type }}</span>
+            <span>{{ row.model.type }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="Category" align="center" width="120px">
+        <el-table-column label="Category" align="center" min-width="120px">
           <template slot-scope="{row}">
-            <span class="link-type" @click="selectVechicleHandle(row)">{{ row.model.category }}</span>
+            <span>{{ row.model.category }}</span>
           </template>
         </el-table-column>
         <el-table-column label="Passengers" align="center" width="120px">
           <template slot-scope="{row}">
-            <span class="link-type" @click="selectVechicleHandle(row)">{{ row.model.passengers }}</span>
+            <span>{{ row.model.passengers }}</span>
           </template>
         </el-table-column>
         <el-table-column label="Average Score" width="130px" align="center">
           <template slot-scope="{row}">
-            <span class="link-type" @click="selectVechicleHandle(row)">{{ row.avg_score }}</span>
+            <span>{{ row.avg_score }}</span>
           </template>
         </el-table-column>
         <el-table-column label="Total Score" width="130px" align="center">
           <template slot-scope="{row}">
-            <span class="link-type" @click="selectVechicleHandle(row)">{{ row.total_score }}</span>
+            <span>{{ row.total_score }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="Traffic Number" align="center" min-width="120px">
+        <el-table-column label="Active" width="130px" align="center">
           <template slot-scope="{row}">
-            <span class="link-type" @click="selectVechicleHandle(row)">{{ row.traffic_plate_no }}</span>
+            <el-checkbox v-model="row.is_actived" disabled></el-checkbox>
           </template>
         </el-table-column>
       </el-table>
+      <pagination v-show="total>0" :total="total" :page.sync="query.page" :limit.sync="query.limit" @pagination="loadVehicles" />
     </div>
 </template>
 
 <script>
 
 import { getModels, getVehicles } from '@/api/vehicle'
+import Pagination from '@/components/Pagination'
 
 export default {
+  components: { Pagination },
   data() {
     return {
       tableKey: 0,
+      total: 0,
       query: {
         model: undefined,
-        is_actived: true
+        limit: 20,
+        page: 1,
+        search: undefined
       },
-      modelOptions: [],
       vehicleList: [],
       modelLoading: false,
       vehicleLoading: false,
     }
   },
   created() {
-    this.loadModel()
+    this.loadVehicles()
   },
   methods: {
-    loadModel() {
-      if(this.modelOptions.length === 0){
-        this.modelLoading = true
-        getModels().then(response => {
-          this.modelLoading = false
-          this.modelOptions = response.data
-        }).catch(err => {
-          this.modelLoading = false
-        })
-      }
-    },
     loadVehicles() {
       this.vehicleLoading = true
       this.vehicleList = []
       getVehicles(this.query).then(response => {
-        this.vehicleList = response.data
+        this.vehicleList = response.data.items
+        this.total = response.data.total
         this.vehicleLoading = false
       }).catch(error => {
         this.vehicleLoading = false
       })
     },
+    handleFilter() {
+      this.query.page = 1
+      this.vehicleList = []
+      this.loadVehicles()
+    }
   },
 }
 </script>

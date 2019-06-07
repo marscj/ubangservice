@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="filter-container">
-      <el-input v-model="listQuery.search" placeholder="id name phone" style="width: 240px" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-input v-model="listQuery.search" placeholder="" style="width: 240px" class="filter-item" @keyup.enter.native="handleFilter" />
       <el-date-picker v-model="listQuery.start_time" class="filter-item" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="Start Time:" />
       <el-date-picker v-model="listQuery.end_time" class="filter-item" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="End Time:" />
       <el-select v-model="listQuery.status" class="filter-item" placeholder="Status" clearable @change="handleFilter">

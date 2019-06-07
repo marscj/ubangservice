@@ -63,7 +63,7 @@ class Booking(models.Model):
     guide = models.ForeignKey(CustomUser, related_name='booking_guide', on_delete=models.SET_NULL, blank=True, null=True)
 
     # 订单
-    order = models.ForeignKey(Order, related_name='booking', on_delete=models.CASCADE, blank=True, null=True)
+    order = models.OneToOneField(Order, on_delete=models.SET_NULL, blank=True, null=True)
 
     # 备注
     remark = models.TextField(max_length=256, blank=True, null=True)

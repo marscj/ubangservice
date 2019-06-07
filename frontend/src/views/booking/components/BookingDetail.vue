@@ -213,12 +213,17 @@
         highlight-current-row
         style="width: 100%;"
       >
+        <el-table-column label="Traffic Number" align="center" min-width="120px">
+          <template slot-scope="{row}">
+            <span class="link-type" @click="selectVechicleHandle(row)">{{ row.traffic_plate_no }}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="Brand" align="center" width="120px">
           <template slot-scope="{row}">
             <span class="link-type" @click="selectVechicleHandle(row)">{{ row.model.brand.name }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="Model" align="center" width="160px">
+        <el-table-column label="Model" align="center" min-width="120px">
           <template slot-scope="{row}">
             <span class="link-type" @click="selectVechicleHandle(row)">{{ row.model.name }}</span>
           </template>
@@ -233,7 +238,7 @@
             <span class="link-type" @click="selectVechicleHandle(row)">{{ row.model.type }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="Category" align="center" width="120px">
+        <el-table-column label="Category" align="center" min-width="120px">
           <template slot-scope="{row}">
             <span class="link-type" @click="selectVechicleHandle(row)">{{ row.model.category }}</span>
           </template>
@@ -251,11 +256,6 @@
         <el-table-column label="Total Score" width="130px" align="center">
           <template slot-scope="{row}">
             <span class="link-type" @click="selectVechicleHandle(row)">{{ row.total_score }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="Traffic Number" align="center" min-width="120px">
-          <template slot-scope="{row}">
-            <span class="link-type" @click="selectVechicleHandle(row)">{{ row.traffic_plate_no }}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -368,7 +368,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="itineraryDialog.show = false">
+        <el-button @click="createDialog.show = false">
           Cancel
         </el-button>
         <el-button type="primary" @click="createForm(false)">
@@ -813,7 +813,7 @@ export default {
       var total = 0.0
       var user = this.$store.getters.user
       if (user && user.company && user.company.discount) {
-        var discount = Number(user.company.discount.value)
+        var discount = Number(user.company.discount)
 
         for(var itinerary of this.postForm.itinerary) {
           total += Math.abs(itinerary.vehicle_gross_charge - itinerary.vehicle_cost_charge) * discount

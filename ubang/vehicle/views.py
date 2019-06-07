@@ -7,8 +7,8 @@ from .serializers import VehicleSerializer, ModelSerializer
 
 class VehicleView(ModelViewSet):
     permission_classes = [IsAuthenticated]
-
     filterset_fields = ('model', )
+    search_fields = ('traffic_plate_no', 'model__name', 'model__brand__name')
 
     def get_serializer_class(self):
         if self.action == 'list':

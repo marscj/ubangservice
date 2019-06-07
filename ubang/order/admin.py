@@ -15,20 +15,18 @@ class OrderAdmin(admin.ModelAdmin):
 
     form = OrderForm
 
-    confirm_template = 'admin/order/confirm.html'
-
-    inlines = (PaymentInline, BookingInline)
+    inlines = (PaymentInline,)
 
     fields = (
-        'orderId', 'status', 'start_time', 'end_time', ''
+        'orderId', 'status', 'start_time', 'end_time', 'vehicle', 'guide', 'customer', 'company', 'discount', 'remark'
     )
 
     readonly_fields = (
-        'orderId', 'customer', 'company', 'total'
+        'orderId', 'status', 'start_time', 'end_time', 'vehicle', 'guide', 'customer', 'company', 'discount', 'total'
     )
 
     list_display = (
-       '__str__', 'status', 'customer', 'company', 'total', 'remark'
+       '__str__', 'status', 'start_time', 'end_time', 'vehicle', 'guide', 'customer', 'company', 'discount', 'total'
     )
 
     list_filter = (
@@ -44,12 +42,3 @@ class OrderAdmin(admin.ModelAdmin):
     #         'admin/js/order.js',
     #         'admin/js/task.js'
     #     ]
-
-    def has_add_permission(self, request):
-        return False
-
-    def has_delete_permission(self, request, obj=None):
-        if request.user.is_superuser:
-            return True
-
-        return False

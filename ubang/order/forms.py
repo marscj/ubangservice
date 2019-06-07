@@ -14,12 +14,6 @@ from ubang.vehicle.models import Vehicle
 
 class OrderForm(forms.ModelForm):
     
-    contact_phone = PhoneNumberField(
-        required=True,
-        initial='+971',
-        help_text='+971 XXX XXXXXXX'
-    )
-
     class Meta:
         model = Order
         fields = '__all__'
@@ -60,43 +54,43 @@ class OrderForm(forms.ModelForm):
         
     #     return end_time
 
-    def get_orderId(self):
-        instance = getattr(self, 'instance', None)
-        if instance and instance.orderId:
-            return instance.orderId
+    # def get_orderId(self):
+    #     instance = getattr(self, 'instance', None)
+    #     if instance and instance.orderId:
+    #         return instance.orderId
 
-    def clean_vehicle(self):
-        vehicle = self.cleaned_data.get('vehicle')
-        start_time = self.cleaned_data.get('start_time')
-        end_time = self.cleaned_data.get('end_time')
-        orderId = self.get_orderId()
+    # def clean_vehicle(self):
+    #     vehicle = self.cleaned_data.get('vehicle')
+    #     start_time = self.cleaned_data.get('start_time')
+    #     end_time = self.cleaned_data.get('end_time')
+    #     orderId = self.get_orderId()
 
-        if vehicle and start_time and end_time:
-            if Order.objects.check_vehicle(orderId, start_time, end_time, vehicle):
-                raise ValidationError('Order with this time and vehicle already exists.')
+    #     if vehicle and start_time and end_time:
+    #         if Order.objects.check_vehicle(orderId, start_time, end_time, vehicle):
+    #             raise ValidationError('Order with this time and vehicle already exists.')
          
-        if vehicle and not vehicle.is_actived:
-            raise ValidationError('Ensure %s is active' % vehicle.traffic_plate_no)
+    #     if vehicle and not vehicle.is_actived:
+    #         raise ValidationError('Ensure %s is active' % vehicle.traffic_plate_no)
 
-        return vehicle
+    #     return vehicle
 
-    def clean_guide(self):
-        guide = self.cleaned_data.get('guide')
-        start_time = self.cleaned_data.get('start_time')
-        end_time = self.cleaned_data.get('end_time')
-        orderId = self.get_orderId()
+    # def clean_guide(self):
+    #     guide = self.cleaned_data.get('guide')
+    #     start_time = self.cleaned_data.get('start_time')
+    #     end_time = self.cleaned_data.get('end_time')
+    #     orderId = self.get_orderId()
 
-        if guide and start_time and end_time:
-            if Order.objects.check_guide(orderId, start_time, end_time, guide):
-                raise ValidationError('Order with this time and guide already exists.')
+    #     if guide and start_time and end_time:
+    #         if Order.objects.check_guide(orderId, start_time, end_time, guide):
+    #             raise ValidationError('Order with this time and guide already exists.')
 
-        if guide and not guide.is_tourguide:
-            raise ValidationError('Ensure %s is tourguide user' % guide)
+    #     if guide and not guide.is_tourguide:
+    #         raise ValidationError('Ensure %s is tourguide user' % guide)
 
-        if guide and not guide.is_actived:
-            raise ValidationError('Ensure %s is active' % guide)
+    #     if guide and not guide.is_actived:
+    #         raise ValidationError('Ensure %s is active' % guide)
         
-        return guide
+    #     return guide
 
 # class TaskInlineFormSet(forms.BaseInlineFormSet):
     

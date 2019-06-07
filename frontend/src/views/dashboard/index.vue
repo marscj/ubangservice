@@ -1,10 +1,10 @@
 <template >
   <div class="dashboard-container">
       <el-row :gutter="8">
-        <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 10}" :lg="{span: 5}" :xl="{span: 5}" style="margin-bottom:30px; padding-top:10px">
+        <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 10}" :lg="{span: 4}" :xl="{span: 4}" style="margin-bottom:30px; padding-top:10px">
           <company-panel />
         </el-col> 
-        <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 19}" :xl="{span: 19}" style="margin-bottom:30px;">
+        <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 14}" :lg="{span: 20}" :xl="{span: 20}" style="margin-bottom:30px;">
           <tab-view />
         </el-col>
       </el-row>
