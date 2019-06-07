@@ -852,11 +852,18 @@ export default {
         var start_time = this.$moment(this.postForm.start_time, 'YYYY-MM-DD')
         var end_time = this.$moment(this.postForm.end_time, 'YYYY-MM-DD')
         var duration = this.$moment.duration(end_time.diff(start_time))
+        var days = 0
+
+        if(duration.asDays() > 1.0){
+          days = Math.ceil(duration.asDays())
+        } else {
+          days = 1
+        }
 
         if(!this.isEdit) {
           this.postForm.itinerary = []
 
-          for(var i = 0; i < Math.floor(duration.asDays()) + 1; i++){
+          for(var i = 0; i < days; i++){
             var nextDay = this.$moment(start_time).add(i, 'days')
             this.postForm.itinerary.push({
               day: this.$moment(nextDay).format('YYYY-MM-DD'),

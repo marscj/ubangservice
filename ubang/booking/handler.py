@@ -78,12 +78,6 @@ def itinerary_model_post_save(sender, **kwargs):
         days = get_days(itinerary.booking.start_time, itinerary.booking.end_time)
         first = days[0]
         last = days[-1]
-        print(days)
-        print(first)
-        print(last)
-        print(itinerary.day)
-        print(itinerary.booking.start_time)
-        print(itinerary.booking.end_time)
  
         if days and len(days) > 1:
             if itinerary.day == first: 
@@ -101,9 +95,6 @@ def itinerary_model_post_save(sender, **kwargs):
         else:
             start_time = itinerary.booking.start_time
             end_time = itinerary.booking.end_time
-
-        print(start_time)
-        print(end_time)
 
         if itinerary.booking.guide is not None:
             Job.objects.create(
