@@ -1967,10 +1967,945 @@
 
 ###################################### Vehicle ############################################
 - model: vehicle.vehicle
-  pk: 184
+  pk: 1
   fields:
-    itinerary: Extra Hour
-    full_day: false
-    cost_price: '100.0'
-    gross_price: '100.0'
+    traffic_plate_no: P-33983
+    exp_date: '2019-06-30'
+    model: 8
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 2
+  fields:
+    traffic_plate_no: R-79754
+    exp_date: '2019-06-30'
+    model: 8
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 3
+  fields:
+    traffic_plate_no: R-79758
+    exp_date: '2019-06-30'
+    model: 8
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 4
+  fields:
+    traffic_plate_no: U-29280
+    exp_date: '2019-06-30'
+    model: 8
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 5
+  fields:
+    traffic_plate_no: U-29281
+    exp_date: '2019-06-30'
+    model: 8
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 6
+  fields:
+    traffic_plate_no: 26569-K
+    exp_date: '2019-06-30'
+    model: 12
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 7
+  fields:
+    traffic_plate_no: 78503-D
+    exp_date: '2019-06-30'
+    model: 12
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 8
+  fields:
+    traffic_plate_no: 66901-J
+    exp_date: '2019-06-30'
+    model: 12
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 9
+  fields:
+    traffic_plate_no: 91637-D
+    exp_date: '2019-06-30'
+    model: 12
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 10
+  fields:
+    traffic_plate_no: 92653-N
+    exp_date: '2019-06-30'
+    model: 12
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 11
+  fields:
+    traffic_plate_no: 28056-K
+    exp_date: '2019-06-30'
+    model: 12
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 12
+  fields:
+    traffic_plate_no: 56769-H
+    exp_date: '2019-06-30'
+    model: 7
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 13
+  fields:
+    traffic_plate_no: R-81126
+    exp_date: '2019-06-30'
+    model: 7
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 14
+  fields:
+    traffic_plate_no: M-13971
+    exp_date: '2019-06-30'
+    model: 7
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 15
+  fields:
+    traffic_plate_no: 47460-H
+    exp_date: '2019-06-30'
+    model: 6
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 16
+  fields:
+    traffic_plate_no: I-87336
+    exp_date: '2019-06-30'
+    model: 6
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 17
+  fields:
+    traffic_plate_no: I-13866
+    exp_date: '2019-06-30'
+    model: 6
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 18
+  fields:
+    traffic_plate_no: S-13743
+    exp_date: '2019-06-30'
+    model: 6
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 19
+  fields:
+    traffic_plate_no: S-13742
+    exp_date: '2019-06-30'
+    model: 6
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 20
+  fields:
+    traffic_plate_no: R-72588
+    exp_date: '2019-06-30'
+    model: 5
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 21
+  fields:
+    traffic_plate_no: R-71009
+    exp_date: '2019-06-30'
+    model: 5
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 22
+  fields:
+    traffic_plate_no: P-80699
+    exp_date: '2019-06-30'
+    model: 20
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 23
+  fields:
+    traffic_plate_no: F-89409
+    exp_date: '2019-06-30'
+    model: 20
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 24
+  fields:
+    traffic_plate_no: E-84605
+    exp_date: '2019-06-30'
+    model: 20
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 25
+  fields:
+    traffic_plate_no: 95066-H
+    exp_date: '2019-06-30'
+    model: 19
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 26
+  fields:
+    traffic_plate_no: 93724-H
+    exp_date: '2019-06-30'
+    model: 19
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 27
+  fields:
+    traffic_plate_no: 55658-O
+    exp_date: '2019-06-30'
+    model: 19
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 28
+  fields:
+    traffic_plate_no: 28698-S
+    exp_date: '2019-06-30'
+    model: 19
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 29
+  fields:
+    traffic_plate_no: 28685-S
+    exp_date: '2019-06-30'
+    model: 19
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 30
+  fields:
+    traffic_plate_no: 49134-O
+    exp_date: '2019-06-30'
+    model: 19
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 31
+  fields:
+    traffic_plate_no: 28392-S
+    exp_date: '2019-06-30'
+    model: 18
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 32
+  fields:
+    traffic_plate_no: 94939-S
+    exp_date: '2019-06-30'
+    model: 21
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 33
+  fields:
+    traffic_plate_no: 85568-S
+    exp_date: '2019-06-30'
+    model: 11
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 34
+  fields:
+    traffic_plate_no: E-23919
+    exp_date: '2019-06-30'
+    model: 17
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 35
+  fields:
+    traffic_plate_no: 94182-E
+    exp_date: '2019-06-30'
+    model: 17
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 36
+  fields:
+    traffic_plate_no: 27710-E
+    exp_date: '2019-06-30'
+    model: 17
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 37
+  fields:
+    traffic_plate_no: 76833-E
+    exp_date: '2019-06-30'
+    model: 17
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 38
+  fields:
+    traffic_plate_no: 49976-O
+    exp_date: '2019-06-30'
+    model: 4
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 39
+  fields:
+    traffic_plate_no: 24073-R
+    exp_date: '2019-06-30'
+    model: 4
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 40
+  fields:
+    traffic_plate_no: 12722-R
+    exp_date: '2019-06-30'
+    model: 4
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 41
+  fields:
+    traffic_plate_no: 67016-D
+    exp_date: '2019-06-30'
+    model: 4
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 42
+  fields:
+    traffic_plate_no: 87683-P
+    exp_date: '2019-06-30'
+    model: 4
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 43
+  fields:
+    traffic_plate_no: 15970-C
+    exp_date: '2019-06-30'
+    model: 4
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 44
+  fields:
+    traffic_plate_no: 24068-R
+    exp_date: '2019-06-30'
+    model: 4
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 45
+  fields:
+    traffic_plate_no: 24107-O
+    exp_date: '2019-06-30'
+    model: 4
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 46
+  fields:
+    traffic_plate_no: 24090-O
+    exp_date: '2019-06-30'
+    model: 4
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 47
+  fields:
+    traffic_plate_no: 24630-O
+    exp_date: '2019-06-30'
+    model: 4
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 48
+  fields:
+    traffic_plate_no: 54847-O
+    exp_date: '2019-06-30'
+    model: 4
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 49
+  fields:
+    traffic_plate_no: 49245-O
+    exp_date: '2019-06-30'
+    model: 4
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 50
+  fields:
+    traffic_plate_no: 38420-N
+    exp_date: '2019-06-30'
+    model: 4
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 51
+  fields:
+    traffic_plate_no: 21779-K
+    exp_date: '2019-06-30'
+    model: 4
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 52
+  fields:
+    traffic_plate_no: 11415-S
+    exp_date: '2019-06-30'
+    model: 3
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 53
+  fields:
+    traffic_plate_no: 11416-S
+    exp_date: '2019-06-30'
+    model: 3
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 54
+  fields:
+    traffic_plate_no: 11417-S
+    exp_date: '2019-06-30'
+    model: 3
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 55
+  fields:
+    traffic_plate_no: 11418-S
+    exp_date: '2019-06-30'
+    model: 3
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 56
+  fields:
+    traffic_plate_no: 11419-S
+    exp_date: '2019-06-30'
+    model: 3
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 57
+  fields:
+    traffic_plate_no: 84740-Q
+    exp_date: '2019-06-30'
+    model: 3
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 58
+  fields:
+    traffic_plate_no: 41020-Q
+    exp_date: '2019-06-30'
+    model: 3
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 59
+  fields:
+    traffic_plate_no: 79142-Q
+    exp_date: '2019-06-30'
+    model: 3
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 60
+  fields:
+    traffic_plate_no: 79166-Q
+    exp_date: '2019-06-30'
+    model: 3
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 61
+  fields:
+    traffic_plate_no: 81037-Q
+    exp_date: '2019-06-30'
+    model: 3
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 62
+  fields:
+    traffic_plate_no: 38692-U
+    exp_date: '2019-06-30'
+    model: 3
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 63
+  fields:
+    traffic_plate_no: 38696-U
+    exp_date: '2019-06-30'
+    model: 3
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 64
+  fields:
+    traffic_plate_no: 38701-U
+    exp_date: '2019-06-30'
+    model: 3
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 65
+  fields:
+    traffic_plate_no: 38702-U
+    exp_date: '2019-06-30'
+    model: 3
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 66
+  fields:
+    traffic_plate_no: 38694-U
+    exp_date: '2019-06-30'
+    model: 3
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 67
+  fields:
+    traffic_plate_no: 38697-U
+    exp_date: '2019-06-30'
+    model: 3
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 68
+  fields:
+    traffic_plate_no: 38698-U
+    exp_date: '2019-06-30'
+    model: 3
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 69
+  fields:
+    traffic_plate_no: 38693-U
+    exp_date: '2019-06-30'
+    model: 3
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 70
+  fields:
+    traffic_plate_no: 38695-U
+    exp_date: '2019-06-30'
+    model: 3
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 71
+  fields:
+    traffic_plate_no: 85569-S
+    exp_date: '2019-06-30'
+    model: 10
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 72
+  fields:
+    traffic_plate_no: 85570-S
+    exp_date: '2019-06-30'
+    model: 10
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 73
+  fields:
+    traffic_plate_no: D-92164
+    exp_date: '2019-06-30'
+    model: 2
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 74
+  fields:
+    traffic_plate_no: 87725-W
+    exp_date: '2019-06-30'
+    model: 2
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 75
+  fields:
+    traffic_plate_no: 87724-W
+    exp_date: '2019-06-30'
+    model: 2
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 76
+  fields:
+    traffic_plate_no: 76302-W
+    exp_date: '2019-06-30'
+    model: 2
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 77
+  fields:
+    traffic_plate_no: 76301-W
+    exp_date: '2019-06-30'
+    model: 2
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 78
+  fields:
+    traffic_plate_no: 76299-W
+    exp_date: '2019-06-30'
+    model: 2
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 79
+  fields:
+    traffic_plate_no: 76297-W
+    exp_date: '2019-06-30'
+    model: 2
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 80
+  fields:
+    traffic_plate_no: 87726-W
+    exp_date: '2019-06-30'
+    model: 2
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 81
+  fields:
+    traffic_plate_no: 85712-D
+    exp_date: '2019-06-30'
+    model: 2
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 82
+  fields:
+    traffic_plate_no: 89277-D
+    exp_date: '2019-06-30'
+    model: 2
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 83
+  fields:
+    traffic_plate_no: 86827-D
+    exp_date: '2019-06-30'
+    model: 2
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 84
+  fields:
+    traffic_plate_no: 88429-D
+    exp_date: '2019-06-30'
+    model: 2
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 85
+  fields:
+    traffic_plate_no: 86642-D
+    exp_date: '2019-06-30'
+    model: 2
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 86
+  fields:
+    traffic_plate_no: 85967-D
+    exp_date: '2019-06-30'
+    model: 2
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 87
+  fields:
+    traffic_plate_no: 76298-W
+    exp_date: '2019-06-30'
+    model: 2
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 88
+  fields:
+    traffic_plate_no: 48610-C
+    exp_date: '2019-06-30'
+    model: 16
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 89
+  fields:
+    traffic_plate_no: 54151-C
+    exp_date: '2019-06-30'
+    model: 16
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 90
+  fields:
+    traffic_plate_no: 53841-C
+    exp_date: '2019-06-30'
+    model: 16
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 91
+  fields:
+    traffic_plate_no: 71038-S
+    exp_date: '2019-06-30'
+    model: 9
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 92
+  fields:
+    traffic_plate_no: 71037-S
+    exp_date: '2019-06-30'
+    model: 9
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 93
+  fields:
+    traffic_plate_no: 33926-D
+    exp_date: '2019-06-30'
+    model: 9
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 94
+  fields:
+    traffic_plate_no: 45933-T
+    exp_date: '2019-06-30'
+    model: 15
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 95
+  fields:
+    traffic_plate_no: 41266-T
+    exp_date: '2019-06-30'
+    model: 15
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 96
+  fields:
+    traffic_plate_no: 58289-W
+    exp_date: '2019-06-30'
     model: 23
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 97
+  fields:
+    traffic_plate_no: 58210-W
+    exp_date: '2019-06-30'
+    model: 23
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 98
+  fields:
+    traffic_plate_no: 58205-W
+    exp_date: '2019-06-30'
+    model: 23
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 99
+  fields:
+    traffic_plate_no: 58287-W
+    exp_date: '2019-06-30'
+    model: 23
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 100
+  fields:
+    traffic_plate_no: 66730-W
+    exp_date: '2019-06-30'
+    model: 23
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 101
+  fields:
+    traffic_plate_no: 58199-W
+    exp_date: '2019-06-30'
+    model: 23
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 102
+  fields:
+    traffic_plate_no: 58196-W
+    exp_date: '2019-06-30'
+    model: 23
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 103
+  fields:
+    traffic_plate_no: 58202-W
+    exp_date: '2019-06-30'
+    model: 23
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 104
+  fields:
+    traffic_plate_no: 58209-W
+    exp_date: '2019-06-30'
+    model: 23
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 105
+  fields:
+    traffic_plate_no: 58198-W
+    exp_date: '2019-06-30'
+    model: 22
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 106
+  fields:
+    traffic_plate_no: 58288-W
+    exp_date: '2019-06-30'
+    model: 22
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 107
+  fields:
+    traffic_plate_no: 58195-W
+    exp_date: '2019-06-30'
+    model: 22
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 108
+  fields:
+    traffic_plate_no: 58197-W
+    exp_date: '2019-06-30'
+    model: 22
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 109
+  fields:
+    traffic_plate_no: 66719-W
+    exp_date: '2019-06-30'
+    model: 22
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 110
+  fields:
+    traffic_plate_no: 45932-T
+    exp_date: '2019-06-30'
+    model: 14
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 111
+  fields:
+    traffic_plate_no: 45934-T
+    exp_date: '2019-06-30'
+    model: 14
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 112
+  fields:
+    traffic_plate_no: 45929-T
+    exp_date: '2019-06-30'
+    model: 14
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 113
+  fields:
+    traffic_plate_no: H-95126
+    exp_date: '2019-06-30'
+    model: 14
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 114
+  fields:
+    traffic_plate_no: 79634-W
+    exp_date: '2019-06-30'
+    model: 1
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 115
+  fields:
+    traffic_plate_no: 88130-D
+    exp_date: '2019-06-30'
+    model: 1
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 116
+  fields:
+    traffic_plate_no: 29173-J
+    exp_date: '2019-06-30'
+    model: 1
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 117
+  fields:
+    traffic_plate_no: 25376-T
+    exp_date: '2019-06-30'
+    model: 1
+    company: 1
+
+- model: vehicle.vehicle
+  pk: 118
+  fields:
+    traffic_plate_no: 28693-S
+    exp_date: '2019-06-30'
+    model: 1
+    company: 1
