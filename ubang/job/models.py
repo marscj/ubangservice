@@ -15,10 +15,10 @@ class Job(models.Model):
     day = models.DateField()
 
     # 开始时间
-    start_time = models.DateTimeField()
+    start_time = models.DateTimeField(blank=True, null=True)
 
     # 结束时间
-    end_time = models.DateTimeField()
+    end_time = models.DateTimeField(blank=True, null=True)
 
     # 行程
     itinerary = models.CharField(max_length=128)

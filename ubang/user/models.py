@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models import Q, Avg, Sum
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.models import AbstractUser, BaseUserManager, UserManager
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -34,6 +34,21 @@ class Role(models.Model):
 
     def __str__(self):
         return self.name
+
+class CustomUserQuerySet(UserManager):
+    def filter_job(self, start_time, end_time):
+        return self.exclude(
+            Q(booking_guide__status='Created') &
+            (Q(job__start_time__range=(start_time, end_time), job__freedom_day=False) | 
+            Q(job__end_time__range=(start_time, end_time), job__freedom_day=False))
+        )
+    
+    def valide_job(self, id, start_time, end_time):
+        return self.filter(pk=id).filter(
+            Q(booking_guide__status='Created') &
+            (Q(job__start_time__range=(start_time, end_time), job__freedom_day=False) | 
+            Q(job__end_time__range=(start_time, end_time), job__freedom_day=False))
+        ).exists()
 
 class CustomUser(AbstractUser):
 
@@ -81,6 +96,8 @@ class CustomUser(AbstractUser):
 
     # 公司
     company = models.ForeignKey(Company, related_name='user', on_delete=models.SET_NULL, blank=True,null=True)
+
+    objects = CustomUserQuerySet()
 
     class Meta:
         verbose_name = _('user')

@@ -93,6 +93,10 @@ def itinerary_model_post_save(sender, **kwargs):
             start_time = itinerary.booking.start_time
             end_time = itinerary.booking.end_time
 
+        if itinerary.freedom_day:
+            start_time = None
+            end_time = None
+
         if itinerary.booking.guide is not None:
             Job.objects.create(
                 day=itinerary.day,

@@ -72,11 +72,17 @@ class VehicleQuerySet(models.QuerySet):
     def filter_job(self, start_time, end_time):
    
         return self.exclude(
-            Q(booking__status='Created') & Q(job__freedom_day=False) &
-            (Q(job__start_time__range=(start_time, end_time)) | 
-            Q(job__end_time__range=(start_time, end_time)))
+            Q(booking__status='Created') &
+            (Q(job__start_time__range=(start_time, end_time), job__freedom_day=False) | 
+            Q(job__end_time__range=(start_time, end_time), job__freedom_day=False))
         )
- 
+    
+    def valide_job(self, id, start_time, end_time):
+        return self.filter(pk=id).filter(
+            Q(booking__status='Created') &
+            (Q(job__start_time__range=(start_time, end_time), job__freedom_day=False) | 
+            Q(job__end_time__range=(start_time, end_time), job__freedom_day=False))
+        ).exists()
 # 车辆 
 class Vehicle(models.Model):
     

@@ -9,6 +9,8 @@ from ubang.user.serializers import UserSerializer, UserListSerializer
 from ubang.company.serializers import CompanySerializer, CompanyListSerializer
 from ubang.vehicle.serializers import VehicleSerializer, VehicleListSerializer, ModelPriceSerializer
 from ubang.order.serializers import OrderSerializer, OrderListSerializer
+from ubang.vehicle.models import Vehicle
+from ubang.user.models import CustomUser
 
 class ItinerarySerializer(serializers.ModelSerializer):
 
@@ -59,11 +61,14 @@ class BookingSerializer(serializers.ModelSerializer):
     def validate(self, data):
         start_time = data.get('start_time')
         end_time = data.get('end_time')
-        contact_phone = data.get('contact_phone')
+        vehicle_id = data.get('vehicle_id')
+        guide_id = data.get('guide_id')
     
-        if start_time and end_time:
+        if start_time is not None and end_time is not None:
             now = arrow.utcnow().to('Asia/Dubai')
             _start_time = arrow.get(start_time).to('Asia/Dubai')
+            _start = arrow.get(start_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M:%S')
+            _end = arrow.get(end_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M:%S')
             duration = end_time - start_time
 
             if start_time > end_time:
@@ -75,7 +80,13 @@ class BookingSerializer(serializers.ModelSerializer):
             if (_start_time - now ).total_seconds() <= 3600 * 24:
                 raise serializers.ValidationError('Ensure booking 1 day in advance')
 
-        # raise serializers.ValidationError('Just test1') 
+            if vehicle_id is not None:
+                if Vehicle.objects.valide_job(vehicle_id, _start, _end):
+                    raise serializers.ValidationError('Ensure vehicle is free')
+
+            if guide_id is not None:
+                if CustomUser.objects.valide_job(guide_id, _start, _end):
+                    raise serializers.ValidationError('Ensure vehicle is free')
         
         return data
 

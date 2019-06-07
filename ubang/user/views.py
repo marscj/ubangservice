@@ -6,8 +6,9 @@ from rest_framework.decorators import action
 from rest_framework_jwt.views import ObtainJSONWebToken
 from rest_framework.mixins import ListModelMixin
 from rest_framework import generics
-
 from rest_framework import filters
+
+import arrow
 
 from .serializers import UserSerializer, PermissionSerializer, RoleSerializer
 from .models import CustomUser, Permission, Role
@@ -48,9 +49,20 @@ class UserView(ModelViewSet):
     
     filterset_fields = ('is_driver', 'is_tourguide', 'is_actived', 'company')
     search_fields = ('username', 'email')
-    
+
+    def parent_queryset(self):
+        return CustomUser.objects.filter(company__isnull=False)
+
     def get_queryset(self):
-        return CustomUser.objects.all()
+        start_time = self.request.query_params.get('start_time', None)
+        end_time = self.request.query_params.get('end_time', None)
+
+        if start_time and end_time: 
+            _start_time = arrow.get(start_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M:%S')
+            _end_time = arrow.get(end_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M:%S')
+            return CustomUser.objects.filter_job(_start_time, _end_time)
+
+        return self.parent_queryset()
 
     def list(self, request):
         response = super().list(request)
@@ -138,7 +150,6 @@ class RoleView(ModelViewSet):
         
     def update(self, request, *args, **kwargs):
         try:
-            print(request.data)
             response = super().update(request, *args, **kwargs)
             context = {
                 'code': 20000,
@@ -154,7 +165,6 @@ class RoleView(ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         try:
-            print(request.data)
             response = super().create(request, *args, **kwargs)
             context = {
                 'code': 20000,
