@@ -75,7 +75,7 @@ class BookingSerializer(serializers.ModelSerializer):
             if (_start_time - now ).total_seconds() <= 3600 * 24:
                 raise serializers.ValidationError('Ensure booking 1 day in advance')
 
-        raise serializers.ValidationError('Just test1') 
+        # raise serializers.ValidationError('Just test1') 
         
         return data
 

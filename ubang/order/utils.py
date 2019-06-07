@@ -35,10 +35,9 @@ def get_days(start, end):
 
 # def save_by_task(order):
 #     days = get_days(order.start_time, order.end_time)
+#     return [create_task(order=order, day=day, guide=order.guide, vehicle=order.vehicle) for day in days]
 
-    return [create_task(order=order, day=day, guide=order.guide, vehicle=order.vehicle) for day in days]
-
-def total(cost_price, gross_price, discount):
-    return gross_price - abs(gross_price - cost_price) * discount
+# def total(cost_price, gross_price, discount):
+#     return gross_price - abs(gross_price - cost_price) * discount
 
  

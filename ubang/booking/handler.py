@@ -10,7 +10,9 @@ from datetime import datetime, date, timedelta
 from decimal import Decimal
 
 from .import BookingStatus
-from .models import Booking
+from .models import Booking, Itinerary
+from .utils import get_days
+from ubang.job.models import Job
 from ubang.order.models import Order
 from ubang.user.models import CustomUser
 from ubang.vehicle.models import Vehicle
@@ -67,3 +69,62 @@ def booking_model_post_save(sender, **kwargs):
 
     if booking.status == BookingStatus.Cancel:
         app.control.revoke(booking.bookingId)
+
+@receiver(post_save, sender=Itinerary)
+def itinerary_model_post_save(sender, **kwargs):
+    itinerary = kwargs['instance']
+    
+    if kwargs['created']:
+        days = get_days(itinerary.booking.start_time, itinerary.booking.end_time)
+        first = days[0]
+        last = days[-1]
+        print(days)
+        print(first)
+        print(last)
+        print(itinerary.day)
+        print(itinerary.booking.start_time)
+        print(itinerary.booking.end_time)
+ 
+        if days and len(days) > 1:
+            if itinerary.day == first: 
+                print('I m is first')
+                start_time = itinerary.booking.start_time
+                end_time = datetime(itinerary.day.year, itinerary.day.month, itinerary.day.day, 23, 59, 59)
+            elif itinerary.day == last:
+                print('I m is last')
+                start_time = datetime(itinerary.day.year, itinerary.day.month, itinerary.day.day, 0, 0, 0)
+                end_time = itinerary.booking.end_time
+            else:
+                print('I m is mid')
+                start_time = datetime(itinerary.day.year, itinerary.day.month, itinerary.day.day, 0, 0, 0)
+                end_time = datetime(itinerary.day.year, itinerary.day.month, itinerary.day.day, 23, 59, 59)
+        else:
+            start_time = itinerary.booking.start_time
+            end_time = itinerary.booking.end_time
+
+        print(start_time)
+        print(end_time)
+
+        if itinerary.booking.guide is not None:
+            Job.objects.create(
+                day=itinerary.day,
+                start_time=start_time,
+                end_time=end_time,
+                itinerary=itinerary.itinerary,
+                full_day=itinerary.full_day,
+                freedom_day=itinerary.freedom_day,
+                guide=itinerary.booking.guide,
+                vehicle=itinerary.booking.vehicle,
+                booking=itinerary.booking,
+            )
+        else:
+            Job.objects.create(
+                day=itinerary.day,
+                start_time=start_time,
+                end_time=end_time,
+                itinerary=itinerary.itinerary,
+                full_day=itinerary.full_day,
+                freedom_day=itinerary.freedom_day,
+                vehicle=itinerary.booking.vehicle,
+                booking=itinerary.booking,
+            )
