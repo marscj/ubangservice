@@ -849,17 +849,16 @@ export default {
     },
     handleDuration() {
       if(this.postForm.start_time && this.postForm.end_time) {
-        var start_time = this.$moment(this.postForm.start_time, 'YYYY-MM-DD')
-        var end_time = this.$moment(this.postForm.end_time, 'YYYY-MM-DD')
+        
+        var _start_time = this.$moment(this.postForm.start_time).format('YYYY-MM-DD')
+        var _end_time = this.$moment(this.postForm.end_time).format('YYYY-MM-DD')
+        // var start_time = this.$moment(this.postForm.start_time, 'YYYY-MM-DD')
+        // var end_time = this.$moment(this.postForm.end_time, 'YYYY-MM-DD')
+        var start_time = this.$moment(_start_time, 'YYYY-MM-DD')
+        var end_time = this.$moment(_end_time, 'YYYY-MM-DD')
         var duration = this.$moment.duration(end_time.diff(start_time))
-        var days = 0
-
-        if(duration.asDays() > 1.0){
-          days = Math.ceil(duration.asDays())
-        } else {
-          days = 1
-        }
-
+        var days = duration.days() + 1
+        
         if(!this.isEdit) {
           this.postForm.itinerary = []
 

@@ -81,15 +81,12 @@ def itinerary_model_post_save(sender, **kwargs):
  
         if days and len(days) > 1:
             if itinerary.day == first: 
-                print('I m is first')
                 start_time = itinerary.booking.start_time
                 end_time = datetime(itinerary.day.year, itinerary.day.month, itinerary.day.day, 23, 59, 59)
             elif itinerary.day == last:
-                print('I m is last')
                 start_time = datetime(itinerary.day.year, itinerary.day.month, itinerary.day.day, 0, 0, 0)
                 end_time = itinerary.booking.end_time
             else:
-                print('I m is mid')
                 start_time = datetime(itinerary.day.year, itinerary.day.month, itinerary.day.day, 0, 0, 0)
                 end_time = datetime(itinerary.day.year, itinerary.day.month, itinerary.day.day, 23, 59, 59)
         else:
