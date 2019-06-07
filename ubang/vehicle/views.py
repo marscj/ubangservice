@@ -2,6 +2,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 
+import arrow
+
 from .models import Brand, Model, Vehicle, ModelPrice
 from .serializers import VehicleSerializer, ModelSerializer
 
@@ -16,8 +18,19 @@ class VehicleView(ModelViewSet):
         else :
             return VehicleSerializer
 
-    def get_queryset(self):
+    def parent_queryset(self):
         return Vehicle.objects.filter(company__isnull=False)
+
+    def get_queryset(self):
+        start_time = self.request.query_params.get('start_time', None)
+        end_time = self.request.query_params.get('end_time', None)
+
+        if start_time and end_time: 
+            _start_time = arrow.get(start_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M:%S')
+            _end_time = arrow.get(end_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M:%S')
+            return self.parent_queryset().filter_job(_start_time, _end_time)
+
+        return self.parent_queryset()
 
     def list(self, request):
         try:

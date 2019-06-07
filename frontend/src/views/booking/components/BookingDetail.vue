@@ -460,7 +460,9 @@ export default {
         select: false,
         query: {
           model: undefined,
-          is_actived: true
+          is_actived: true,
+          start_time: undefined,
+          end_time: undefined
         },
         modelOptions: [],
         vehicleList: [],
@@ -472,7 +474,9 @@ export default {
         select: false,
         query: {
           is_actived: true,
-          is_tourguide: true
+          is_tourguide: true,
+          start_time: undefined,
+          end_time: undefined
         },
         list: [],
         loading: false
@@ -732,6 +736,8 @@ export default {
     loadVehicles() {
       this.vehicleDialog.vehicleLoading = true
       this.vehicleDialog.vehicleList = []
+      this.vehicleDialog.query.start_time = this.postForm.start_time
+      this.vehicleDialog.query.end_time = this.postForm.end_time
       getVehicles(this.vehicleDialog.query).then(response => {
         this.vehicleDialog.vehicleList = response.data
         this.vehicleDialog.vehicleLoading = false
@@ -742,6 +748,8 @@ export default {
     loadGuides() {
       this.guideDialog.loading = true
       this.guideDialog.list = []
+      this.guideDialog.query.start_time = this.postForm.start_time
+      this.guideDialog.query.end_time = this.postForm.end_time
       getUsers(this.guideDialog.query).then(response => {
         this.guideDialog.list = response.data
         this.guideDialog.loading = false
