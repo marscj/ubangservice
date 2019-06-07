@@ -39,7 +39,8 @@ $ redis-cli ping
 
 celery配置
 启动任务队列
-$ sudo cp celerybeat celeryd /etc/init.d ls 
+$ sudo cp celerybeat celeryd /etc/init.d 
+$ 把 celery.d 拷贝到 /etc/default/ 重新命名 celeryd
 $ celery -A ubangservice worker -l info 
 清除任务队列
 $ celery -A ubangservice purge
