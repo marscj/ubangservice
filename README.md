@@ -17,18 +17,26 @@ GIT 配置
 安装项目
 1. mkdir src
 2. git clone git@github.com:marscj/ubangservice.git
-3. pip install --upgrade pip
-4. pip install -r requirements.txt
-5. ./manage.py makemigrations
-6. ./manage.py migrate
-7. ./manage.py collectstatic
-8. ./manage.py loaddata init_data.yaml
-9. ./manage.py createsuperuser
+3. pip install -r requirements.txt
+4. ./manage.py makemigrations
+5. ./manage.py migrate
+6. ./manage.py collectstatic
+7. ./manage.py loaddata init_data.yaml
+8. ./manage.py createsuperuser
 
 NGINX + UWSGI 部署
 1. sudo apt-get install nginx
 2. sudo apt-get install uwsgi
 3. pip install uwsgi
+命令
+$ uwsgi --ini uwsgi.ini
+$ sudo nginx -s stop
+$ sudo nginx -s reload
+$ sudo nginx 
+$ cat 
+$ tail -f log.log
+$ sudo ln -s /home/ubuntu/venv/src/ubangservice/ubangservice/nginx.conf /etc/nginx/sites-enabled/
+$ sudo ln -s /home/ubuntu/venv/src/ubangservice/ubangservice/uwsgi.ini /etc/uwsgi/apps-enabled/
 
 Redis配置
 1. sudo apt-get install redis-server
@@ -39,20 +47,38 @@ $ redis-cli ping
 
 celery配置
 启动任务队列
-$ sudo cp celerybeat celeryd /etc/init.d 
-$ 把 celery.d 拷贝到 /etc/default/ 重新命名 celeryd
+$ sudo apt-get supervisor
+$ su 
+$ echo_supervisord_conf > /etc/supervisord.conf
+$ sudo vim /etc/supervisord.conf
+文件末尾添加
+##################################################################################
+[program:celery.worker]
+command= /home/ubuntu/venv/bin/celery -A ubangservice worker -l info
+directory=/home/ubuntu/venv/src/ubangservice
+numprocs=1
+autostart=true
+autorestart=true
+startretries=3
+redirect_stderr=true
+stdout_logfile=/var/log/celery/celery_worker_out.log
+
+[program:celery.beat]
+command= /home/ubuntu/venv/bin/celery -A ubangservice beat -l info
+directory=/home/ubuntu/venv/src/ubangservice
+numprocs=1
+autostart=true
+autorestart=true
+startretries=3
+redirect_stderr=true
+stdout_logfile=/var/log/celery/celery_beat_out.log
+##################################################################################
+sudo supervisord -c /etc/supervisord.conf
+
+开启任务队列
 $ celery -A ubangservice worker -l info 
 清除任务队列
 $ celery -A ubangservice purge
-$ /etc/init.d/celeryd {start|stop|restart}即可开启／停止／重启celery
 
-命令
-$ uwsgi --ini uwsgi.ini
-$ sudo nginx -s stop
-$ sudo nginx -s reload
-$ sudo nginx 
-$ cat 
-$ tail -f log.log
-$ sudo ln -s /home/ubuntu/venv/src/ubangservice/ubangservice/nginx.conf /etc/nginx/sites-enabled/
-$ sudo ln -s /home/ubuntu/venv/src/ubangservice/ubangservice/uwsgi.ini /etc/uwsgi/apps-enabled/
+
 
