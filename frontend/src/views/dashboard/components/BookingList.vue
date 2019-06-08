@@ -99,10 +99,10 @@ export default {
       default: {
         page: 1,
         limit: 20,
-        search: '',
-        start_time: '',
-        end_time: '',
-        status: '',
+        search: undefined,
+        start_time: undefined,
+        end_time: undefined,
+        status: undefined,
         create_by: undefined
       }
     }

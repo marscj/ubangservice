@@ -44,18 +44,18 @@ export default {
           return {
             page: 1,
             limit: 20,
-            search: '',
-            start_time: '',
-            end_time: '',
-            status: '',
+            search: undefined,
+            start_time: undefined,
+            end_time: undefined,
+            status: undefined,
             create_by: undefined
           }
         case 'month':
           return {
             page: 1,
             limit: 20,
-            search: '',
-            status: '',
+            search: undefined,
+            status: undefined,
             create_by: undefined,
             start_time: this.$moment().startOf('month').format(),
             end_time: this.$moment().endOf('month').format()
@@ -64,11 +64,11 @@ export default {
           return {
             page: 1,
             limit: 20,
-            search: '',
-            start_time: '',
-            end_time: '',
-            status: '',
-            creator_by: this.$store.getters.user.id
+            search: undefined,
+            start_time: undefined,
+            end_time: undefined,
+            status: undefined,
+            create_by: this.$store.getters.user.id
           }
         case 'user':
           return {
