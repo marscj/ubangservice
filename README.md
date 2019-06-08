@@ -28,13 +28,14 @@ NGINX + UWSGI 部署
 1. sudo apt-get install nginx
 2. sudo apt-get install uwsgi
 3. pip install uwsgi
-命令
+测试
 $ uwsgi --ini uwsgi.ini
 $ sudo nginx -s stop
 $ sudo nginx -s reload
 $ sudo nginx 
 $ cat 
 $ tail -f log.log
+制作软链
 $ sudo ln -s /home/ubuntu/venv/src/ubangservice/ubangservice/nginx.conf /etc/nginx/sites-enabled/
 $ sudo ln -s /home/ubuntu/venv/src/ubangservice/ubangservice/uwsgi.ini /etc/uwsgi/apps-enabled/
 
