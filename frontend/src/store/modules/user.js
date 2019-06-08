@@ -28,6 +28,8 @@ const actions = {
       login({ username: username.trim(), password: password }).then(response => {
         const { data } = response
         commit('SET_TOKEN', data.token)
+        commit('SET_ROLES', [])
+        commit('SET_USER', {})
         setToken(data.token)
         resolve()
       }).catch(error => {
@@ -64,6 +66,7 @@ const actions = {
       logout(state.token).then(() => {
         commit('SET_TOKEN', '')
         commit('SET_ROLES', [])
+        commit('SET_USER', {})
         removeToken()
         resetRouter()
         resolve()
@@ -78,6 +81,7 @@ const actions = {
     return new Promise(resolve => {
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])
+      commit('SET_USER', {})
       removeToken()
       resolve()
     })
