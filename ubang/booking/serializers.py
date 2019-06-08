@@ -71,14 +71,14 @@ class BookingSerializer(serializers.ModelSerializer):
             _end = arrow.get(end_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M:%S')
             duration = end_time - start_time
 
-            # if start_time > end_time:
-            #     raise serializers.ValidationError('Ensure start time is less than end time')
+            if start_time > end_time:
+                raise serializers.ValidationError('Ensure start time is less than end time')
             
-            # if duration.total_seconds() < 3600:
-            #     raise serializers.ValidationError('Ensure duration is greater than 1 hour')
+            if duration.total_seconds() < 3600:
+                raise serializers.ValidationError('Ensure duration is greater than 1 hour')
 
-            # if (_start_time - now ).total_seconds() <= 3600 * 24:
-            #     raise serializers.ValidationError('Ensure booking 1 day in advance')
+            if (_start_time - now ).total_seconds() <= 3600 * 24:
+                raise serializers.ValidationError('Ensure booking 1 day in advance')
 
             if vehicle_id is not None:
                 if Vehicle.objects.valide_job(vehicle_id, _start, _end):
@@ -87,6 +87,9 @@ class BookingSerializer(serializers.ModelSerializer):
             if guide_id is not None:
                 if CustomUser.objects.valide_job(guide_id, _start, _end):
                     raise serializers.ValidationError('Ensure vehicle is free')
+
+            if vehicle_id is None:
+                raise serializers.ValidationError('Vehicle is required')
         
         return data
 
