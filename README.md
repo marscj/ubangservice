@@ -50,7 +50,7 @@ celery配置
 启动任务队列
 $ sudo apt-get supervisor
 $ su 
-$ echo_supervisord_conf > /etc/supervisord.conf
+$ echo_supervisord_conf > /etc/supervisor/conf.d/supervisord.conf
 $ sudo vim /etc/supervisord.conf
 文件末尾添加
 ##################################################################################
@@ -74,7 +74,7 @@ startretries=3
 redirect_stderr=true
 stdout_logfile=/var/log/celery/celery_beat_out.log
 ##################################################################################
-sudo supervisord -c /etc/supervisord.conf
+sudo supervisord -c /etc/supervisor/conf.d/supervisord.conf
 
 开启任务队列
 $ celery -A ubangservice worker -l info 
