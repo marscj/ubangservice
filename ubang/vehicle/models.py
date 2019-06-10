@@ -122,9 +122,7 @@ class Vehicle(models.Model):
     @staticmethod
     def aggregate(vehicle):
         from ubang.booking.models import Booking
-        aggregate = Booking.objects.filter(vehicle=vehicle).filter(
-            Q(status='Created') | Q(status='Complete')
-        ).aggregate(score=Avg('vehicle_score'), sum=Sum('vehicle_score'))
+        aggregate = Booking.objects.filter(vehicle=vehicle).filter(status='Complete').aggregate(score=Avg('vehicle_score'), sum=Sum('vehicle_score'))
         return aggregate.get('score') or 0.0, aggregate.get('sum') or 0.0
 
     @staticmethod

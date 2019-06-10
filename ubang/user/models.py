@@ -109,9 +109,7 @@ class CustomUser(AbstractUser):
     @staticmethod
     def aggregate(user):
         from ubang.booking.models import Booking
-        aggregate = Booking.objects.filter(guide=user).filter(
-            Q(status='Created') | Q(status='Complete')
-        ).aggregate(score=Avg('guide_score'), sum=Sum('guide_score'))
+        aggregate = Booking.objects.filter(guide=user).filter(status='Complete').aggregate(score=Avg('guide_score'), sum=Sum('guide_score'))
         return aggregate.get('score') or 0.0, aggregate.get('sum') or 0.0
 
     @staticmethod
