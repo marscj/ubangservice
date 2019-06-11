@@ -77,8 +77,8 @@ class BookingSerializer(serializers.ModelSerializer):
             if duration.total_seconds() < 3600:
                 raise serializers.ValidationError('Ensure duration is greater than 1 hour')
 
-            if (_start_time - now ).total_seconds() <= 3600 * 24:
-                raise serializers.ValidationError('Ensure booking 1 day in advance')
+            # if (_start_time - now ).total_seconds() <= 3600 * 24:
+            #     raise serializers.ValidationError('Ensure booking 1 day in advance')
 
             if vehicle_id is not None:
                 if Vehicle.objects.valide_job(vehicle_id, _start, _end):
