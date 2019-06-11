@@ -19,9 +19,9 @@ Linux PostgreSQL 安装与配置
 $ sudo apt-get install postgresql postgresql-contrib
 $ sudo su - postgres
 $ psql
-$ CREATE DATABASE db
-$ CREATE USER admin WITH LOGIN PASSWORD 'admin123'
-$ GRANT ALL PRIVILEGES ON DATABASE db TO admin
+$ CREATE DATABASE db;
+$ CREATE USER admin WITH PASSWORD 'admin123';
+$ GRANT ALL PRIVILEGES ON DATABASE db TO admin;
 
 Redis配置
 1. sudo apt-get install redis-server
@@ -100,3 +100,13 @@ $ pg_ctl -D /usr/local/var/db -l logfile start
 $ createuser admin -P
 $ createdb db
 $ psql db
+
+数据库迁移
+$ python manage.py dumpdata > db.json
+# Change the database settings to new database such as of MySQL / PostgreSQL.
+$ python manage.py migrate
+$ python manage.py shell 
+# Enter the following in the shell
+$ from django.contrib.contenttypes.models import ContentType
+$ ContentType.objects.all().delete()
+$ python manage.py loaddata db.json
