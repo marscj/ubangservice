@@ -36,8 +36,8 @@ $ sudo nginx
 $ cat 
 $ tail -f log.log
 制作软链
-$ sudo ln -s /home/ubuntu/venv/src/ubangservice/ubangservice/nginx.conf /etc/nginx/sites-enabled/
-$ sudo ln -s /home/ubuntu/venv/src/ubangservice/ubangservice/uwsgi.ini /etc/uwsgi/apps-enabled/
+$ sudo ln -s /home/ubuntu/ubangservice/ubangservice/nginx.conf /etc/nginx/sites-enabled/
+$ sudo ln -s /home/ubuntu/ubangservice/ubangservice/uwsgi.ini /etc/uwsgi/apps-enabled/
 
 Redis配置
 1. sudo apt-get install redis-server
@@ -56,7 +56,7 @@ $ sudo vim /etc/supervisord.conf
 ##################################################################################
 [program:celery.worker]
 command= /home/ubuntu/venv/bin/celery -A ubangservice worker -l info
-directory=/home/ubuntu/venv/src/ubangservice
+directory=/home/ubuntu/ubangservice
 numprocs=1
 autostart=true
 autorestart=true
@@ -66,7 +66,7 @@ stdout_logfile=/var/log/celery/celery_worker_out.log
 
 [program:celery.beat]
 command= /home/ubuntu/venv/bin/celery -A ubangservice beat -l info
-directory=/home/ubuntu/venv/src/ubangservice
+directory=/home/ubuntu/ubangservice
 numprocs=1
 autostart=true
 autorestart=true
@@ -81,7 +81,7 @@ $ celery -A ubangservice worker -l info
 清除任务队列
 $ celery -A ubangservice purge
 
-PostgreSQL 安装与配置
+Linux PostgreSQL 安装与配置
 $ sudo apt-get install postgresql postgresql-contrib libpq-dev
 $ sudo su - postgres
 $ psql
@@ -89,3 +89,10 @@ $ CREATE DATABASE db
 $ CREATE USER admin WITH LOGIN PASSWORD 'admin123'
 $ GRANT ALL PRIVILEGES ON DATABASE db TO admin
 
+Mac PostgreSQL安装与配置
+$ brew install postgresql
+$ initdb /usr/local/var/db
+$ pg_ctl -D /usr/local/var/db -l logfile start
+$ createuser admin -P
+$ createdb db
+$ psql db
