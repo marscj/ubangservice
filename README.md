@@ -4,6 +4,7 @@ GIT 配置
 1. ssh-keygen -t rsa -C 'mjx_cj@163.com'
 2. cat ~/.ssh/id_rsa.pub
 3. 在git新建sshkey
+5. admin admin123
 
 安装python3
 1. sudo apt-get update
