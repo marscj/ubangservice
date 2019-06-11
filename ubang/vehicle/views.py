@@ -3,6 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 
 import arrow
+from cacheops import cached_as
 
 from .models import Brand, Model, Vehicle, ModelPrice
 from .serializers import VehicleSerializer, ModelSerializer
@@ -19,7 +20,7 @@ class VehicleView(ModelViewSet):
             return VehicleSerializer
 
     def parent_queryset(self):
-        return Vehicle.objects.filter(company__isnull=False)
+        return Vehicle.objects.filter(company__isnull=False).cache()
 
     def get_queryset(self):
         start_time = self.request.query_params.get('start_time', None)
@@ -52,7 +53,7 @@ class VehicleView(ModelViewSet):
 class VehicleModelView(ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = ModelSerializer
-    queryset = Model.objects.all()
+    queryset = Model.objects.all().cache()
 
     def list(self, request):
         try:

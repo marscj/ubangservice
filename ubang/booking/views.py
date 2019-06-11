@@ -25,7 +25,7 @@ class BookingView(ModelViewSet):
             return BookingSerializer
 
     def parent_queryset(self):
-        return Booking.objects.all().filter(company_by=self.request.user.company)
+        return Booking.objects.all().filter(company_by=self.request.user.company).cache()
 
     def get_queryset(self):
         if self.action == 'list':

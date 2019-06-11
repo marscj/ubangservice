@@ -45,7 +45,7 @@ class LogoutJwtTokenView(APIView):
 class UserView(ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer
-    queryset = CustomUser.objects.all()
+    queryset = CustomUser.objects.all().cache()
     
     filterset_fields = ('is_driver', 'is_tourguide', 'is_actived', 'company')
     search_fields = ('username', 'email')
@@ -116,7 +116,7 @@ class UserView(ModelViewSet):
 class RoleView(ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = RoleSerializer
-    queryset = Role.objects.all()
+    queryset = Role.objects.all().cache()
     
     filterset_fields = ('company',)
     
@@ -198,7 +198,7 @@ class PermissionView(generics.ListAPIView):
     
     permission_classes = [IsAuthenticated]
     serializer_class = PermissionSerializer
-    queryset = Permission.objects.all()
+    queryset = Permission.objects.all().cache()
 
     def get(self, request, *args, **kwargs):
         response = super().get(request, *args, **kwargs)
