@@ -81,5 +81,11 @@ $ celery -A ubangservice worker -l info
 清除任务队列
 $ celery -A ubangservice purge
 
-
+PostgreSQL 安装与配置
+$ sudo apt-get install postgresql postgresql-contrib libpq-dev
+$ sudo su - postgres
+$ psql
+$ CREATE DATABASE db
+$ CREATE USER admin WITH LOGIN PASSWORD 'admin123'
+$ GRANT ALL PRIVILEGES ON DATABASE db TO admin
 
