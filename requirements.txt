@@ -12,5 +12,6 @@ celery
 arrow
 pyyaml
 psycopg2
+uwsgi
 psycopg2-binary==2.8.1
 Pillow==6.0.0
