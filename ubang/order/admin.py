@@ -18,7 +18,7 @@ class OrderAdmin(admin.ModelAdmin):
     inlines = (PaymentInline,)
 
     fields = (
-        'orderId', 'status', 'start_time', 'end_time', 'vehicle', 'guide', 'customer', 'company', 'discount', 'remark'
+        'orderId', 'status', 'start_time', 'end_time', 'vehicle', 'guide', 'customer', 'company', 'discount', 'total', 'remark'
     )
 
     readonly_fields = (
@@ -26,7 +26,7 @@ class OrderAdmin(admin.ModelAdmin):
     )
 
     list_display = (
-       '__str__', 'status', 'start_time', 'end_time', 'vehicle', 'guide', 'customer', 'company', 'discount', 'total'
+       '__str__', 'status', 'start_time', 'end_time', 'vehicle', 'guide', 'customer', 'company', 'discount', 'total', 'total'
     )
 
     list_filter = (
