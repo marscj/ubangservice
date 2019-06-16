@@ -55,7 +55,7 @@ class BookingSerializer(serializers.ModelSerializer):
             'id', 'bookingId', 'start_time', 'end_time', 'contact_name', 'contact_phone', 'pick_up_addr', 'drop_off_addr',
             'create_at', 'change_at', 'status', 'create_by', 'company_by', 'vehicle', 'guide', 'vehicle_id', 'guide_id',
             'order', 'remark', 'vehicle_score', 'guide_score', 'comment', 'can_save', 'can_cancel', 
-            'can_delete', 'can_comment', 'itinerary'
+            'can_delete', 'can_comment', 'itinerary', 'confirmId'
         )
 
     def validate(self, data):
@@ -143,7 +143,7 @@ class BookingListSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'bookingId', 'start_time', 'end_time', 'status', 'create_by', 'company_by', 'contact_name', 
             'contact_phone', 'pick_up_addr', 'drop_off_addr','remark', 'vehicle', 'vehicle_id', 'guide', 'guide_id', 
-            'order', 'vehicle_score', 'guide_score', 'expiry_date'
+            'order', 'vehicle_score', 'guide_score', 'expiry_date', 'confirmId'
         )
 
 class BookingListSimpleSerializer(serializers.ModelSerializer):
@@ -157,5 +157,5 @@ class BookingListSimpleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
         fields = (
-            'id', 'bookingId', 'start_time', 'end_time', 'status', 'vehicle', 'order', 'create_by'
+            'id', 'bookingId', 'start_time', 'end_time', 'status', 'vehicle', 'order', 'create_by', 'confirmId'
         )

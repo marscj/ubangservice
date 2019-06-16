@@ -44,7 +44,7 @@ class VehicleAdmin(admin.ModelAdmin):
     )
 
     list_display = (
-        '__str__', 'brand', 'model', 'type', 'category', 'passengers', 'company', 'driver', 'exp_date', 'is_actived', 'model_price'
+        '__str__', 'brand', 'model', 'type', 'category', 'passengers', 'company', 'driver', 'exp_date', 'is_actived'
     )
 
     raw_id_fields = (

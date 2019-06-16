@@ -15,7 +15,7 @@ from .forms import BookingCreateForm
 class BookingView(ModelViewSet):
     permission_classes = [IsAuthenticated]
     filterset_fields = ('status', 'create_by')
-    search_fields = ('bookingId', 'contact_name', 'contact_phone', 'create_by__name', 'create_by__username', 'vehicle__traffic_plate_no', 'guide__name', 'guide__username',)
+    search_fields = ('bookingId', 'confirmId', 'contact_name', 'contact_phone', 'create_by__name', 'create_by__username', 'vehicle__traffic_plate_no', 'guide__name', 'guide__username',)
     ordering = ('-id',)
 
     def get_serializer_class(self):

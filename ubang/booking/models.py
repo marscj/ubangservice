@@ -21,7 +21,11 @@ class BookingQuerySet(models.QuerySet):
 
 class Booking(models.Model):
     
+    # 预定号
     bookingId = models.CharField(max_length=64, editable=False)
+
+    # 确认号
+    confirmId = models.CharField(max_length=128, blank=True, null=True, default='')
 
     # 开始时间
     start_time = models.DateTimeField()
