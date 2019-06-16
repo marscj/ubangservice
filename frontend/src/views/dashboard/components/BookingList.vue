@@ -32,6 +32,13 @@
           </router-link>
         </template>
       </el-table-column>
+      <el-table-column prop="confirmId" label="ConfirmId" width="220px" align="center">
+        <template slot-scope="{row}">
+          <router-link  :to="'/booking/edit/'+ row.id" class="link-type">
+            <span>{{ row.confirmId }}</span>
+          </router-link>
+        </template>
+      </el-table-column>
       <el-table-column label="Start Time" width="160px" align="center">
         <template slot-scope="{row}">
           <router-link :to="'/booking/edit/'+row.id" class="link-type">

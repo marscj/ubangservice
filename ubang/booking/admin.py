@@ -41,7 +41,7 @@ class BookingAdmin(admin.ModelAdmin):
     ) 
 
     fields = (
-        'bookingId', 'start_time', 'end_time', 'contact_name', 'contact_phone', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 
+        'bookingId', 'confirmId', 'start_time', 'end_time', 'contact_name', 'contact_phone', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 
         'status',  'create_by', 'company_by', 'order', 'vehicle_score', 'guide_score'
     )
 

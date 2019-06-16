@@ -28,6 +28,9 @@
                 <el-form-item label="End time:" prop="end_time" >
                   <el-date-picker v-model="postForm.end_time" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="Select date and time" clearable @change="handleDuration" :disabled="isEdit"/>
                 </el-form-item>
+                <el-form-item label="ConfirmId:">
+                  <el-input v-model="postForm.confirmId" style="width: 300px;" :disabled="isEdit"></el-input>  
+                </el-form-item>
                 <el-form-item label="Contact name:" prop="contact_name" style="width: 300px;" >
                   <el-input v-model="postForm.contact_name" :disabled="!postForm.can_save && isEdit"></el-input>
                 </el-form-item>
@@ -405,6 +408,7 @@ const Category = [
 
 const defaultForm = {
   id: undefined,
+  confirmId: undefined,
   bookingId: undefined,
   status: undefined,
   start_time: undefined,
