@@ -10,8 +10,11 @@ from .serializers import VehicleSerializer, ModelSerializer
 
 class VehicleView(ModelViewSet):
     permission_classes = [IsAuthenticated]
-    filterset_fields = ('model', )
-    search_fields = ('traffic_plate_no', 'model__name', 'model__brand__name')
+    filterset_fields = ('model', 'model__category')
+    search_fields = ('traffic_plate_no', 'model__name', 'model__brand__name', 'model__category')
+    ordering =(
+        '-avg_score', '-total_score', 'model__passengers'
+    )
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -23,15 +26,20 @@ class VehicleView(ModelViewSet):
         return Vehicle.objects.filter(company__isnull=False).cache()
 
     def get_queryset(self):
+        queryset = self.parent_queryset()
         start_time = self.request.query_params.get('start_time', None)
         end_time = self.request.query_params.get('end_time', None)
+        passengers = self.request.query_params.get('passengers', None)
 
-        if start_time and end_time: 
+        if start_time is not None and end_time is not None: 
             _start_time = arrow.get(start_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M:%S')
             _end_time = arrow.get(end_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M:%S')
-            return self.parent_queryset().filter_job(_start_time, _end_time)
+            queryset =  queryset.filter_job(_start_time, _end_time)
 
-        return self.parent_queryset()
+        if passengers is not None:
+            queryset = queryset.filter(model__passengers__gte=passengers)
+
+        return queryset
 
     def list(self, request):
         try:

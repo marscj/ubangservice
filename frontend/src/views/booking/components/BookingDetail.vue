@@ -186,7 +186,7 @@
     </el-form>
     <el-dialog title="Select Vehicle" :visible.sync="vehicleDialog.show" width="85%" @close="handleVehicleClose">
       <div class="filter-container">
-        <el-select 
+        <!-- <el-select 
           v-model="vehicleDialog.query.model"
           reserve-keyword 
           clearable
@@ -200,7 +200,11 @@
             :label="item.name"
             :value="item.id">
           </el-option>
+        </el-select> -->
+        <el-select v-model="vehicleDialog.query.model__category" class="filter-item" placeholder="Category" clearable @change="loadVehicles">
+          <el-option v-for="item in vehicle_category" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
+        <el-input-number v-model="vehicleDialog.query.passengers" @change="loadVehicles" :min="5" :max="60" placeholder="Passengers" class="filter-item"></el-input-number>
         <el-button type="primary" @click="loadVehicles" class="filter-item">Refresh</el-button>
       </div>
       <el-table
@@ -386,6 +390,19 @@ import { getBooking, updateBooking, createBooking } from '@/api/booking'
 import { getModels, getVehicles } from '@/api/vehicle'
 import { getUsers } from '@/api/user'
 
+const Category = [
+  { value: 'Mini Car', label: 'Mini Car' },
+  { value: 'Economy Car', label: 'Economy Car' },
+  { value: 'Standerd Car', label: 'Standerd Car' },
+  { value: 'Luxury Car', label: 'Luxury Car' },
+  { value: 'SUV Car', label: 'SUV Car' },
+  { value: '7 Seat Car', label: '7 Seat Car' },
+  { value: 'Permium Car', label: 'Permium Car' },
+  { value: 'Luxury Coachs Bus', label: 'Luxury Coachs Bus' },
+  { value: 'Mini Coaches Bus', label: 'Mini Coaches Bus' },
+  { value: 'Mini Vans Bus', label: 'Mini Vans Bus' }
+]
+
 const defaultForm = {
   id: undefined,
   bookingId: undefined,
@@ -430,6 +447,7 @@ export default {
       tableKey: 0,
       postForm: Object.assign({}, defaultForm),
       loading: false,
+      vehicle_category: Category,
       rules: {
         start_time: [
           { required: true, message: 'This fields is required', trigger: 'change' }
@@ -459,14 +477,16 @@ export default {
         show: false,
         select: false,
         query: {
-          model: undefined,
+          // model: undefined,
           is_actived: true,
           start_time: undefined,
-          end_time: undefined
+          end_time: undefined,
+          model__category: undefined,
+          passengers: undefined
         },
-        modelOptions: [],
+        // modelOptions: [],
         vehicleList: [],
-        modelLoading: false,
+        // modelLoading: false,
         vehicleLoading: false,
       },
       guideDialog: {
@@ -720,15 +740,16 @@ export default {
       this.vehicleDialog.show = true
       this.vehicleDialog.select = false
       
-      if(this.vehicleDialog.modelOptions.length === 0){
-        this.vehicleDialog.modelLoading = true
-        getModels().then(response => {
-          this.vehicleDialog.modelLoading = false
-          this.vehicleDialog.modelOptions = response.data
-        }).catch(err => {
-          this.vehicleDialog.modelLoading = false
-        })
-      } 
+      // if(this.vehicleDialog.modelOptions.length === 0){
+      //   this.vehicleDialog.modelLoading = true
+      //   getModels().then(response => {
+      //     this.vehicleDialog.modelLoading = false
+      //     this.vehicleDialog.modelOptions = response.data
+      //   }).catch(err => {
+      //     this.vehicleDialog.modelLoading = false
+      //   })
+      // } 
+      this.loadVehicles()
       this.$nextTick(() => {
         this.$refs['postForm'].clearValidate()
       })
