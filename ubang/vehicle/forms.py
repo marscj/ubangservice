@@ -7,7 +7,7 @@ from .import CarCategory, BusCategory, VehicleType
 from ubang.company import CompanyType
 
 class ModelForm(forms.ModelForm):
-
+ 
     class Meta:
         model = Model
         fields = '__all__'
