@@ -46,21 +46,21 @@ class VehicleForm(forms.ModelForm):
         model = Vehicle
         fields = '__all__'
 
-    def clean_driver(self):
-        driver = self.cleaned_data.get('driver')
-        model = self.cleaned_data.get('model')
-        is_actived = self.changed_data.get('is_actived')
+    # def clean_driver(self):
+    #     driver = self.cleaned_data.get('driver')
+    #     model = self.cleaned_data.get('model')
+    #     is_actived = self.changed_data.get('is_actived')
 
-        if model and model.type == VehicleType.Bus and driver is None and is_actived:
-            raise ValidationError('This field is required') 
+    #     if model and model.type == VehicleType.Bus and driver is None and is_actived:
+    #         raise ValidationError('This field is required') 
 
-        if driver and not driver.is_driver:
-            raise ValidationError('Ensure user is a driver')
+    #     if driver and not driver.is_driver:
+    #         raise ValidationError('Ensure user is a driver')
 
-        if driver and driver.company is None:
-            raise ValidationError('Ensure user is a company user')
+    #     if driver and driver.company is None:
+    #         raise ValidationError('Ensure user is a company user')
 
-        return driver
+    #     return driver
 
     def clean_model(self):
         model = self.cleaned_data.get('model')
@@ -79,6 +79,19 @@ class VehicleForm(forms.ModelForm):
             raise ValidationError('Ensure company type is supplier')
         
         return data
-    
+
+    def clean(self):
+        driver = self.cleaned_data.get('driver')
+        model = self.cleaned_data.get('model')
+        is_actived = self.changed_data.get('is_actived')
+
+        if model and model.type == VehicleType.Bus and driver is None and is_actived:
+            raise ValidationError('This field is required') 
+
+        if driver and not driver.is_driver:
+            raise ValidationError('Ensure user is a driver')
+
+        if driver and driver.company is None:
+            raise ValidationError('Ensure user is a company user')
     
 
