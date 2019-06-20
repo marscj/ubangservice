@@ -81,17 +81,20 @@ class VehicleForm(forms.ModelForm):
         return data
 
     def clean(self):
-        driver = self.cleaned_data.get('driver')
-        model = self.cleaned_data.get('model')
-        is_actived = self.changed_data.get('is_actived')
+        data = self.cleaned_data
+        driver = data.get('driver')
+        model = data.get('model')
+        is_actived = data.get('is_actived')
 
-        if model and model.type == VehicleType.Bus and driver is None and is_actived:
-            raise ValidationError('This field is required') 
+        if model is not None and model.type == VehicleType.Bus and driver is None and is_actived:
+            raise ValidationError('Driver is required') 
 
-        if driver and not driver.is_driver:
+        if driver is not None and not driver.is_driver:
             raise ValidationError('Ensure user is a driver')
 
-        if driver and driver.company is None:
+        if driver is not None and driver.company is None:
             raise ValidationError('Ensure user is a company user')
+
+        return data
     
 
