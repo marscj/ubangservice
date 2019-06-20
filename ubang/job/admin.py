@@ -15,3 +15,7 @@ class JobAdmin(admin.ModelAdmin):
     raw_id_fields = (
         'guide', 'vehicle', 'booking'
     )
+
+    search_fields = (
+        'booking__bookingId', 'vehicle__traffic_plate_no', 'guide__username'
+    )

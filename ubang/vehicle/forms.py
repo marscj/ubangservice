@@ -49,8 +49,9 @@ class VehicleForm(forms.ModelForm):
     def clean_driver(self):
         driver = self.cleaned_data.get('driver')
         model = self.cleaned_data.get('model')
+        is_actived = self.changed_data.get('is_actived')
 
-        if model and model.type == VehicleType.Bus and driver is None:
+        if model and model.type == VehicleType.Bus and driver is None and is_actived:
             raise ValidationError('This field is required') 
 
         if driver and not driver.is_driver:

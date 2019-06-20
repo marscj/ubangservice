@@ -63,6 +63,10 @@ class VehicleAdmin(admin.ModelAdmin):
         'is_actived', 'model__brand', 'model__type', 'model__category'
     )
 
+    search_fields =(
+        'traffic_plate_no', 'driver__username', 'exp_date'
+    )
+
     def brand(self, obj):
         if obj.model:
             return obj.model.brand

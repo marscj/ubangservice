@@ -64,7 +64,7 @@ class CustomerUserAdmin(UserAdmin):
     )
 
     search_fields = (
-        'phone', 'email', 'wechart'
+        'username',
     )
 
     list_editable = (

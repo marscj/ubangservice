@@ -30,11 +30,11 @@ class OrderAdmin(admin.ModelAdmin):
     )
 
     list_filter = (
-        'status',
+        'status', 'company'
     )
 
     search_fields = (
-        'orderId', 
+        'orderId', 'vehicle__traffic_plate_no', 'guide__username'
     )
 
     # class Media:
