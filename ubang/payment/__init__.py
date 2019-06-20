@@ -11,8 +11,8 @@ class Currency:
 
     CHOICES = [
         (AED, 'AED'),
-        (USD, 'USD'),
-        (CNY, 'CNY'),
+        # (USD, 'USD'),
+        # (CNY, 'CNY'),
     ]
 
 class PaymentError(Exception):

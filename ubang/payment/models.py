@@ -57,6 +57,9 @@ class Payment(models.Model):
     class Meta:
         ordering = ('pk', )
 
+    def __str__(self):
+        return str(self.token)
+
     # def get_last_transaction(self):
     #     return max(self.transactions.all(), default=None, key=attrgetter('pk'))
 

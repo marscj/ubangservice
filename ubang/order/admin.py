@@ -20,11 +20,11 @@ class OrderAdmin(admin.ModelAdmin):
     date_hierarchy = 'start_time'
     
     fields = (
-        'orderId', 'status', 'start_time', 'end_time', 'vehicle', 'guide', 'customer', 'company', 'discount', 'total', 'remark'
+        'orderId', 'status', 'start_time', 'end_time', 'vehicle', 'guide', 'customer', 'company', 'discount', 'total', 'captured_amount', 'remark'
     )
 
     readonly_fields = (
-        'orderId', 'status', 'start_time', 'end_time', 'vehicle', 'guide', 'customer', 'company', 'discount', 'total'
+        'orderId', 'status', 'start_time', 'end_time', 'vehicle', 'guide', 'customer', 'company', 'discount', 'total', 'captured_amount'
     )
 
     list_display = (

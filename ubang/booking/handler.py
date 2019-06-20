@@ -14,6 +14,7 @@ from .models import Booking, Itinerary
 from .utils import get_days
 from ubang.job.models import Job
 from ubang.order.models import Order
+from ubang.payment.models import Payment
 from ubang.user.models import CustomUser
 from ubang.vehicle.models import Vehicle
 from .tasks import process, complete
@@ -120,3 +121,12 @@ def itinerary_model_post_save(sender, **kwargs):
                 vehicle=itinerary.booking.vehicle,
                 booking=itinerary.booking,
             )
+        
+        total = Decimal(0.0)
+        discount = itinerary.booking.order.discount
+        if not itinerary.freedom_day:
+            total += itinerary.vehicle_gross_charge + (itinerary.vehicle_gross_charge - itinerary.vehicle_cost_charge) * discount
+            if itinerary.booking.guide is not None:
+                total += itinerary.guide_charge
+
+        Payment.objects.create(total=round(total, 2), remark=itinerary.itinerary, order=itinerary.booking.order) 

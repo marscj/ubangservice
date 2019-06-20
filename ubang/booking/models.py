@@ -139,7 +139,7 @@ class Itinerary(models.Model):
     vehicle_gross_charge = models.DecimalField(default=800.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
 
     # 导游价格
-    guide_charge = models.DecimalField(default=400.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
+    guide_charge = models.DecimalField(default=0.0, max_digits=settings.DEFAULT_MAX_DIGITS, decimal_places=settings.DEFAULT_DECIMAL_PLACES, validators=[MinValueValidator(0.0)])
 
     # 备注
     remark = models.CharField(max_length=256, blank=True, null=True)

@@ -64,12 +64,14 @@ class Order(models.Model):
     @property
     def total(self):
         total = Decimal(0.0)
-        for itinerary in self.booking.itinerary.all():
-            if not itinerary.freedom_day:
-                total += itinerary.vehicle_gross_charge + (itinerary.vehicle_gross_charge - itinerary.vehicle_cost_charge) * self.discount
-                if self.booking.guide:
-                    if itinerary.full_day:
-                        total += settings.DEFAULT_FULL_GUIDE_PRICE
-                    else:
-                        total += settings.DEFAULT_HALF_GUIDE_PRICE
+        for payment in self.payments.all():
+            total += payment.total
+        return round(total, 2)
+
+    @property
+    def captured_amount(self):
+        total = Decimal(0.0)
+        for payment in self.payments.all():
+            total += payment.captured_amount
+
         return round(total, 2)
