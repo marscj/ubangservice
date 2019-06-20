@@ -35,10 +35,11 @@ class ItineraryInline(admin.TabularInline):
     
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-
     inlines = (
         ItineraryInline,
     ) 
+
+    date_hierarchy = 'start_time'
 
     fields = (
         'bookingId', 'confirmId', 'start_time', 'end_time', 'contact_name', 'contact_phone', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 

@@ -4,6 +4,17 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import pgettext_lazy
 
+class Currency:
+    AED = 'AED'
+    USD = 'USD'
+    CNY = 'CNY'
+
+    CHOICES = [
+        (AED, 'AED'),
+        (USD, 'USD'),
+        (CNY, 'CNY'),
+    ]
+
 class PaymentError(Exception):
     
     def __init__(self, message):

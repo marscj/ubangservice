@@ -12,11 +12,13 @@ from ubang.booking.admin import BookingInline
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-
+    
     form = OrderForm
 
-    inlines = (PaymentInline,)
+    inlines = (PaymentInline, )
 
+    date_hierarchy = 'start_time'
+    
     fields = (
         'orderId', 'status', 'start_time', 'end_time', 'vehicle', 'guide', 'customer', 'company', 'discount', 'total', 'remark'
     )
