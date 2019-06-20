@@ -28,7 +28,7 @@ class OrderAdmin(admin.ModelAdmin):
     )
 
     list_display = (
-       '__str__', 'status', 'start_time', 'end_time', 'vehicle', 'guide', 'customer', 'company', 'discount', 'total', 'total'
+       '__str__', 'status', 'start_time', 'end_time', 'vehicle', 'guide', 'customer', 'company', 'discount', 'total', 'captured_amount'
     )
 
     list_filter = (
