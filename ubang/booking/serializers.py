@@ -27,6 +27,8 @@ class BookingSerializer(serializers.ModelSerializer):
 
     create_by = UserListSerializer(required=False, allow_null=True)
 
+    create_by_id = serializers.IntegerField(write_only=True, required=False)
+
     vehicle = VehicleSerializer(required=False, allow_null=True)
 
     vehicle_id = serializers.IntegerField(write_only=True)
@@ -36,6 +38,8 @@ class BookingSerializer(serializers.ModelSerializer):
     guide_id = serializers.IntegerField(write_only=True, required=False)
 
     company_by = CompanyListSerializer(required=False, allow_null=True)
+
+    company_by_id = serializers.IntegerField(write_only=True, required=False)
 
     order = OrderListSerializer(required=False, allow_null=True)
 
@@ -55,7 +59,7 @@ class BookingSerializer(serializers.ModelSerializer):
             'id', 'bookingId', 'start_time', 'end_time', 'contact_name', 'contact_phone', 'pick_up_addr', 'drop_off_addr',
             'create_at', 'change_at', 'status', 'create_by', 'company_by', 'vehicle', 'guide', 'vehicle_id', 'guide_id',
             'order', 'remark', 'vehicle_score', 'guide_score', 'comment', 'can_save', 'can_cancel', 
-            'can_delete', 'can_comment', 'itinerary', 'confirmId'
+            'can_delete', 'can_comment', 'itinerary', 'confirmId', 'company_by_id', 'create_by_id'
         )
 
     def validate(self, data):
@@ -63,6 +67,8 @@ class BookingSerializer(serializers.ModelSerializer):
         end_time = data.get('end_time')
         vehicle_id = data.get('vehicle_id')
         guide_id = data.get('guide_id')
+        create_by_id = data.get('create_by_id')
+        company_by_id = data.get('company_by_id')
     
         if start_time is not None and end_time is not None:
             now = arrow.utcnow().to('Asia/Dubai')
@@ -82,19 +88,25 @@ class BookingSerializer(serializers.ModelSerializer):
 
             if vehicle_id is not None:
                 if Vehicle.objects.valide_job(vehicle_id, _start, _end):
-                    raise serializers.ValidationError('Ensure vehicle is free')
+                    raise serializers.ValidationError('Ensure vehicle is free.')
 
             if guide_id is not None:
                 if CustomUser.objects.valide_job(guide_id, _start, _end):
-                    raise serializers.ValidationError('Ensure vehicle is free')
+                    raise serializers.ValidationError('Ensure vehicle is free.')
 
             if vehicle_id is None:
-                raise serializers.ValidationError('Vehicle is required')
-        
+                raise serializers.ValidationError('Vehicle is required.')
+
+            if create_by_id is None:
+                raise ValidationError('creator is none.')
+
+            if company_by_id is None:
+                raise ValidationError('you are not a company user.')
+
         return data
 
     def create(self, validated_data):
-        itinerary_data = validated_data.pop('itinerary')        
+        itinerary_data = validated_data.pop('itinerary')
         booking = Booking.objects.create(**validated_data)
         for data in itinerary_data:
             Itinerary.objects.create(booking=booking, **data)

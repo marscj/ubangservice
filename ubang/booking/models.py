@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 from django.conf import settings
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 
 import pytz
 from datetime import datetime, timedelta
@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 from phonenumber_field.modelfields import PhoneNumberField
 
 from .import BookingStatus
+from ubang.company import CompanyType
 from ubang.vehicle.models import Vehicle, ModelPrice
 from ubang.user.models import CustomUser
 from ubang.order.models import Order
@@ -55,10 +56,10 @@ class Booking(models.Model):
     status = models.CharField(max_length=16, default=BookingStatus.Created, choices=BookingStatus.CHOICES)
         
     # 客户
-    create_by = models.ForeignKey(CustomUser, related_name='booking_customer', on_delete=models.SET_NULL, null=True, verbose_name = 'Customer', editable=False) 
+    create_by = models.ForeignKey(CustomUser, related_name='booking_customer', on_delete=models.SET_NULL, null=True, verbose_name = 'Customer') 
 
     # 公司
-    company_by = models.ForeignKey(Company, related_name='booking', on_delete=models.SET_NULL, null=True, verbose_name = 'Company', editable=False)
+    company_by = models.ForeignKey(Company, related_name='booking', on_delete=models.SET_NULL, null=True, verbose_name = 'Company')
     
     # 车辆
     vehicle = models.ForeignKey(Vehicle, related_name='booking', on_delete=models.SET_NULL, blank=True, null=True)
@@ -89,7 +90,16 @@ class Booking(models.Model):
 
     def __str__(self):
         return self.bookingId
-        
+
+    def clean(self):
+        if self.create_by is None:
+            raise ValidationError('creator is none.')
+
+        if self.company_by is None:
+            raise ValidationError('you are not a company user.')
+        elif self.company_by.type != CompanyType.Customer:
+            raise ValidationError('you are not a supplier user.')
+
     @property
     def expiry_date(self):
         return self.start_time - timedelta(days=1)

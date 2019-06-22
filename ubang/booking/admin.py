@@ -47,7 +47,7 @@ class BookingAdmin(admin.ModelAdmin):
     )
 
     readonly_fields = (
-        'bookingId', 'create_by', 'company_by',
+        'bookingId', #'create_by', 'company_by',
     )
 
     raw_id_fields = (

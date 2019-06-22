@@ -65,10 +65,10 @@
                   <el-input v-model="order" disabled></el-input>
                 </el-form-item>
                 <el-form-item label="Creator:">
-                  <el-input v-model="creator" disabled></el-input>
+                  <el-input v-model="create_by" disabled></el-input>
                 </el-form-item>
                 <el-form-item label="Company:">
-                  <el-input v-model="company" disabled></el-input>
+                  <el-input v-model="company_by" disabled></el-input>
                 </el-form-item>
                 <el-form-item v-if="postForm.create_at" label="Create at:">
                   <span>{{postForm.create_at | moment('YYYY-MM-DD HH:mm')}}</span>
@@ -421,6 +421,8 @@ const defaultForm = {
   create_at: undefined,
   change_at: undefined,
   vehicle_id: undefined,
+  company_by_id: undefined,
+  create_by_id: undefined,
   guide_id: undefined,
   itinerary: []
 }
@@ -576,7 +578,7 @@ export default {
         }
       }
     }, 
-    creator: {
+    create_by: {
       get() {
         if(this.relatedKey.create_by) {
           return this.relatedKey.create_by.name || this.relatedKey.create_by.username
@@ -590,7 +592,7 @@ export default {
         }
       }
     },
-    company: {
+    company_by: {
       get() {
         if(this.relatedKey.company_by) {
           return this.relatedKey.company_by.name
@@ -620,8 +622,8 @@ export default {
       this.vehicle = this.postForm.vehicle
       this.guide = this.postForm.guide
       this.order = this.postForm.order
-      this.creator = this.postForm.create_by
-      this.company = this.postForm.company_by
+      this.create_by = this.postForm.create_by
+      this.company_by = this.postForm.company_by
       this.history = this.postForm.history
       this.handleDuration()
     },
@@ -645,6 +647,8 @@ export default {
             this.createDialog.show = false
             this.loading = true
             this.postForm.status = 'Created'
+            this.postForm.create_by_id = this.$store.getters.user.id
+            this.postForm.company_by_id = this.$store.getters.user.company.id
             createBooking(this.postForm).then(response => {
               var id = response.data['id']
               this.loading = false

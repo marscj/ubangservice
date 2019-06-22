@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, Sum
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import ugettext_lazy as _
@@ -63,15 +63,8 @@ class Order(models.Model):
 
     @property
     def total(self):
-        total = Decimal(0.0)
-        for payment in self.payments.all():
-            total += payment.total
-        return round(total, 2)
+        return self.payments.all().aggregate(sum=Sum('total')).get('sum') or Decimal(0.0)
 
     @property
     def captured_amount(self):
-        total = Decimal(0.0)
-        for payment in self.payments.all():
-            total += payment.captured_amount
-
-        return round(total, 2)
+        return self.payments.all().aggregate(sum=Sum('captured_amount')).get('sum') or Decimal(0.0)
