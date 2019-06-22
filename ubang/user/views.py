@@ -18,19 +18,22 @@ class LoginJwtTokenView(ObtainJSONWebToken):
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
         
+        
         if response.status_code == 200:
             context = {
                 'code': 20000,
                 'data': response.data,
             }
+            _response = Response(context)
+            _response.set_cookie('jwt_auth_token',response.data['token'])
+            return _response
         else:
             context = {
                 'code': 20001,
                 'message': 'Unable to log in with provided credentials.'
             }
+            return Response(context)
         
-        return Response(context)
-
 class LogoutJwtTokenView(APIView):
     
     permission_classes = [IsAuthenticated]
@@ -176,7 +179,6 @@ class RoleView(ModelViewSet):
                 'code': 20001,
                 'message': '%s' % e
             }
-            print(e)
             return Response(context)
 
     def destroy(self, request, *args, **kwargs):
