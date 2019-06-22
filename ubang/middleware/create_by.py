@@ -7,13 +7,10 @@ from django.utils.functional import curry
 class WhoDidMiddleware(MiddlewareMixin):
     def process_request(self, request):
         if request.method not in ('GET', 'HEAD', 'OPTIONS', 'TRACE'):
-            print(request)
             if hasattr(request, 'user') and request.user.is_authenticated:
                 user = request.user
-                print(user)
             else:
                 user = None
-                print(user)
 
             mark_whodid = curry(self.mark_whodid, user)
             signals.pre_save.connect(mark_whodid, dispatch_uid=(self.__class__, request,), weak=False)

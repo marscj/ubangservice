@@ -62,7 +62,6 @@ class BookingView(ModelViewSet):
                 'code': 20000,
                 'data': response.data,
             }
-            print(context)
             return Response(context)
         except (ValueError, Exception) as e:
             context = {
