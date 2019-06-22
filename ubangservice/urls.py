@@ -31,6 +31,8 @@ urlpatterns = [
 
     url(r'booking/', include('ubang.booking.urls')),
 
+    url(r'job/', include('ubang.job.urls')),
+
     url(r'vehicle/', include('ubang.vehicle.urls')),
   
     url(r'api-auth/', include('rest_framework.urls')),
