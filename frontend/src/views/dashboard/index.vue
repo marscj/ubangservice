@@ -1,14 +1,19 @@
 <template >
-  <div class="dashboard-container">
-      <el-row :gutter="8">
-        <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 10}" :lg="{span: 4}" :xl="{span: 4}" style="margin-bottom:30px; padding-top:10px">
-          <company-panel />
-        </el-col> 
-        <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 14}" :lg="{span: 20}" :xl="{span: 20}" style="margin-bottom:30px;">
-          <tab-view />
-        </el-col>
-      </el-row>
-    </div>
+  <div v-if="showCompany"  class="dashboard-container">
+    <el-row :gutter="8">
+      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 10}" :lg="{span: 4}" :xl="{span: 4}" style="margin-bottom:30px; padding-top:10px">
+        <company-panel />
+      </el-col> 
+      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 14}" :lg="{span: 20}" :xl="{span: 20}" style="margin-bottom:30px;">
+        <tab-view />
+      </el-col>
+    </el-row>
+  </div>
+  <div v-else style="padding: 10px 10px 10px 10px">
+    <h1>
+      You are not a company user
+    </h1>
+  </div>
 </template>
 
 <script>
@@ -19,7 +24,12 @@ export default {
   name: 'Dashboard',
   components: {
     CompanyPanel, TabView
-  }
+  },
+  data() {
+    return {
+      showCompany: this.$store.getters.user.company != null
+    }
+  },
 }
 </script>
 

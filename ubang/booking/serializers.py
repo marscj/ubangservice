@@ -98,10 +98,10 @@ class BookingSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError('Vehicle is required.')
 
             if create_by_id is None:
-                raise ValidationError('creator is none.')
+                raise serializers.ValidationError('creator is none.')
 
             if company_by_id is None:
-                raise ValidationError('you are not a company user.')
+                raise serializers.ValidationError('you are not a company user.')
 
         return data
 

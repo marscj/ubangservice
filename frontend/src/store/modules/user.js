@@ -43,14 +43,17 @@ const actions = {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
         const { data } = response
+        
         if (!data) {
           reject('Verification failed, please Login again.')
         }
-        if (!data.company) {
-          reject('You are not a company user.')
-        } else if (data.company.type !== 'Customer') {
-          reject('You are not a customer company user.')
-        }
+
+        // if (!data.company) {
+        //   reject('You are not a company user.')
+        // } else if (data.company.type !== 'Customer') {
+        //   reject('You are not a customer company user.')
+        // }
+        
         commit('SET_ROLES', ['admin'])
         commit('SET_USER', data)
         resolve(data)
