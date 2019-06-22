@@ -105,7 +105,7 @@ venv.bak/
 
 .vscode/
 
-/static
+# /static
 
 dump.rdb
 .DS_Store
