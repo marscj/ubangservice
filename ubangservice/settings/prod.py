@@ -8,6 +8,8 @@ ADMINS = (
 
 ALLOWED_HOSTS = ['ubangservice.com', '*']
 
+SESSION_COOKIE_DOMAIN = 'ubangservice.com'
+
 CORS_ORIGIN_ALLOW_ALL = False
 
 DATABASES = {

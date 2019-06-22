@@ -240,7 +240,7 @@ COMPANY_BY_FIELD = 'company_by'
 
 # jwt
 JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=30),
     'JWT_AUTH_COOKIE': 'jwt_auth_token',
 }
 

@@ -7,6 +7,7 @@ from rest_framework_jwt.views import ObtainJSONWebToken
 from rest_framework.mixins import ListModelMixin
 from rest_framework import generics
 from rest_framework import filters
+from django.conf import settings
 
 import arrow
 
@@ -25,7 +26,7 @@ class LoginJwtTokenView(ObtainJSONWebToken):
                 'data': response.data,
             }
             _response = Response(context)
-            _response.set_cookie('jwt_auth_token',response.data['token'])
+            _response.set_cookie('jwt_auth_token', response.data['token'], domain=settings.SESSION_COOKIE_DOMAIN)
             return _response
         else:
             context = {
