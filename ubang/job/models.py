@@ -72,6 +72,10 @@ class Job(models.Model):
     def __str__(self):
         return str(self.itinerary)
 
+    @property
+    def status(self):
+        return self.booking.status
+
     # def validate_unique(self, exclude=None):
     #     if Task.objects.exclude(pk=self.pk).filter(day=self.day, is_freedom_day=self.is_freedom_day).filter(
     #         Q(guide=self.guide) | Q (vehicle=self.vehicle)
