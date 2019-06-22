@@ -67,6 +67,15 @@
           </router-link>
         </template>
       </el-table-column>
+      <el-table-column label="Driver" min-width="140px" align="center">
+        <template slot-scope="{row}">
+          <router-link :to="'/booking/edit/'+row.id" class="link-type">
+            <span v-if="row.vehicle&&row.vehicle.driver">{{ row.vehicle.driver.username }}</span>
+            <br>
+            <span v-if="row.vehicle&&row.vehicle.driver">{{row.vehicle.driver.phone}}</span>
+          </router-link>
+        </template>
+      </el-table-column>
       <el-table-column label="Guide" min-width="120px" align="center">
         <template slot-scope="{row}">
           <router-link :to="'/booking/edit/'+row.id" class="link-type">

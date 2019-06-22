@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from .models import Vehicle, Model, Brand, ModelPrice
 from ubang.company.serializers import CompanySerializer
-from ubang.user.serializers import UserSerializer
+from ubang.user.serializers import UserSerializer, UserListSerializer
 
 class ModelPriceSerializer(serializers.ModelSerializer):
 
@@ -49,6 +49,8 @@ class VehicleSerializer(serializers.ModelSerializer):
 
     total_score = serializers.FloatField(required=False, allow_null=True, read_only=True)
 
+    driver = UserSerializer()
+
     company = CompanySerializer()
 
     class Meta:
@@ -57,8 +59,10 @@ class VehicleSerializer(serializers.ModelSerializer):
 
 class VehicleListSerializer(serializers.ModelSerializer):
 
+    driver = UserListSerializer()
+
     class Meta:
         model = Vehicle
         fields = (
-            'id', 'traffic_plate_no'
+            'id', 'traffic_plate_no', 'driver'
         )
