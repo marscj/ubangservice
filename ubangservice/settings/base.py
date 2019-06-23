@@ -238,12 +238,6 @@ CREATE_BY_FIELD = 'create_by'
 UPDATE_BY_FIELD = 'update_by'
 COMPANY_BY_FIELD = 'company_by'
 
-# jwt
-JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=30),
-    'JWT_AUTH_COOKIE': 'jwt_auth_token',
-}
-
 # CELERY STUFF 
 CELERY_BROKER_URL = 'redis://localhost'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379' 

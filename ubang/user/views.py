@@ -10,6 +10,8 @@ from rest_framework import filters
 from django.conf import settings
 
 import arrow
+import uuid
+from datetime import datetime
 
 from .serializers import UserSerializer, PermissionSerializer, RoleSerializer
 from .models import CustomUser, Permission, Role
@@ -19,15 +21,12 @@ class LoginJwtTokenView(ObtainJSONWebToken):
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
         
-        
         if response.status_code == 200:
-            context = {
+            response.data = {
                 'code': 20000,
                 'data': response.data,
             }
-            _response = Response(context)
-            _response.set_cookie('jwt_auth_token', response.data['token'], domain=settings.SESSION_COOKIE_DOMAIN)
-            return _response
+            return response
         else:
             context = {
                 'code': 20001,
@@ -40,6 +39,9 @@ class LogoutJwtTokenView(APIView):
     permission_classes = [IsAuthenticated]
     
     def post(self, request, *args, **kwargs):
+        user = request.user
+        user.jwt_secret = uuid.uuid4()
+        user.save()
         context = {
             'code': 20000,
             'message': 'ok'

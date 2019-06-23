@@ -6,6 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from phonenumber_field.modelfields import PhoneNumberField
 from django_countries.fields import CountryField
+import uuid
 
 from ubang.company.models import Company
 from .import Gender
@@ -96,6 +97,9 @@ class CustomUser(AbstractUser):
 
     # 公司
     company = models.ForeignKey(Company, related_name='user', on_delete=models.SET_NULL, blank=True,null=True)
+    
+    # Token
+    jwt_secret = models.UUIDField(default=uuid.uuid4)
 
     objects = CustomUserQuerySet()
 
@@ -137,3 +141,6 @@ class CustomUser(AbstractUser):
     #     return round(Booking.objects.filter(guide=self).filter(
     #        Q(status='Created') | Q(status='Complete')
     #     ).aggregate(score=Sum('guide_score')).get('score') or 0.0, 2)
+
+def jwt_get_secret_key(user_model):
+    return user_model.jwt_secret

@@ -23,6 +23,12 @@ DATABASES = {
     }
 }
 
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=30),
+    'JWT_AUTH_COOKIE': 'jwt_auth_token',
+    'JWT_GET_USER_SECRET_KEY': 'ubang.user.models.jwt_get_secret_key'
+}
+
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': False,
