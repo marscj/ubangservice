@@ -28,11 +28,11 @@ class LoginJwtTokenView(ObtainJSONWebToken):
             }
             return response
         else:
-            context = {
-                'code': 20001,
+            response.data = {
+                'code': 50008,
                 'message': 'Unable to log in with provided credentials.'
             }
-            return Response(context)
+            return response
         
 class LogoutJwtTokenView(APIView):
     
