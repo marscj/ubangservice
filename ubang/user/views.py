@@ -8,6 +8,7 @@ from rest_framework.mixins import ListModelMixin
 from rest_framework import generics
 from rest_framework import filters
 from rest_framework_jwt.utils import jwt_response_payload_handler
+from rest_framework import status
 from django.conf import settings
 
 import arrow
@@ -35,38 +36,13 @@ class LoginJwtTokenView(ObtainJSONWebToken):
                                     expires=expiration,
                                     httponly=True)
 
-            if response.status_code == 200:
-                response.data = {
-                    'code': 20000,
-                    'data': response.data,
-                }
-                return response
-            else:
-                response.data = {
-                    'code': 50008,
-                    'message': 'Unable to log in with provided credentials.'
-                }
+            response.data = {
+                'code': 20000,
+                'data': response.data,
+            }
             return response
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        # response = super().post(request, *args, **kwargs)
-        
-        # if response.status_code == 200:
-        #     context = {
-        #         'code': 20000,
-        #         'data': response.data,
-        #     }
-        #     response.data = {
-        #         'code': 20000,
-        #         'data': response.data,
-        #     }
-        #     return response
-        # else:
-        #     response.data = {
-        #         'code': 50008,
-        #         'message': 'Unable to log in with provided credentials.'
-        #     }
-        #     return response
+        return Response({'code': 50008, 'message': 'Unable to log in with provided credentials.'}, status=status.HTTP_400_BAD_REQUEST)
         
 class LogoutJwtTokenView(APIView):
     
