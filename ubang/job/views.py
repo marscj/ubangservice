@@ -2,6 +2,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from django.db.models import Count
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.timezone import now
 
@@ -12,11 +14,22 @@ from .models import Job
 
 class JobViewSet(ModelViewSet):
     serializer_class = JobSerializer
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
     permission_classes = [IsAuthenticated]
     queryset = Job.objects.all()
 
     filterset_fields = ('vehicle_id', 'booking_id', 'guide_id')
     ordering = ('-id',)
+
+    @action(detail=False, methods=['get'])
+    def purDay(self, request):
+        query = Job.objects.values('day').annotate(Count=Count('id')).order_by()
+        context = {
+            'code': 20000,
+            'data': query
+        }
+        return Response(context)
+
 
     def list(self, request):
         try:

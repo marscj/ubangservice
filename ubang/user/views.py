@@ -7,6 +7,7 @@ from rest_framework_jwt.views import ObtainJSONWebToken
 from rest_framework.mixins import ListModelMixin
 from rest_framework import generics
 from rest_framework import filters
+from rest_framework_jwt.utils import jwt_response_payload_handler
 from django.conf import settings
 
 import arrow
@@ -19,20 +20,53 @@ from .models import CustomUser, Permission, Role
 class LoginJwtTokenView(ObtainJSONWebToken):
     
     def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            user = serializer.object.get('user') or request.user
+            token = serializer.object.get('token')
+            response_data = jwt_response_payload_handler(token, user, request)
+            response = Response(response_data)
+            if settings.JWT_AUTH['JWT_AUTH_COOKIE']:
+                expiration = (datetime.utcnow() + settings.JWT_AUTH['JWT_EXPIRATION_DELTA'])
+                response.set_cookie(settings.JWT_AUTH['JWT_AUTH_COOKIE'],
+                                    token,
+                                    domain=settings.SESSION_COOKIE_DOMAIN,
+                                    expires=expiration,
+                                    httponly=True)
+
+            if response.status_code == 200:
+                response.data = {
+                    'code': 20000,
+                    'data': response.data,
+                }
+                return response
+            else:
+                response.data = {
+                    'code': 50008,
+                    'message': 'Unable to log in with provided credentials.'
+                }
+            return response
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # response = super().post(request, *args, **kwargs)
         
-        if response.status_code == 200:
-            response.data = {
-                'code': 20000,
-                'data': response.data,
-            }
-            return response
-        else:
-            response.data = {
-                'code': 50008,
-                'message': 'Unable to log in with provided credentials.'
-            }
-            return response
+        # if response.status_code == 200:
+        #     context = {
+        #         'code': 20000,
+        #         'data': response.data,
+        #     }
+        #     response.data = {
+        #         'code': 20000,
+        #         'data': response.data,
+        #     }
+        #     return response
+        # else:
+        #     response.data = {
+        #         'code': 50008,
+        #         'message': 'Unable to log in with provided credentials.'
+        #     }
+        #     return response
         
 class LogoutJwtTokenView(APIView):
     

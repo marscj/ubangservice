@@ -67,6 +67,8 @@ REST_FRAMEWORK = {
     # 'DATETIME_INPUT_FORMATS': ('%Y-%m-%d %H:%M',),
     'ORDERING_PARAM': 'sort',
     'DEFAULT_PERMISSION_CLASSES': (
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -162,8 +164,32 @@ SHORT_DATETIME_FORMAT =  'Y-m-d H:i'
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = ('*',)
-CORS_ALLOW_HEADERS = ('*',)
-CORS_ALLOW_METHODS = ('*',)
+# CORS_ALLOW_HEADERS = ('*',)
+# CORS_ALLOW_METHODS = ('*',)
+CORS_ALLOW_METHODS = (
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+    'VIEW',
+)
+
+CORS_ALLOW_HEADERS = (
+    'XMLHttpRequest',
+    'X_FILENAME',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'Pragma',
+    'Set-Cookie'
+)
 
 # 静态资源
 STATIC_URL = '/static/'
