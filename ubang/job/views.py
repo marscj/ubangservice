@@ -24,7 +24,7 @@ class JobViewSet(ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def days(self, request):
-        query = Job.objects.filter(booking__status=BookingStatus.Created).values('day').annotate(Count=Count('id')).order_by()
+        query = Job.objects.values('day').annotate(Count=Count('id')).order_by()
         context = {
             'code': 20000,
             'data': query

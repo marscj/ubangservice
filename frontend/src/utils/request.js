@@ -60,13 +60,7 @@ service.interceptors.response.use(
     }
   },
   error => {
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
-
-    if (error.response.status == 401) {
+    if (error.response.status == 401 || error.response.status == 403) {
       MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
         confirmButtonText: 'Re-Login',
         cancelButtonText: 'Cancel',
@@ -75,6 +69,18 @@ service.interceptors.response.use(
         store.dispatch('user/resetToken').then(() => {
           location.reload()
         })
+      })
+    } else if (error.response.status == 400) {
+      Message({
+        message: error.response.data.message,
+        type: 'error',
+        duration: 5 * 1000
+      })
+    } else {
+      Message({
+        message: error.message,
+        type: 'error',
+        duration: 5 * 1000
       })
     }
     return Promise.reject(error)
