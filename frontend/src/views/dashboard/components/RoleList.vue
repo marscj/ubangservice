@@ -173,7 +173,6 @@ export default {
     createForm() {
       this.$refs['roleForm'].validate((valid) => {
         if (valid) {
-          console.log(this.temp)
           createRole(this.temp).then(response => {
             this.dialog.visible = false
           }).catch(error => {

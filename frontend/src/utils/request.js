@@ -35,8 +35,6 @@ service.interceptors.response.use(
   response => {
     const res = response.data
 
-    console.log('res = ', res)
-
     if (res.code !== 20000) {
       Message({
         message: res.message || 'error',
