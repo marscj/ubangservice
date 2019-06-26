@@ -4,8 +4,8 @@
       <el-tab-pane label="All Booking" name="all" lazy></el-tab-pane>
       <!-- <el-tab-pane :label="monthTitle" name="month" lazy></el-tab-pane> -->
       <el-tab-pane label="My Booking" name="my" lazy></el-tab-pane>
-      <el-tab-pane label="Vehicle" name="vehicle" lazy></el-tab-pane>
-      <el-tab-pane label="Guide" name="guide" lazy></el-tab-pane>
+      <el-tab-pane v-if="company" label="Vehicle" name="vehicle" lazy></el-tab-pane>
+      <el-tab-pane v-if="company" label="Guide" name="guide" lazy></el-tab-pane>
       <el-tab-pane label="Users" name="user" lazy></el-tab-pane>
       <!-- <el-tab-pane label="Roles" name="role" lazy></el-tab-pane> -->
     </el-tabs>
@@ -34,7 +34,8 @@ export default {
       role: 'role',
       vehicle: 'vehicle',
       guide: 'guide',
-      monthTitle: this.$moment().format('MMM') + ' Booking'
+      monthTitle: this.$moment().format('MMM') + ' Booking',
+      company: this.$store.getters.user.company.type == 'Supplier' 
     };
   },
   methods: {
