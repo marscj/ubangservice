@@ -40,7 +40,7 @@ def booking_model_post_save(sender, **kwargs):
                 end_time=booking.end_time,
                 vehicle=booking.vehicle.traffic_plate_no,
                 guide=booking.guide.username,
-                discount=booking.create_by.company.discount
+                discount=booking.create_by.company.discount,
             )
         else:
             order = Order.objects.create(
@@ -109,6 +109,7 @@ def itinerary_model_post_save(sender, **kwargs):
                 guide=itinerary.booking.guide,
                 vehicle=itinerary.booking.vehicle,
                 booking=itinerary.booking,
+                remark=itinerary.remark
             )
         else:
             Job.objects.create(
@@ -120,6 +121,7 @@ def itinerary_model_post_save(sender, **kwargs):
                 freedom_day=itinerary.freedom_day,
                 vehicle=itinerary.booking.vehicle,
                 booking=itinerary.booking,
+                remark=itinerary.remark
             )
         
         total = Decimal(0.0)

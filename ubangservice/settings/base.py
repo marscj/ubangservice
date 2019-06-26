@@ -67,8 +67,8 @@ REST_FRAMEWORK = {
     # 'DATETIME_INPUT_FORMATS': ('%Y-%m-%d %H:%M',),
     'ORDERING_PARAM': 'sort',
     'DEFAULT_PERMISSION_CLASSES': (
-        # 'rest_framework.authentication.BasicAuthentication',
-        # 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (

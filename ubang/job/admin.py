@@ -8,7 +8,7 @@ class JobAdmin(admin.ModelAdmin):
     
     fields = (
         'day', 'start_time', 'end_time', 'itinerary', 'full_day', 'freedom_day', 'guide', 'vehicle', 'booking', 
-        'checkin_time', 'checkout_time'
+        'checkin_time', 'checkout_time', 'remark'
     )
 
     list_display = fields

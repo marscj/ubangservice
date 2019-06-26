@@ -11,6 +11,7 @@ import arrow
 
 from .serializers import JobSerializer
 from .models import Job
+from ubang.booking import BookingStatus
 
 class JobViewSet(ModelViewSet):
     serializer_class = JobSerializer
@@ -18,12 +19,12 @@ class JobViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Job.objects.all()
 
-    filterset_fields = ('vehicle_id', 'booking_id', 'guide_id')
+    filterset_fields = ('vehicle_id', 'booking_id', 'guide_id', 'day')
     ordering = ('-id',)
 
     @action(detail=False, methods=['get'])
-    def purDay(self, request):
-        query = Job.objects.values('day').annotate(Count=Count('id')).order_by()
+    def days(self, request):
+        query = Job.objects.filter(booking__status=BookingStatus.Created).values('day').annotate(Count=Count('id')).order_by()
         context = {
             'code': 20000,
             'data': query
@@ -43,7 +44,8 @@ class JobViewSet(ModelViewSet):
         except (ValueError, Exception) as e:
             context = {
                 'code': 20001,
-                'message': '%s' % e
+                'message': '%s' % e,
+                'data':[]
             }
             return Response(context)
 
@@ -58,7 +60,7 @@ class JobViewSet(ModelViewSet):
         except (ValueError, Exception) as e:  
             context = {
                 'code': 20001,
-                'message': '%s' % e
+                'message': '%s' % e,
             }
             return Response(context)
 
