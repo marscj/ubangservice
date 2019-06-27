@@ -119,9 +119,9 @@
                     <span>{{ row.itinerary }}</span>
                   </template>                    
                 </el-table-column>
-                <el-table-column width="140px" label="Vehicle Charge" prop="vehicle_gross_charge" align="center">
+                <el-table-column width="140px" label="Vehicle Charge" prop="vehicle_charge" align="center">
                   <template slot-scope="{row}">  
-                    <span v-if="row.vehicle_gross_charge">{{ row.vehicle_gross_charge }} AED</span>
+                    <span v-if="row.vehicle_charge">{{ row.vehicle_charge }} AED</span>
                   </template>
                 </el-table-column>
                 <el-table-column width="140px" label="Guide Charge" prop="guide_charge" align="center">
@@ -514,8 +514,7 @@ export default {
           itinerary: undefined,
           full_day: undefined,
           freedom_day: undefined,
-          vehicle_cost_charge: undefined,
-          vehicle_gross_charge: undefined,
+          vehicle_charge: undefined,
           guide_charge: undefined,
           remark:undefined
         },
@@ -842,7 +841,7 @@ export default {
     vehicle_charge() {
       var total = 0.0
       for(var itinerary of this.postForm.itinerary) {
-        total += Number(itinerary.vehicle_gross_charge)
+        total += Number(itinerary.vehicle_charge)
       }
       return total
     },
@@ -853,7 +852,7 @@ export default {
         var discount = Number(user.company.discount)
 
         for(var itinerary of this.postForm.itinerary) {
-          total += Math.abs(itinerary.vehicle_gross_charge - itinerary.vehicle_cost_charge) * discount
+          total += itinerary.vehicle_charge * discount
         }
       }
 
@@ -866,8 +865,7 @@ export default {
       if(this.itineraryDialog.data.freedom_day) {
         this.itineraryDialog.data.full_day = true
         this.itineraryDialog.data.itinerary = 'Freedom Day'
-        this.itineraryDialog.data.vehicle_cost_charge = 0.00
-        this.itineraryDialog.data.vehicle_gross_charge = 0.00
+        this.itineraryDialog.data.vehicle_charge = 0.00
         this.itineraryDialog.data.guide_charge = 0.00
       }
 
@@ -906,8 +904,7 @@ export default {
               itinerary: '',
               full_day: true,
               freedom_day: false,
-              vehicle_cost_charge: 0.0,
-              vehicle_gross_charge: 0.0,
+              vehicle_charge: 0.0,
               guide_charge: 0.0,
               remark:''
             });
@@ -918,8 +915,7 @@ export default {
     handleItineraryChange(value) {
       for(var itinerary of this.vehicle.model.price) {        
         if(itinerary.itinerary === value) {
-          this.itineraryDialog.data.vehicle_cost_charge = Number(itinerary.cost_price)
-          this.itineraryDialog.data.vehicle_gross_charge = Number(itinerary.gross_price)
+          this.itineraryDialog.data.vehicle_charge = Number(itinerary.price)
           this.itineraryDialog.data.full_day = itinerary.full_day
 
           if(this.guide) {

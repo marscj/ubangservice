@@ -26,13 +26,10 @@ class ModelAdmin(admin.ModelAdmin):
     )
 
     list_display =  (
-        '__str__', 'brand', 'type', 'category', 'passengers', 'year', 'is_automatic',  'photo', 'introduction', 'model_price'
+        '__str__', 'brand', 'type', 'category', 'passengers', 'year', 'is_automatic',  'photo', 'introduction'
     )
 
     raw_id_fields = []
-
-    def model_price(self, obj):
-        return mark_safe("<br>".join(['%s,cost(%s),gross(%s)'% (price.itinerary, price.cost_price, price.gross_price) for price in obj.price.all()]))
 
 @admin.register(Vehicle)
 class VehicleAdmin(admin.ModelAdmin):
@@ -82,7 +79,3 @@ class VehicleAdmin(admin.ModelAdmin):
     def passengers(self, obj):
         if obj.model:
             return obj.model.passengers
-            
-    def model_price(self, obj):
-        if obj.model:
-            return mark_safe("<br>".join(['%s,cost(%s),gross(%s)'% (price.itinerary, price.cost_price, price.gross_price) for price in obj.model.price.all()]))

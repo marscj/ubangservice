@@ -30,14 +30,4 @@ def get_days(start, end):
     duration = date(end.year, end.month, end.day) + timedelta(days=1) - date(start.year, start.month, start.day)
     return [(date(start.year, start.month, start.day) + timedelta(days=index)).strftime('%Y-%m-%d') for index in range(duration.days) ]
 
-# def create_task(order, day, guide, vehicle, itinerary=None):
-#     return Task.objects.get_or_create(order=order, day=day, guide=guide, vehicle=vehicle)
-
-# def save_by_task(order):
-#     days = get_days(order.start_time, order.end_time)
-#     return [create_task(order=order, day=day, guide=order.guide, vehicle=order.vehicle) for day in days]
-
-# def total(cost_price, gross_price, discount):
-#     return gross_price - abs(gross_price - cost_price) * discount
-
  

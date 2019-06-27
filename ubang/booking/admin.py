@@ -31,7 +31,7 @@ class ItineraryInline(admin.TabularInline):
     extra = 0
     formset = ItineraryInlineFormSet
 
-    fields = ('day', 'itinerary', 'full_day', 'freedom_day', 'vehicle_cost_charge', 'vehicle_gross_charge', 'guide_charge', 'remark')
+    fields = ('day', 'itinerary', 'full_day', 'freedom_day', 'vehicle_charge', 'guide_charge', 'remark')
     
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):

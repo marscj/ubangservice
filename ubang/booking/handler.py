@@ -127,7 +127,7 @@ def itinerary_model_post_save(sender, **kwargs):
         total = Decimal(0.0)
         discount = itinerary.booking.order.discount
         if not itinerary.freedom_day:
-            total += itinerary.vehicle_gross_charge + (itinerary.vehicle_gross_charge - itinerary.vehicle_cost_charge) * discount
+            total += itinerary.vehicle_charge * discount
             if itinerary.booking.guide is not None:
                 total += itinerary.guide_charge
 
