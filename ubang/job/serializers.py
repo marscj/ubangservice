@@ -19,6 +19,7 @@ class JobSerializer(serializers.ModelSerializer):
     guide = UserListSerializer(required=False, allow_null=True, read_only=True)
 
     vehicle = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    # vehicle = VehicleListSerializer(required=True, allow_null=True)
 
     booking = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     

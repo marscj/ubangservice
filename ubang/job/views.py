@@ -20,16 +20,14 @@ class JobViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Job.objects.all()
 
-    filterset_fields = ('vehicle_id', 'booking_id', 'guide_id', 'day')
+    filterset_fields = ('vehicle_id', 'booking_id', 'guide_id', 'day', 'vehicle__driver_id')
     ordering = ('-id',)
 
     @action(detail=False, methods=['get'])
     def days(self, request):
         start_day = date.today() - timedelta(days=7)
         end_day = date.today() + timedelta(days=30)
-        print(start_day.strftime('%m%d%y'))
-        print(end_day.strftime('%m%d%y'))
-        query = Job.objects.filter(day__range=(start_day, end_day)).values('day').annotate(count=Count('id')).order_by()
+        query = self.get_queryset().filter(vehicle__driver_id=request.GET.get('vehicle__driver_id')).filter(day__range=(start_day, end_day)).values('day').annotate(count=Count('id')).order_by()
         context = {
             'code': 20000,
             'data': query
