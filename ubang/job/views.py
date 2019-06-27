@@ -8,6 +8,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.utils.timezone import now
 
 import arrow
+from datetime import date, datetime, timedelta
 
 from .serializers import JobSerializer
 from .models import Job
@@ -24,7 +25,11 @@ class JobViewSet(ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def days(self, request):
-        query = Job.objects.values('day').annotate(count=Count('id')).order_by()
+        start_day = date.today() - timedelta(days=7)
+        end_day = date.today() + timedelta(days=30)
+        print(start_day.strftime('%m%d%y'))
+        print(end_day.strftime('%m%d%y'))
+        query = Job.objects.filter(day__range=(start_day, end_day)).values('day').annotate(count=Count('id')).order_by()
         context = {
             'code': 20000,
             'data': query
@@ -64,47 +69,47 @@ class JobViewSet(ModelViewSet):
             }
             return Response(context)
 
-    def update(self, request, *args, **kwargs):
-        try:
-            response = super().update(request, *args, **kwargs)
-            context = {
-                'code': 20000,
-                'data': response.data
-            }
-            return Response(context)
-        except (ValueError, Exception) as e:
-            context = {
-                'code': 20001,
-                'message': '%s' % e
-            }
-            return Response(context) 
+    # def update(self, request, *args, **kwargs):
+    #     try:
+    #         response = super().update(request, *args, **kwargs)
+    #         context = {
+    #             'code': 20000,
+    #             'data': response.data
+    #         }
+    #         return Response(context)
+    #     except (ValueError, Exception) as e:
+    #         context = {
+    #             'code': 20001,
+    #             'message': '%s' % e
+    #         }
+    #         return Response(context) 
 
-    def create(self, request, *args, **kwargs):
-        serializer = BookingSerializer(data=request.data)
+    # def create(self, request, *args, **kwargs):
+    #     serializer = BookingSerializer(data=request.data)
 
-        if not serializer.is_valid():
-            if serializer.errors.get('non_field_errors'):
-                return Response({
-                    'code': 20001,
-                    'message': serializer.errors['non_field_errors'][0]
-                })
-            elif serializer.errors.get('contact_phone'):
-                return Response({
-                    'code': 20001,
-                    'message': serializer.errors['contact_phone'][0]
-                })
-        try:
-            response = super().create(request, *args, **kwargs)
-            return Response({
-                'code': 20000,
-                'data': response.data
-            })
-        except (ValueError, Exception) as e:
-            context = {
-                'code': 20001,
-                'message': '%s' % e
-            }
-            return Response(context)
+    #     if not serializer.is_valid():
+    #         if serializer.errors.get('non_field_errors'):
+    #             return Response({
+    #                 'code': 20001,
+    #                 'message': serializer.errors['non_field_errors'][0]
+    #             })
+    #         elif serializer.errors.get('contact_phone'):
+    #             return Response({
+    #                 'code': 20001,
+    #                 'message': serializer.errors['contact_phone'][0]
+    #             })
+    #     try:
+    #         response = super().create(request, *args, **kwargs)
+    #         return Response({
+    #             'code': 20000,
+    #             'data': response.data
+    #         })
+    #     except (ValueError, Exception) as e:
+    #         context = {
+    #             'code': 20001,
+    #             'message': '%s' % e
+    #         }
+    #         return Response(context)
             
     @action(detail=True, methods=['get'])
     def checkin(self, request, pk=None):
