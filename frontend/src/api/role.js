@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getRoles(query) {
   return request({
-    url: 'role/roles/',
+    url: 'api/roles/',
     method: 'get',
     params: query
   })
@@ -10,14 +10,14 @@ export function getRoles(query) {
 
 export function getRole(pk) {
   return request({
-    url: `role/roles/${pk}/`,
+    url: `api/roles/${pk}/`,
     method: 'get'
   })
 }
 
 export function updateRole(pk, data) {
   return request({
-    url: `role/roles/${pk}/`,
+    url: `api/roles/${pk}/`,
     method: 'put',
     data
   })
@@ -25,7 +25,7 @@ export function updateRole(pk, data) {
 
 export function createRole(data) {
   return request({
-    url: 'role/roles/',
+    url: 'api/roles/',
     method: 'post',
     data
   })

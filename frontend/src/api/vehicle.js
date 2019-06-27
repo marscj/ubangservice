@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getVehicles(query) {
   return request({
-    url: 'vehicle/vehicles/',
+    url: 'api/vehicles/',
     method: 'get',
     params: query
   })
@@ -10,14 +10,14 @@ export function getVehicles(query) {
 
 export function getVehicle(pk) {
   return request({
-    url: `vehicle/vehicles/${pk}/`,
+    url: `api/vehicles/${pk}/`,
     method: 'get'
   })
 }
 
 export function getModels(query) {
   return request({
-    url: 'vehicle/models/',
+    url: 'api/models/',
     method: 'get',
     params: query
   })

@@ -23,17 +23,17 @@ from django.conf.urls.static import static
 urlpatterns = [    
     path('admin/', admin.site.urls),
 
-    url(r'user/', include('ubang.user.urls')),
+    url(r'api/', include('ubang.user.urls')),
 
-    url(r'role/', include('ubang.user.role_urls')),
+    url(r'api/', include('ubang.user.role_urls')),
 
-    url(r'permission/', include('ubang.user.permission_urls')),
+    url(r'api/', include('ubang.user.permission_urls')),
 
-    url(r'booking/', include('ubang.booking.urls')),
+    url(r'api/', include('ubang.booking.urls')),
 
-    url(r'job/', include('ubang.job.urls')),
+    url(r'api/', include('ubang.job.urls')),
 
-    url(r'vehicle/', include('ubang.vehicle.urls')),
+    url(r'api/', include('ubang.vehicle.urls')),
   
     url(r'api-auth/', include('rest_framework.urls')),
     
