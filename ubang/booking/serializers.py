@@ -174,7 +174,7 @@ class BookingObjSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
         fields = (
-            'id', 'bookingId', 'contact_name', 'contact_phone', 'company'
+            'id', 'bookingId', 'contact_name', 'contact_phone', 'company', 'pick_up_addr', 'drop_off_addr'
         )
 
     def get_company(self, obj):
