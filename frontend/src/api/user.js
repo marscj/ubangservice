@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/api/login/',
+    url: '/login/',
     method: 'post',
     data
   })
@@ -10,7 +10,7 @@ export function login(data) {
 
 export function getUsers(query) {
   return request({
-    url: 'api/users/',
+    url: '/users/',
     method: 'get',
     params: query
   })
@@ -18,7 +18,7 @@ export function getUsers(query) {
 
 export function updateUser(id, data) {
   return request({
-    url: `api/users/${id}/`,
+    url: `/users/${id}/`,
     method: 'put',
     data
   })
@@ -26,14 +26,14 @@ export function updateUser(id, data) {
 
 export function getInfo(token) {
   return request({
-    url: 'api/users/info/',
+    url: '/users/info/',
     method: 'get'
   })
 }
 
 export function logout() {
   return request({
-    url: '/api/logout/',
+    url: '/logout/',
     method: 'post'
   })
 }
