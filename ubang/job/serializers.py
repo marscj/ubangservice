@@ -32,13 +32,17 @@ class JobSerializer(serializers.ModelSerializer):
         )
 
     def get_start_time(self, obj):
-        return arrow.get(obj.start_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M')
+        if obj.start_time is not None:
+            return arrow.get(obj.start_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M')
 
     def get_end_time(self, obj):
-        return arrow.get(obj.end_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M')
+        if obj.end_time is not None:
+            return arrow.get(obj.end_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M')
 
     def get_checkin_time(self, obj):
-        return arrow.get(obj.checkin_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M')
+        if obj.checkin_time is not None:
+            return arrow.get(obj.checkin_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M')
 
     def get_checkout_time(self, obj):
-        return arrow.get(obj.checkout_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M')
+        if obj.checkout_time is not None:
+            return arrow.get(obj.checkout_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M')
