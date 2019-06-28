@@ -8,7 +8,6 @@ from .models import Booking, Itinerary
 from ubang.user.serializers import UserSerializer, UserListSerializer
 from ubang.company.serializers import CompanySerializer, CompanyListSerializer
 from ubang.vehicle.serializers import VehicleSerializer, VehicleListSerializer, ModelPriceSerializer
-from ubang.order.serializers import OrderSerializer, OrderListSerializer
 from ubang.vehicle.models import Vehicle
 from ubang.user.models import CustomUser
 
@@ -41,8 +40,6 @@ class BookingSerializer(serializers.ModelSerializer):
 
     company_by_id = serializers.IntegerField(write_only=True, required=False)
 
-    order = OrderListSerializer(required=False, allow_null=True)
-
     itinerary = ItinerarySerializer(required=False, allow_null=True, many=True)
 
     can_save = serializers.BooleanField(required=False, read_only=True)
@@ -58,7 +55,7 @@ class BookingSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'bookingId', 'start_time', 'end_time', 'contact_name', 'contact_phone', 'pick_up_addr', 'drop_off_addr',
             'create_at', 'change_at', 'status', 'create_by', 'company_by', 'vehicle', 'guide', 'vehicle_id', 'guide_id',
-            'order', 'remark', 'vehicle_score', 'guide_score', 'comment', 'can_save', 'can_cancel', 
+            'remark', 'vehicle_score', 'guide_score', 'comment', 'can_save', 'can_cancel', 
             'can_delete', 'can_comment', 'itinerary', 'confirmId', 'company_by_id', 'create_by_id'
         )
 
@@ -147,26 +144,22 @@ class BookingListSerializer(serializers.ModelSerializer):
 
     company_by = CompanyListSerializer(required=False, allow_null=True)
 
-    order = OrderListSerializer(required=False, allow_null=True)
-
     class Meta:
         model = Booking
         fields = (
             'id', 'bookingId', 'start_time', 'end_time', 'status', 'create_by', 'company_by', 'contact_name', 
             'contact_phone', 'pick_up_addr', 'drop_off_addr','remark', 'vehicle', 'vehicle_id', 'guide', 'guide_id', 
-            'order', 'vehicle_score', 'guide_score', 'expiry_date', 'confirmId'
+            'vehicle_score', 'guide_score', 'expiry_date', 'confirmId'
         )
 
 class BookingListSimpleSerializer(serializers.ModelSerializer):
     
     vehicle = VehicleListSerializer(required=False, allow_null=True)
 
-    order = OrderListSerializer(required=False, allow_null=True)
-
     create_by = UserListSerializer(required=False, allow_null=True)
 
     class Meta:
         model = Booking
         fields = (
-            'id', 'bookingId', 'start_time', 'end_time', 'status', 'vehicle', 'order', 'create_by', 'confirmId'
+            'id', 'bookingId', 'start_time', 'end_time', 'status', 'vehicle', 'create_by', 'confirmId'
         )

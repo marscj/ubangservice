@@ -61,9 +61,6 @@
                   <el-input v-model="postForm.status" v-if="postForm.status" disabled></el-input>
                   <el-input v-else disabled></el-input>
                 </el-form-item>
-                <el-form-item label="Order:">
-                  <el-input v-model="order" disabled></el-input>
-                </el-form-item>
                 <el-form-item label="Creator:">
                   <el-input v-model="create_by" disabled></el-input>
                 </el-form-item>
@@ -475,7 +472,6 @@ export default {
       relatedKey: {
         vehicle: undefined,
         guide: undefined,
-        order: undefined,
         create_by: undefined,
         company_by: undefined,
       },
@@ -562,21 +558,7 @@ export default {
         this.relatedKey.guide = value
         delete this.postForm.guide
       }
-    },    
-    order: {
-      get() {
-        if(this.relatedKey.order) {
-          return this.relatedKey.order.orderId
-        }
-        return undefined
-      },
-      set(value) {
-        if(value) {
-          this.relatedKey.order = value
-          delete this.postForm.order
-        }
-      }
-    }, 
+    },
     create_by: {
       get() {
         if(this.relatedKey.create_by) {
@@ -620,7 +602,6 @@ export default {
       this.postForm = data
       this.vehicle = this.postForm.vehicle
       this.guide = this.postForm.guide
-      this.order = this.postForm.order
       this.create_by = this.postForm.create_by
       this.company_by = this.postForm.company_by
       this.history = this.postForm.history

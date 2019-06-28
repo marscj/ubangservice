@@ -8,15 +8,11 @@ from datetime import datetime, date
 from decimal import Decimal
 
 from .models import Order
+from ubang.payment.models import Payment
 
 @receiver(pre_save, sender=Order)
 def order_model_pre_save(sender, **kwargs):
     order = kwargs['instance']
     if order.orderId is None or order.orderId == '':
         order.orderId = datetime.now().strftime('%Y%m%d%H%M%S') + '-%s' % get_random_string(4, allowed_chars='0123456789')
-
-@receiver(post_save, sender=Order)
-def order_model_post_save(sender, **kwargs):
-    order = kwargs['instance']
-    if kwargs['created']:
         
