@@ -35,10 +35,10 @@ class JobSerializer(serializers.ModelSerializer):
         return arrow.get(obj.start_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M')
 
     def get_end_time(self, obj):
-        return arrow.get(obj.start_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M')
+        return arrow.get(obj.end_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M')
 
     def get_checkin_time(self, obj):
-        return arrow.get(obj.start_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M')
+        return arrow.get(obj.checkin_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M')
 
     def get_checkout_time(self, obj):
-        return arrow.get(obj.start_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M')
+        return arrow.get(obj.checkout_time).to('Asia/Dubai').strftime('%Y-%m-%d %H:%M')
