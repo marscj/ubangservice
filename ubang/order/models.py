@@ -45,7 +45,7 @@ class Order(models.Model):
     # 备注
     remark = models.TextField(max_length=256, blank=True, null=True)
 
-    booking = models.ForeignKey(Booking, related_name='order', on_delete=models.SET_NULL, blank=True, null=True)
+    booking = models.OneToOneField(Booking, related_name='order', on_delete=models.SET_NULL, blank=True, null=True)
 
     objects = OrderQueryset.as_manager()
 

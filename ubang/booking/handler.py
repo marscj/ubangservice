@@ -96,10 +96,11 @@ def itinerary_model_post_save(sender, **kwargs):
                 vehicle=itinerary.booking.vehicle,
                 booking=itinerary.booking,
                 remark=itinerary.remark
-
+            )
+                
         total = Decimal(0.0)
         discount = itinerary.booking.company_by.discount
         if not itinerary.freedom_day:
             total += itinerary.vehicle_charge - itinerary.vehicle_charge * discount
             total += itinerary.guide_charge
-            Payment.objects.create(total=round(total, 2), remark=itinerary.itinerary, order=order)
+            Payment.objects.create(total=round(total, 2), remark=itinerary.itinerary, order=itinerary.booking.order)
