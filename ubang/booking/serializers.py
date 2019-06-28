@@ -167,17 +167,11 @@ class BookingListSimpleSerializer(serializers.ModelSerializer):
 class BookingObjSerializer(serializers.ModelSerializer):
     contact_phone = PhoneNumberField(required=True)
 
-    company_by = CompanyListSerializer(required=False, allow_null=True)
-
-    company = serializers.SerializerMethodField()
+    company_by = serializers.StringRelatedField(required=False, allow_null=True, read_only=True)
 
     class Meta:
         model = Booking
         fields = (
-            'id', 'bookingId', 'contact_name', 'contact_phone', 'company', 'pick_up_addr', 'drop_off_addr'
+            'id', 'bookingId', 'contact_name', 'contact_phone', 'pick_up_addr', 'drop_off_addr', 'company_by'
         )
-
-    def get_company(self, obj):
-        if obj.company is not None:
-            return obj.company.name
     
