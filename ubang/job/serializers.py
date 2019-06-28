@@ -5,6 +5,7 @@ import arrow
 from .models import Job
 from ubang.user.serializers import UserListSerializer
 from ubang.vehicle.serializers import VehicleListSerializer
+from ubang.booking.serializers import BookingObjSerializer
 
 class JobSerializer(serializers.ModelSerializer):
 
@@ -21,7 +22,8 @@ class JobSerializer(serializers.ModelSerializer):
     vehicle = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     # vehicle = VehicleListSerializer(required=True, allow_null=True)
 
-    booking = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    # booking = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    booking = BookingObjSerializer(required=False, allow_null=True, read_only=True)
     
     class Meta:
         model = Job
