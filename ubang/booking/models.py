@@ -14,7 +14,7 @@ from .import BookingStatus
 from ubang.company import CompanyType
 from ubang.vehicle.models import Vehicle, ModelPrice
 from ubang.user.models import CustomUser
-from ubang.order.models import Order
+# from ubang.order.models import Order
 from ubang.company.models import Company
 
 class BookingQuerySet(models.QuerySet):
@@ -68,7 +68,7 @@ class Booking(models.Model):
     guide = models.ForeignKey(CustomUser, related_name='booking_guide', on_delete=models.SET_NULL, blank=True, null=True)
 
     # 订单
-    order = models.OneToOneField(Order, on_delete=models.SET_NULL, blank=True, null=True)
+    # order = models.OneToOneField(Order, on_delete=models.SET_NULL, blank=True, null=True)
 
     # 备注
     remark = models.TextField(max_length=256, blank=True, null=True)

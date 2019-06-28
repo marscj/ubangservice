@@ -11,7 +11,7 @@ from decimal import Decimal
 
 from .import BookingStatus
 from .models import Booking, Itinerary
-from .utils import get_days
+from .utils import get_days, createOrder, bookingCancel
 from ubang.job.models import Job
 from ubang.order.models import Order
 from ubang.payment.models import Payment
@@ -32,30 +32,7 @@ def booking_model_post_save(sender, **kwargs):
     booking = kwargs['instance']
     
     if kwargs['created']:
-        if booking.guide:
-            order = Order.objects.create(
-                customer=booking.create_by.username, 
-                company=booking.company_by.name, 
-                start_time=booking.start_time, 
-                end_time=booking.end_time,
-                vehicle=booking.vehicle.traffic_plate_no,
-                guide=booking.guide.username,
-                discount=booking.create_by.company.discount,
-            )
-        else:
-            order = Order.objects.create(
-                customer=booking.create_by.username, 
-                company=booking.company_by.name, 
-                start_time=booking.start_time, 
-                end_time=booking.end_time,
-                vehicle=booking.vehicle.traffic_plate_no,
-                discount=booking.create_by.company.discount
-            )
-
-        booking.order = order
-        booking.save()
-        
-        # process.apply_async([booking.id], eta=booking.start_time)
+        createOrder(booking)
         complete.apply_async([booking.id], eta=booking.end_time, task_id=booking.bookingId)
         
     if booking.guide is not None:
@@ -64,11 +41,8 @@ def booking_model_post_save(sender, **kwargs):
     if booking.vehicle is not None:
         Vehicle.updateScore(booking.vehicle.id)
 
-    if booking.order and booking.status == BookingStatus.Cancel:
-        booking.order.status = BookingStatus.Cancel
-        booking.order.save()
-
     if booking.status == BookingStatus.Cancel:
+        bookingCancel(booking)
         app.control.revoke(booking.bookingId)
 
 @receiver(post_save, sender=Itinerary)
@@ -124,11 +98,11 @@ def itinerary_model_post_save(sender, **kwargs):
                 remark=itinerary.remark
             )
         
-        total = Decimal(0.0)
-        discount = itinerary.booking.order.discount
-        if not itinerary.freedom_day:
-            total += itinerary.vehicle_charge * discount
-            if itinerary.booking.guide is not None:
-                total += itinerary.guide_charge
+        # total = Decimal(0.0)
+        # discount = itinerary.booking.order.discount
+        # if not itinerary.freedom_day:
+        #     total += itinerary.vehicle_charge * discount
+        #     if itinerary.booking.guide is not None:
+        #         total += itinerary.guide_charge
 
-        Payment.objects.create(total=round(total, 2), remark=itinerary.itinerary, order=itinerary.booking.order) 
+        # Payment.objects.create(total=round(total, 2), remark=itinerary.itinerary, order=itinerary.booking.order) 

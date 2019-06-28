@@ -8,7 +8,6 @@ from .models import Order
 from .forms import OrderForm
 from .import OrderStatus
 from ubang.payment.admin import PaymentInline
-from ubang.booking.admin import BookingInline
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
@@ -20,7 +19,7 @@ class OrderAdmin(admin.ModelAdmin):
     date_hierarchy = 'start_time'
     
     fields = (
-        'orderId', 'status', 'start_time', 'end_time', 'vehicle', 'guide', 'customer', 'company', 'discount', 'total', 'captured_amount', 'remark'
+        'orderId', 'status', 'start_time', 'end_time', 'vehicle', 'guide', 'customer', 'company', 'discount', 'total', 'captured_amount', 'remark', 'booking'
     )
 
     readonly_fields = (
@@ -29,6 +28,10 @@ class OrderAdmin(admin.ModelAdmin):
 
     list_display = (
        '__str__', 'status', 'start_time', 'end_time', 'vehicle', 'guide', 'customer', 'company', 'discount', 'total', 'captured_amount'
+    )
+
+    raw_id_fields = (
+        'booking',
     )
 
     list_filter = (

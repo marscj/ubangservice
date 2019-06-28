@@ -10,22 +10,6 @@ from django.core.exceptions import ValidationError
 from .models import Booking, Itinerary
 from .forms import ItineraryInlineFormSet
 
-class BookingInline(admin.TabularInline): 
-    model = Booking 
-    extra = 0 
-    fk_name = 'order'
-
-    readonly_fields = (
-        'bookingId',
-    )
-
-    def has_delete_permission(self, request, obj):
-        return False
-    
-    def has_add_permission(self, request):
-        return False
-  
-
 class ItineraryInline(admin.TabularInline):
     model = Itinerary
     extra = 0
@@ -43,20 +27,20 @@ class BookingAdmin(admin.ModelAdmin):
 
     fields = (
         'bookingId', 'confirmId', 'start_time', 'end_time', 'contact_name', 'contact_phone', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 
-        'status',  'create_by', 'company_by', 'order', 'vehicle_score', 'guide_score'
+        'status',  'create_by', 'company_by', 'vehicle_score', 'guide_score'
     )
 
     readonly_fields = (
-        'bookingId', #'create_by', 'company_by',
+        'bookingId',
     )
 
     raw_id_fields = (
-        'create_by', 'company_by', 'vehicle', 'guide', 'order'
+        'create_by', 'company_by', 'vehicle', 'guide'
     )
 
     list_display = (
         '__str__', 'start_time', 'end_time', 'contact_name', 'contact_phone', 'vehicle', 'guide', 'pick_up_addr', 'drop_off_addr', 
-        'status',  'create_by', 'company_by', 'order', 'itinerary'
+        'status',  'create_by', 'company_by', 'itinerary'
     )
     
     def itinerary(self, obj):
