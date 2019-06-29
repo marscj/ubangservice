@@ -137,14 +137,16 @@ class JobViewSet(ModelViewSet):
             job = Job.objects.get(pk=pk)
             job.checkout_time = checkout_time
             job.save()
+
+            return Response({
+                'code': 20000,
+                'message': 'OK',
+                'time': checkout_time,
+                'id': job.id
+            })
         except ObjectDoesNotExist:
             return Response({
                 'code': 20001,
                 'message': 'Not found.'
             })
-
-        return Response({
-            'code': 20000,
-            'message': 'OK',
-            'time': checkout_time
-        })
+        
