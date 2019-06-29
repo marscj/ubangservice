@@ -126,7 +126,8 @@ class JobViewSet(ModelViewSet):
         return Response({
             'code': 20000,
             'message': 'OK',
-            'time': checkin_time
+            'checkin_time': checkin_time,
+            'id': job.id
         })
     
     @action(detail=True, methods=['get'])
@@ -141,7 +142,7 @@ class JobViewSet(ModelViewSet):
             return Response({
                 'code': 20000,
                 'message': 'OK',
-                'time': checkout_time,
+                'checkout_time': checkout_time,
                 'id': job.id
             })
         except ObjectDoesNotExist:
