@@ -23,7 +23,7 @@ class VehicleView(ModelViewSet):
             return VehicleSerializer
 
     def parent_queryset(self):
-        return Vehicle.objects.filter(company__isnull=False).cache()
+        return Vehicle.objects.filter(company__isnull=False).filter(is_actived=True).cache()
 
     def get_queryset(self):
         queryset = self.parent_queryset()
