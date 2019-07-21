@@ -98,7 +98,7 @@ class Booking(models.Model):
         if self.company_by is None:
             raise ValidationError('you are not a company user.')
         elif self.company_by.type != CompanyType.Customer:
-            raise ValidationError('you are not a supplier user.')
+            raise ValidationError('you are not a company user.')
 
     @property
     def expiry_date(self):
