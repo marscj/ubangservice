@@ -31,6 +31,9 @@ $ createuser admin -P
 $ createdb db
 $ psql db
 $ GRANT ALL PRIVILEGES ON DATABASE db TO admin;
+删除数据库
+$ DROP DATABASE dbname;
+
 
 # Redis Linux 安装与配置
 $ sudo apt-get install redis-server
